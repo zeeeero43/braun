@@ -24,7 +24,9 @@ export function WhatsAppButton() {
       </button>
       
       {/* Pulse Animation */}
-      <div className="absolute inset-0 rounded-full bg-green-500 animate-ping opacity-20"></div>
+      <div className="absolute inset-0 rounded-full bg-green-500 opacity-20" style={{
+        animation: 'ping 3s cubic-bezier(0, 0, 0.2, 1) infinite'
+      }}></div>
     </div>
   );
 }

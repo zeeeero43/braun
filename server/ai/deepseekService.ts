@@ -64,7 +64,8 @@ KRITISCHE SEO-ANFORDERUNGEN (NICHT VERHANDELBAR!):
 ✓ Interne Verlinkung zu anderen Themen (Format: [Text](/blog/umzugstipps-muenchen))
 ✓ Praktische, umsetzbare Ratschläge mit Checklisten
 ✓ Expertise und Vertrauen vermitteln durch Fachkompetenz
-✓ Mobile-optimierte Tabellen mit | Markdown-Syntax
+✓ ALLE Tabellen müssen als HTML-Tabellen erstellt werden (NIEMALS Markdown!)
+✓ FAQ-Sektionen müssen mindestens 8-12 ausführliche Fragen enthalten
 ✓ KEINE Download-Links, Platzhalter oder generische Phrasen
 ✓ FAQ NICHT im Content - nur in separater FAQ-Sektion!
 
@@ -77,12 +78,32 @@ STRUKTUR (PFLICHT):
 ## Expertenrat von Walter Braun Umzüge
 ## Fazit + Handlungsaufforderung
 
+TABELLEN-FORMAT (KRITISCH!):
+- NIEMALS Markdown-Tabellen (| Syntax)!
+- ALLE Tabellen müssen HTML-Format haben:
+<table class="w-full border-collapse border border-gray-300 text-sm">
+  <thead>
+    <tr class="bg-green-50">
+      <th class="border border-gray-300 px-4 py-2 text-left">Spalte 1</th>
+      <th class="border border-gray-300 px-4 py-2 text-left">Spalte 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">Inhalt 1</td>
+      <td class="border border-gray-300 px-4 py-2">Inhalt 2</td>
+    </tr>
+  </tbody>
+</table>
+
 FAQ-OPTIMIERUNG für Featured Snippets:
-- 8-12 Fragen mit je 40-60 Wörtern Antwort
+- MINDESTENS 8-12 ausführliche Fragen (niemals weniger!)
+- Jede Antwort 60-100 Wörter (detailliert und wertvoll)
 - W-Fragen verwenden (Wie, Was, Warum, Wann, Wo)
-- Hauptkeyword in 2-3 FAQ-Fragen
-- Lokale Fragen zu München einbauen
-- Präzise, direkte Antworten
+- Hauptkeyword in 3-4 FAQ-Fragen
+- Lokale München-Fragen zu Stadtteilen einbauen
+- Verschiedene Schwierigkeitsgrade abdecken
+- Praktische Tipps und konkrete Zahlen in jeder Antwort
 
 AUSGABE-FORMAT (JSON):
 {
@@ -96,7 +117,7 @@ AUSGABE-FORMAT (JSON):
   "faq": [
     {
       "question": "Wie/Was/Warum-Frage mit Keyword?",
-      "answer": "Präzise 40-60 Wörter Antwort mit Expertenwissen."
+      "answer": "Detaillierte 60-100 Wörter Antwort mit München-spezifischen Details, konkreten Zahlen und Expertenwissen."
     }
   ]
 }

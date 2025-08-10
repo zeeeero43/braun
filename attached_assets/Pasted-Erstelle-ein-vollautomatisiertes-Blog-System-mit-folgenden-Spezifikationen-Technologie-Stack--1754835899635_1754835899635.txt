@@ -1,0 +1,138 @@
+Erstelle ein vollautomatisiertes Blog-System mit folgenden Spezifikationen:
+### Technologie-Stack:
+- React.js mit TypeScript (Frontend)  
+- Express.js mit TypeScript (Backend)
+- PostgreSQL mit Drizzle ORM
+- DeepSeek AI für Content-Generierung
+- Runware.ai für Bildgenerierung
+- 80-Stunden automatischer Generierungs-Zyklus
+### Benötigte Environment Variables:
+```bash
+DEEPSEEK_API_KEY=your_deepseek_key
+RUNWARE_API_KEY=your_runware_key  
+DATABASE_URL=your_postgres_url
+1. Datenbank Schema (shared/schema.ts):
+// Automatische Blog-Posts
+export const autoBlogPosts = pgTable("auto_blog_posts", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").unique().notNull(),
+  title: text("title").notNull(),
+  excerpt: text("excerpt").notNull(), 
+  content: text("content").notNull(),
+  metaDescription: text("meta_description").notNull(),
+  keywords: jsonb("keywords").$type<string[]>().notNull(),
+  tags: jsonb("tags").$type<string[]>().default([]).notNull(),
+  category: text("category").notNull(),
+  author: text("author").default("Team").notNull(),
+  readTime: text("read_time").notNull(),
+  image: text("image").notNull(),
+  imageAlt: text("image_alt").notNull(),
+  imagePrompt: text("image_prompt").notNull(),
+  faqData: jsonb("faq_data").$type<Array<{question: string, answer: string}>>().default([]).notNull(),
+  isPublished: boolean("is_published").default(false).notNull(),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+// Blog-Topic Pool
+export const blogIdeas = pgTable("blog_ideas", {
+  id: serial("id").primaryKey(),
+  topic: text("topic").notNull(),
+  category: text("category").notNull(), 
+  keywords: jsonb("keywords").$type<string[]>().notNull(),
+  isUsed: boolean("is_used").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+// AI Generation Logs
+export const aiGenerationLogs = pgTable("ai_generation_logs", {
+  id: serial("id").primaryKey(),
+  type: text("type").notNull(), // 'content' or 'image'
+  prompt: text("prompt").notNull(),
+  response: text("response").notNull(), 
+  model: text("model").notNull(), // 'deepseek' or 'runware'
+  success: boolean("success").notNull(),
+  error: text("error"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+2. AI Services Setup:
+DeepSeekService (server/ai/deepseekService.ts):
+
+Content-Generierung auf Deutsch
+SEO-optimierte Artikel (1500+ Wörter)
+FAQ-Generierung pro Artikel
+Keyword-Optimierung
+RunwareService (server/ai/runwareService.ts):
+
+Professionelle Bildgenerierung
+Business-Environment Prompts
+SEO-optimierte ALT-Tags und Dateinamen
+TopicGenerationService (server/ai/topicGenerationService.ts):
+
+Automatische Topic-Pool Verwaltung
+Local SEO Integration (Städte: Moers, Düsseldorf, Duisburg, etc.)
+Kategorie-basierte Verteilung
+3. Automation System:
+BlogScheduler (server/ai/blogScheduler.ts):
+
+// 80-Stunden Intervall mit ±4h Variation
+const GENERATION_INTERVAL = 80 * 60 * 60 * 1000; // 80 Stunden
+const RANDOM_VARIATION = 4 * 60 * 60 * 1000; // ±4 Stunden
+// Automatischer Start beim Server-Start
+// Kontinuierliche Generierung
+// Error-Handling und Retry-Logik
+4. Frontend Integration:
+Blog-Übersicht (client/src/pages/blog.tsx):
+
+Responsive Grid-Layout
+Kategorie-Filter
+SEO-optimierte Meta-Tags
+Mobile-First Design
+Einzelne Blog-Posts (client/src/pages/blog/[slug].tsx):
+
+Dynamisches Routing
+Markdown-zu-HTML Konversion
+FAQ-Accordion Integration
+Social Media Sharing
+5. SEO Features:
+Deutsche Keywords und Content
+Local SEO für Städte
+Optimierte Meta-Descriptions
+Structured Data (JSON-LD)
+Image ALT-Tags mit Keywords
+Internal Linking zwischen Posts
+6. Automation Features:
+Frequenz: Alle ~80 Stunden (2-3 Posts/Woche)
+Topic Pool: Minimum 12 ungenutzter Topics
+Auto-Publishing: Sofortige Veröffentlichung
+SEO Tags: Automatische Keyword-Generierung
+Bilder: Professional Business-Environment
+Content: 1500+ Wörter pro Artikel
+7. API Routes:
+// GET /api/blog - Alle Blog-Posts
+// GET /api/blog/:slug - Einzelner Post  
+// POST /api/blog/generate - Manuelle Generierung
+// GET /api/blog/topics - Topic Pool Status
+8. Monitoring & Logs:
+Generierungs-Status Logging
+Error-Tracking
+Performance-Metriken
+Topic-Pool Überwachung
+9. Installation Steps:
+PostgreSQL Database setup
+Environment Variables konfigurieren
+Drizzle Schema pushen: npm run db:push
+Server starten: npm run dev
+Automatische Generierung startet sofort
+10. Anpassbare Parameter:
+Generierungs-Intervall (aktuell 80h)
+Content-Länge (aktuell 1500+ Wörter)
+Städte für Local SEO
+Kategorien und Keywords
+Bildstil und Prompts
+Das System läuft vollautomatisch und generiert kontinuierlich qualitativ hochwertige, SEO-optimierte deutsche Blog-Artikel mit professionellen Bildern.
+
+**Wichtige API Keys, die du brauchst:**
+1. **DeepSeek API Key:** Für AI Content-Generierung
+2. **Runware API Key:** `ze0oMKK1mkscXUoWaDjkJEYJ29BfqKj5` (funktioniert perfekt)
+3. **PostgreSQL Database:** Replit PostgreSQL verwenden
+Das System startet automatisch und generiert alle 80 Stunden neue Blog-Posts. Möchtest du noch spezielle Anpassungen für dein Projekt?

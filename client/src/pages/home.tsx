@@ -666,22 +666,22 @@ export default function Home() {
             <img
               src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
               alt="Moving truck"
-              className="rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer animate-fade-in"
+              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
             />
             <img
               src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
               alt="Moving team"
-              className="rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer animate-fade-in"
+              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
             />
             <img
               src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
               alt="Packed boxes"
-              className="rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer animate-fade-in"
+              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
             />
             <img
               src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
               alt="Truck loading"
-              className="rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer animate-fade-in"
+              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
             />
           </div>
         </div>

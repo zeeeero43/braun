@@ -116,6 +116,7 @@
     background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   }
   
   .floating-element {
@@ -138,7 +139,7 @@
   }
   
   .premium-shadow {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
   }
   
   .hover-lift {
@@ -146,7 +147,7 @@
   }
   
   .hover-lift:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15);
   }
 }

@@ -47,17 +47,17 @@ export default function HeroSection() {
           Über 10 Jahre Erfahrung • Münchner Traditionsunternehmen • Vollversichert
         </p>
         
-        <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
           <Button 
             onClick={scrollToContact}
-            className="bg-primary hover:bg-primary-foreground hover:text-primary text-white px-10 py-5 rounded-xl font-bold text-xl transition-all transform hover:scale-105 premium-shadow"
+            className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
             <i className="fas fa-phone mr-3"></i>Kostenlose Beratung
           </Button>
           <Button 
             onClick={scrollToAbout}
             variant="outline"
-            className="glass-morphism hover:bg-white/20 text-white border-white/40 px-10 py-5 rounded-xl font-bold text-xl transition-all hover:scale-105"
+            className="border-white/60 text-white hover:bg-white/25 hover:text-white hover:border-white/80 px-8 py-3 rounded-lg font-semibold text-lg backdrop-blur-sm hover:scale-105 transition-all duration-300"
           >
             <i className="fas fa-arrow-down mr-3"></i>Mehr erfahren
           </Button>

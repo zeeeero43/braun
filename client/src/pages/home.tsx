@@ -125,19 +125,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
-              <div className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-8">
-                <i className="fas fa-trophy mr-2"></i>MÜNCHENS FÜHRENDE UMZUGSPROFIS
-              </div>
-              
-              <h2 className="text-5xl font-black text-gray-900 mb-8 leading-tight">
-                <span className="block">WALTER BRAUN UMZÜGE</span>
-                <span className="text-primary text-4xl">Ihr Premium-Partner in München</span>
+              <h2 className="text-4xl font-bold text-gray-900 mb-8 leading-tight">
+                Walter Braun Umzüge – Ihr Münchner Umzugsspezialist
               </h2>
               
               <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Seit über einem Jahrzehnt stehen wir für erstklassige Umzugsdienstleistungen im Großraum München. 
-                Unser erfahrenes Team von über 30 Fachkräften sorgt für einen reibungslosen, stressfreien Umzug 
-                mit höchsten Qualitätsstandards.
+                Als echtes Münchner Familienunternehmen kennen wir die Stadt wie unsere Westentasche. 
+                Seit über 10 Jahren helfen wir Münchnern und Neubürgern beim Umzug – von Schwabing bis Sendling, 
+                von der Maxvorstadt bis nach Bogenhausen. Unser Team von über 30 erfahrenen Umzugshelfern 
+                sorgt dafür, dass Ihr Umzug in der bayerischen Landeshauptstadt reibungslos verläuft.
               </p>
 
               {/* Key advantages */}
@@ -147,8 +143,8 @@ export default function Home() {
                     <i className="fas fa-medal text-primary text-lg"></i>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 mb-1">Premium Qualität</h4>
-                    <p className="text-gray-600 text-sm">Höchste Standards bei jedem Umzug</p>
+                    <h4 className="font-bold text-gray-900 mb-1">München-Experten</h4>
+                    <p className="text-gray-600 text-sm">Wir kennen jeden Stadtteil</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -157,7 +153,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-1">24h Erreichbarkeit</h4>
-                    <p className="text-gray-600 text-sm">Für Notfälle und Beratung</p>
+                    <p className="text-gray-600 text-sm">Auch am Wochenende für Sie da</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -166,7 +162,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-900 mb-1">Vollversicherung</h4>
-                    <p className="text-gray-600 text-sm">Kompletter Schutz Ihres Eigentums</p>
+                    <p className="text-gray-600 text-sm">Umfassender Schutz Ihres Hab und Guts</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -174,8 +170,8 @@ export default function Home() {
                     <i className="fas fa-handshake text-primary text-lg"></i>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 mb-1">Festpreisgarantie</h4>
-                    <p className="text-gray-600 text-sm">Keine versteckten Kosten</p>
+                    <h4 className="font-bold text-gray-900 mb-1">Faire Preise</h4>
+                    <p className="text-gray-600 text-sm">Transparente Kosten, keine Überraschungen</p>
                   </div>
                 </div>
               </div>
@@ -287,12 +283,10 @@ export default function Home() {
       <section id="leistungen" className="py-24 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
-              <i className="fas fa-star mr-2"></i>PREMIUM SERVICES
-            </div>
-            <h2 className="text-5xl font-black text-gray-900 mb-6">Unsere Leistungen</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Unsere Leistungen in München</h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Maßgeschneiderte Umzugslösungen für jeden Bedarf – von der ersten Beratung bis zur letzten Schraube
+              Ob Privatumzug in Schwabing oder Firmenumzug in der Maxvorstadt – wir kennen München und 
+              bieten Ihnen den passenden Service für jeden Stadtteil
             </p>
           </div>
 
@@ -473,12 +467,10 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-8">
-              <i className="fas fa-comments mr-2"></i>KUNDENSTIMMEN
-            </div>
-            <h2 className="text-5xl font-black text-gray-900 mb-6">Was unsere Kunden sagen</h2>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Was unsere Münchner Kunden sagen</h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Über 500 zufriedene Kunden vertrauen auf unsere Expertise – Lesen Sie echte Erfahrungsberichte aus München und Umgebung
+              Über 500 zufriedene Kunden aus München und Umgebung vertrauen bereits auf Walter Braun Umzüge. 
+              Lesen Sie echte Bewertungen von Ihren Nachbarn aus Schwabing, Maxvorstadt, Sendling und ganz München.
             </p>
           </div>
 
@@ -495,7 +487,7 @@ export default function Home() {
                 <div className="text-sm text-gray-500 font-medium">Google Bewertung</div>
               </div>
               <p className="text-gray-700 mb-6 italic leading-relaxed">
-                "Absolut professioneller Service! Der Umzug wurde minutiös geplant und durchgeführt. Das Team war pünktlich, freundlich und sehr sorgfältig. Kann ich zu 100% weiterempfehlen!"
+                "Als Münchnerin war mir wichtig, dass die Umzugsfirma unsere Stadt kennt. Walter Braun Umzüge hat das perfekt gemacht - vom Englischen Garten bis zu unserer neuen Wohnung in Schwabing. Einfach top!"
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center mr-4">
@@ -503,7 +495,7 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="font-bold text-gray-900">Tatjana Müller</div>
-                  <div className="text-gray-600 text-sm">Privatumzug Schwabing</div>
+                  <div className="text-gray-600 text-sm">Privatumzug von Maxvorstadt nach Schwabing</div>
                 </div>
               </div>
             </div>
@@ -520,15 +512,15 @@ export default function Home() {
                 <div className="text-sm text-gray-500 font-medium">Google Bewertung</div>
               </div>
               <p className="text-gray-700 mb-6 italic leading-relaxed">
-                "Kurzfristig einen Umzugstermin bekommen und alles lief perfekt! Sehr faire Preise und keine versteckten Kosten. Das Team arbeitete schnell und gewissenhaft."
+                "Unser Büroumzug von der Maxvorstadt nach Bogenhausen war dank Walter Braun problemlos. Die kennen sich in München richtig gut aus und wussten sofort, wo sie parken können. Sehr zu empfehlen!"
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center mr-4">
                   <span className="text-white font-bold text-lg">S</span>
                 </div>
                 <div>
-                  <div className="font-bold text-gray-900">Shazeb Rahman</div>
-                  <div className="text-gray-600 text-sm">Betriebsumzug Maxvorstadt</div>
+                  <div className="font-bold text-gray-900">Stefan Huber</div>
+                  <div className="text-gray-600 text-sm">Büroumzug von Maxvorstadt nach Bogenhausen</div>
                 </div>
               </div>
             </div>
@@ -545,15 +537,15 @@ export default function Home() {
                 <div className="text-sm text-gray-500 font-medium">Google Bewertung</div>
               </div>
               <p className="text-gray-700 mb-6 italic leading-relaxed">
-                "Hervorragender Service von der ersten Beratung bis zum letzten Karton. Besonders die Küchenmontage war perfekt ausgeführt. Vielen Dank!"
+                "Nach 40 Jahren in Sendling sind wir ins Lehel gezogen. Walter Braun hat uns dabei geholfen - sehr respektvoll und geduldig. So stellt man sich einen Münchner Familienbetrieb vor!"
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center mr-4">
                   <span className="text-white font-bold text-lg">M</span>
                 </div>
                 <div>
-                  <div className="font-bold text-gray-900">Maria Schmidt</div>
-                  <div className="text-gray-600 text-sm">Seniorenumzug Bogenhausen</div>
+                  <div className="font-bold text-gray-900">Maria Wegner</div>
+                  <div className="text-gray-600 text-sm">Seniorenumzug von Sendling ins Lehel</div>
                 </div>
               </div>
             </div>
@@ -696,21 +688,19 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="kontakt" className="py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+      <section id="kontakt" className="py-24 bg-gray-50 relative overflow-hidden">
         {/* Background decorations */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
           <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary/5 rounded-full blur-2xl" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-20">
-            <div className="inline-flex items-center px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-semibold mb-8">
-              <i className="fas fa-headset mr-2"></i>KONTAKT & BERATUNG
-            </div>
-            <h2 className="text-5xl font-black text-white mb-6">Lassen Sie uns sprechen!</h2>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Kostenlose Beratung, unverbindliches Angebot und Festpreisgarantie – Ihr Umzug beginnt mit einem Anruf
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Kontakt zu Ihrem Münchner Umzugspartner</h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Rufen Sie uns an für eine kostenlose Beratung. Als Münchner Unternehmen kennen wir jeden Stadtteil 
+              und helfen Ihnen gerne bei der Planung Ihres Umzugs.
             </p>
           </div>
 
@@ -777,9 +767,9 @@ export default function Home() {
                       <div className="font-bold text-gray-900 mb-2">Standort München</div>
                       <div className="text-gray-700 font-medium">
                         Maximilianstraße 35<br />
-                        80539 München
+                        80539 München (Lehel)
                       </div>
-                      <div className="text-gray-600 text-sm mt-1">Kostenllose Vor-Ort-Termine</div>
+                      <div className="text-gray-600 text-sm mt-1">Kostenlose Vor-Ort-Termine in ganz München</div>
                     </div>
                   </div>
                 </div>

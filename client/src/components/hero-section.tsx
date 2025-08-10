@@ -34,23 +34,17 @@ export default function HeroSection() {
       <div className="absolute top-1/3 right-1/4 w-24 h-24 bg-white/5 rounded-full blur-lg floating-element" style={{animationDelay: '2s'}} />
       <div className="absolute bottom-1/3 left-1/3 w-40 h-40 bg-primary/5 rounded-full blur-2xl floating-element" style={{animationDelay: '4s'}} />
       
-      <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
-        {/* Premium badge */}
-        <div className="inline-flex items-center px-6 py-2 bg-primary/20 backdrop-blur-sm border border-primary/30 rounded-full text-sm font-medium text-primary-foreground mb-8 animate-fade-in">
-          <i className="fas fa-star mr-2"></i>
-          Premium Umzugsservice in München
-        </div>
-        
-        <h1 className="text-6xl md:text-8xl font-black mb-8 leading-tight text-shadow-strong">
-          <span className="block mb-2">WALTER BRAUN</span>
-          <span className="block text-primary text-5xl md:text-7xl">UMZÜGE</span>
+      <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-shadow-strong">
+          <span className="block mb-2">Walter Braun Umzüge</span>
+          <span className="block text-primary text-3xl md:text-5xl font-medium">München & Umgebung</span>
         </h1>
         
-        <p className="text-2xl md:text-3xl mb-4 font-light text-shadow-strong">
-          Ihr Premium-Partner für maßgeschneiderte Umzugslösungen
+        <p className="text-xl md:text-2xl mb-4 font-medium text-shadow-strong">
+          Ihr zuverlässiger Partner für den Umzug in der bayerischen Landeshauptstadt
         </p>
-        <p className="text-lg md:text-xl mb-12 text-gray-200 max-w-3xl mx-auto">
-          Professionell • Zuverlässig • Versichert – Seit über 10 Jahren Ihr Experte im Raum München
+        <p className="text-lg md:text-xl mb-12 text-gray-200 max-w-4xl mx-auto">
+          Über 10 Jahre Erfahrung • Münchner Traditionsunternehmen • Vollversichert
         </p>
         
         <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
@@ -69,36 +63,36 @@ export default function HeroSection() {
           </Button>
         </div>
         
-        {/* Premium stats with gold accents */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-          <div className="premium-card rounded-2xl p-6 text-center hover-lift">
-            <div className="text-4xl font-black text-primary mb-2">10+</div>
-            <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Jahre Erfahrung</div>
+        {/* Professional stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          <div className="bg-white/15 backdrop-blur-sm rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-white mb-2">10+</div>
+            <div className="text-sm font-medium text-gray-200">Jahre in München</div>
           </div>
-          <div className="premium-card rounded-2xl p-6 text-center hover-lift">
-            <div className="text-4xl font-black text-primary mb-2">30+</div>
-            <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Fachkräfte</div>
+          <div className="bg-white/15 backdrop-blur-sm rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-white mb-2">30+</div>
+            <div className="text-sm font-medium text-gray-200">Mitarbeiter</div>
           </div>
-          <div className="premium-card rounded-2xl p-6 text-center hover-lift">
-            <div className="text-4xl font-black text-primary mb-2">100%</div>
-            <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Versichert</div>
+          <div className="bg-white/15 backdrop-blur-sm rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-white mb-2">100%</div>
+            <div className="text-sm font-medium text-gray-200">Versichert</div>
           </div>
-          <div className="premium-card rounded-2xl p-6 text-center hover-lift">
-            <div className="text-4xl font-black text-primary mb-2">24h</div>
-            <div className="text-sm font-semibold text-gray-700 uppercase tracking-wide">Service</div>
+          <div className="bg-white/15 backdrop-blur-sm rounded-xl p-6 text-center">
+            <div className="text-3xl font-bold text-white mb-2">24h</div>
+            <div className="text-sm font-medium text-gray-200">Erreichbar</div>
           </div>
         </div>
 
         {/* Trust indicators */}
-        <div className="mt-12 flex justify-center items-center space-x-8 opacity-80">
-          <div className="flex items-center text-sm">
-            <i className="fas fa-shield-alt text-primary mr-2"></i>TÜV Zertifiziert
+        <div className="mt-12 flex flex-wrap justify-center items-center gap-6 text-sm text-gray-200">
+          <div className="flex items-center">
+            <i className="fas fa-certificate text-primary mr-2"></i>Münchner Traditionsunternehmen
           </div>
-          <div className="flex items-center text-sm">
-            <i className="fas fa-award text-primary mr-2"></i>Testsieger 2024
+          <div className="flex items-center">
+            <i className="fas fa-handshake text-primary mr-2"></i>Persönliche Beratung
           </div>
-          <div className="flex items-center text-sm">
-            <i className="fas fa-star text-primary mr-2"></i>4.9/5 Bewertung
+          <div className="flex items-center">
+            <i className="fas fa-star text-primary mr-2"></i>4.9/5 Google Bewertung
           </div>
         </div>
       </div>

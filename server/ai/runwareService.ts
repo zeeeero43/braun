@@ -73,7 +73,18 @@ export class RunwareService {
   }
 
   private generateImageAlt(title: string, category: string): string {
-    return `${title} - Professionelle Umzugsdienstleistungen in München | Walter Braun Umzüge`;
+    // SEO-optimierte Alt-Tags mit Keywords
+    const keywordMap = {
+      "Umzugstipps": "Umzug München Tipps",
+      "Packen & Organisieren": "Umzugskartons packen München",
+      "München & Umgebung": "Umzug München Umgebung",
+      "Geschäftsumzüge": "Büroumzug München professionell",
+      "Umzugsrecht & Versicherung": "Umzugsrecht München Beratung",
+      "Haushalt & Wohnen": "Haushaltsumzug München Service"
+    };
+
+    const categoryKeyword = keywordMap[category as keyof typeof keywordMap] || "Umzug München";
+    return `${categoryKeyword} - ${title.substring(0, 80)} | Walter Braun Umzüge`;
   }
 
   private async callRunware(prompt: string): Promise<{ imageURL: string; imageName: string }> {

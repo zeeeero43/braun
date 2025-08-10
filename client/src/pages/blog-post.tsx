@@ -118,7 +118,7 @@ export default function BlogPostPage() {
     }
   };
 
-  // Convert markdown content to HTML (simple implementation)
+  // Convert markdown content to HTML (simple implementation) 
   const markdownToHtml = (markdown: string) => {
     return markdown
       .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-800 mb-6 mt-8">$1</h1>')
@@ -128,24 +128,64 @@ export default function BlogPostPage() {
       .replace(/\*(.*)\*/gim, '<em class="italic">$1</em>')
       .replace(/^\* (.*$)/gim, '<li class="ml-4">$1</li>')
       .replace(/^(\d+)\. (.*$)/gim, '<li class="ml-4">$2</li>')
+      // Mobile-optimized tables with Tailwind CSS
+      .replace(/\|(.*?)\|/g, (match, content) => {
+        const cells = content.split('|').map((cell: string) => cell.trim());
+        return `<tr class="border-b">${cells.map((cell: string) => 
+          `<td class="px-4 py-2 text-sm md:text-base">${cell}</td>`
+        ).join('')}</tr>`;
+      })
+      .replace(/<tr class="border-b">.*?<\/tr>/g, (match) => {
+        return `<div class="overflow-x-auto mb-6"><table class="min-w-full bg-white border border-gray-200 rounded-lg">${match}</table></div>`;
+      })
       .replace(/\n\n/gim, '</p><p class="text-gray-700 leading-relaxed mb-4">')
-      .replace(/^(?!<[h|l|p])(.+)$/gim, '<p class="text-gray-700 leading-relaxed mb-4">$1</p>');
+      .replace(/^(?!<[h|l|p|d|t])(.+)$/gim, '<p class="text-gray-700 leading-relaxed mb-4">$1</p>');
   };
 
   return (
     <>
       <Helmet>
-        <title>{post.title} | Walter Braun Umzüge</title>
+        <title>{post.title}</title>
         <meta name="description" content={post.metaDescription} />
         <meta name="keywords" content={post.keywords.join(", ")} />
         <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:description" content={post.metaDescription} />
         <meta property="og:image" content={post.image} />
         <meta property="og:type" content="article" />
+        <meta property="article:author" content={post.author} />
+        <meta property="article:published_time" content={post.publishedAt} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt} />
+        <meta name="twitter:description" content={post.metaDescription} />
         <meta name="twitter:image" content={post.image} />
+        <link rel="canonical" href={`https://walterbraun-umzuege.de/blog/${post.slug}`} />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "description": post.metaDescription,
+            "image": post.image,
+            "author": {
+              "@type": "Organization",
+              "name": post.author
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Walter Braun Umzüge",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://walterbraun-umzuege.de/logo.png"
+              }
+            },
+            "datePublished": post.publishedAt,
+            "dateModified": post.publishedAt,
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://walterbraun-umzuege.de/blog/${post.slug}`
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-gray-50">

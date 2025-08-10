@@ -49,49 +49,71 @@ export class DeepSeekService {
   }
 
   private createContentPrompt(topic: string, keywords: string[], category: string): string {
-    return `Du bist ein professioneller SEO-Content-Writer für Walter Braun Umzüge, ein Münchner Umzugsunternehmen. 
+    return `Du bist ein Experte für SEO-Content und schreibst für Walter Braun Umzüge, ein professionelles Umzugsunternehmen in München. 
 
-AUFGABE: Erstelle einen umfassenden, SEO-optimierten Blog-Artikel über "${topic}" in der Kategorie "${category}".
+AUFGABE: Erstelle einen umfassenden, 10/10 SEO-optimierten Blog-Artikel über "${topic}" in der Kategorie "${category}".
 
-KEYWORDS ZU VERWENDEN: ${keywords.join(", ")}
+HAUPT-KEYWORDS: ${keywords.join(", ")}
+LOKALE KEYWORDS: München, Schwabing, Maxvorstadt, Sendling, Bogenhausen, Lehel, Isarvorstadt, Haidhausen
 
-STÄDTE FÜR LOCAL SEO: München, Moers, Düsseldorf, Duisburg, Schwabing, Maxvorstadt, Sendling, Bogenhausen, Lehel
+KRITISCHE SEO-ANFORDERUNGEN (NICHT VERHANDELBAR!):
+✓ MINDESTENS 2000 Wörter! (Zähle selbst - kurze Artikel werden abgelehnt)
+✓ Hauptkeyword in ersten 100 Wörtern + H1-Titel
+✓ Keywords natürlich verteilt (1-2% Keyword-Dichte)
+✓ Lokale München-Bezüge in jedem Hauptabschnitt
+✓ Interne Verlinkung zu anderen Themen (Format: [Text](/blog/umzugstipps-muenchen))
+✓ Praktische, umsetzbare Ratschläge mit Checklisten
+✓ Expertise und Vertrauen vermitteln durch Fachkompetenz
+✓ Mobile-optimierte Tabellen mit | Markdown-Syntax
+✓ KEINE Download-Links, Platzhalter oder generische Phrasen
+✓ FAQ NICHT im Content - nur in separater FAQ-Sektion!
 
-ANFORDERUNGEN:
-- Mindestens 1500 Wörter
-- Deutscher Content, professioneller Stil
-- Münchner Bezug und lokale Expertise
-- Natürliche Keyword-Integration
-- Praktische Tipps und Ratschläge
-- Vertrauenswürdige, hilfreiche Informationen
+STRUKTUR (PFLICHT):
+# H1-Titel mit Hauptkeyword
+## Einleitung (Problem + Lösung, 200-250 Wörter)
+## 3-4 Hauptabschnitte (je 400-500 Wörter mit H2/H3)
+## Praktische Checkliste/Tabelle 
+## München-Spezifische Tipps
+## Expertenrat von Walter Braun Umzüge
+## Fazit + Handlungsaufforderung
 
-STRUKTUR:
-1. Einleitung (Hook + Problem)
-2. Hauptteil (3-4 Hauptabschnitte)
-3. Praktische Tipps
-4. Lokaler München-Bezug
-5. Fazit mit Call-to-Action
-
-FAQ: Erstelle 5-7 häufige Fragen mit ausführlichen Antworten.
+FAQ-OPTIMIERUNG für Featured Snippets:
+- 8-12 Fragen mit je 40-60 Wörtern Antwort
+- W-Fragen verwenden (Wie, Was, Warum, Wann, Wo)
+- Hauptkeyword in 2-3 FAQ-Fragen
+- Lokale Fragen zu München einbauen
+- Präzise, direkte Antworten
 
 AUSGABE-FORMAT (JSON):
 {
-  "title": "SEO-optimierter Titel (max 60 Zeichen)",
-  "excerpt": "Kurze Zusammenfassung (150-160 Zeichen)",
-  "content": "Vollständiger Artikel-Content in Markdown",
-  "metaDescription": "Meta-Description (150-160 Zeichen)",
-  "keywords": ["keyword1", "keyword2", ...],
-  "tags": ["tag1", "tag2", ...],
+  "title": "Keyword-optimierter Titel 50-60 Zeichen",
+  "excerpt": "Überzeugende Meta-Description 150-160 Zeichen mit Hauptkeyword",
+  "content": "Vollständiger 2000-2500 Wort Markdown-Artikel",
+  "metaDescription": "Separate Meta-Description mit Call-to-Action",
+  "keywords": ["haupt-keyword", "synonym1", "longtail-keyword", "lokal-muenchen"],
+  "tags": ["Haupttag", "Kategorietag", "Lokaltag"],
   "readTime": "X Min. Lesezeit",
   "faq": [
     {
-      "question": "Frage 1?",
-      "answer": "Ausführliche Antwort..."
+      "question": "Wie/Was/Warum-Frage mit Keyword?",
+      "answer": "Präzise 40-60 Wörter Antwort mit Expertenwissen."
     }
   ]
 }
 
-Erstelle jetzt den Artikel:`;
+WICHTIG: 
+- Keine generischen Floskeln oder Füllwörter
+- Jeder Satz muss Mehrwert bieten  
+- Lokale München-Expertise durchgehend zeigen
+- Walter Braun Umzüge als Experte positionieren
+- Konkrete Zahlen, Fakten, Beispiele verwenden
+- LANGE, AUSFÜHRLICHE ARTIKEL (min. 2000 Wörter!)
+- Detaillierte Erklärungen statt oberflächlicher Tipps
+
+BEISPIEL für ausführlichen Content:
+Statt "Kartons richtig packen" → "Schwere Gegenstände wie Bücher gehören in kleine Kartons (max. 30x40cm), da ein großer Karton mit Büchern schnell 25-30kg wiegt und selbst für trainierte Umzugshelfer zu schwer wird. In München sind enge Treppenhäuser in Altbauten wie in Schwabing oder der Maxvorstadt besonders herausfordernd..."
+
+Erstelle jetzt den ausführlichen, hochwertigen SEO-Artikel:`;
   }
 
   private async callDeepSeek(prompt: string): Promise<string> {
@@ -110,7 +132,7 @@ Erstelle jetzt den Artikel:`;
           }
         ],
         temperature: 0.7,
-        max_tokens: 4000
+        max_tokens: 8000
       })
     });
 

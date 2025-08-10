@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -82,6 +83,15 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <Helmet>
+        <title>Blog & Ratgeber - Umzugstipps für München | Walter Braun Umzüge</title>
+        <meta name="description" content="Professionelle Umzugstipps und Ratgeber für München und Bayern. Packen, Organisieren, Umzugsrecht - Ihr Experte Walter Braun Umzüge." />
+        <meta name="keywords" content="Umzugstipps München, Umzug Ratgeber, Packen Organisieren, Umzugsrecht Bayern" />
+        <meta property="og:title" content="Blog & Ratgeber - Umzugstipps für München" />
+        <meta property="og:description" content="Professionelle Umzugstipps und Ratgeber für München und Bayern von Walter Braun Umzüge." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://walterbraun-umzuege.de/blog" />
+      </Helmet>
       <Navigation />
       {/* Header Section */}
       <div className="bg-green-600 text-white py-16 pt-32">

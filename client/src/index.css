@@ -10,14 +10,14 @@
   --card-foreground: hsl(210, 25%, 7.8431%);
   --popover: hsl(0, 0%, 100%);
   --popover-foreground: hsl(210, 25%, 7.8431%);
-  --primary: hsl(142, 76%, 36%);
+  --primary: hsl(134, 61%, 41%);
   --primary-foreground: hsl(0, 0%, 100%);
   --secondary: hsl(210, 25%, 7.8431%);
   --secondary-foreground: hsl(0, 0%, 100%);
   --muted: hsl(240, 1.9608%, 90%);
   --muted-foreground: hsl(210, 25%, 7.8431%);
-  --accent: hsl(142, 51%, 93%);
-  --accent-foreground: hsl(142, 76%, 36%);
+  --accent: hsl(134, 41%, 95%);
+  --accent-foreground: hsl(134, 61%, 41%);
   --destructive: hsl(356.3033, 90.5579%, 54.3137%);
   --destructive-foreground: hsl(0, 0%, 100%);
   --border: hsl(201.4286, 30.4348%, 90.9804%);
@@ -40,9 +40,11 @@
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
   --radius: 0.5rem;
-  --brand-green: hsl(142, 76%, 36%);
-  --brand-green-dark: hsl(142, 76%, 30%);
-  --brand-green-light: hsl(142, 51%, 93%);
+  --brand-green: hsl(134, 61%, 41%);
+  --brand-green-dark: hsl(134, 61%, 35%);
+  --brand-green-light: hsl(134, 41%, 95%);
+  --brand-green-accent: hsl(134, 100%, 25%);
+  --gold-accent: hsl(45, 100%, 51%);
 }
 
 .dark {
@@ -107,6 +109,44 @@
   }
 
   .hero-gradient {
-    background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+    background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(22,163,74,0.4) 50%, rgba(0,0,0,0.5) 100%);
+  }
+  
+  .premium-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  
+  .floating-element {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .text-shadow-strong {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  }
+  
+  .premium-shadow {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.35);
   }
 }

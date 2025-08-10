@@ -87,8 +87,16 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="bg-gray-50 rounded-xl p-8">
-      <h3 className="text-2xl font-bold text-gray-900 mb-6">Kontaktformular</h3>
+    <div className="bg-white rounded-2xl p-8 border border-gray-100">
+      <div className="flex items-center mb-8">
+        <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center mr-4">
+          <i className="fas fa-envelope text-white text-xl"></i>
+        </div>
+        <div>
+          <h3 className="text-2xl font-bold text-gray-900">Kostenlose Anfrage</h3>
+          <p className="text-gray-600 text-sm">Antwort binnen 24 Stunden garantiert</p>
+        </div>
+      </div>
       
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

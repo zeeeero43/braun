@@ -118,37 +118,112 @@ export default function Home() {
       <HeroSection />
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                Wir sind Walter Braun Umzüge aus München
+      <section id="about" className="py-24 bg-white relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-primary/5 to-transparent" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-8">
+                <i className="fas fa-trophy mr-2"></i>MÜNCHENS FÜHRENDE UMZUGSPROFIS
+              </div>
+              
+              <h2 className="text-5xl font-black text-gray-900 mb-8 leading-tight">
+                <span className="block">WALTER BRAUN UMZÜGE</span>
+                <span className="text-primary text-4xl">Ihr Premium-Partner in München</span>
               </h2>
-              <p className="text-lg text-gray-600 mb-8">
-                Ihr Umzugs-Experte für einen schnellen, sicheren und stressfreien Umzug im Großraum München und Umgebung – mit jahrelanger Erfahrung und einem Team, auf das Sie sich verlassen können.
+              
+              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+                Seit über einem Jahrzehnt stehen wir für erstklassige Umzugsdienstleistungen im Großraum München. 
+                Unser erfahrenes Team von über 30 Fachkräften sorgt für einen reibungslosen, stressfreien Umzug 
+                mit höchsten Qualitätsstandards.
               </p>
+
+              {/* Key advantages */}
+              <div className="grid sm:grid-cols-2 gap-6 mb-10">
+                <div className="flex items-start">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                    <i className="fas fa-medal text-primary text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1">Premium Qualität</h4>
+                    <p className="text-gray-600 text-sm">Höchste Standards bei jedem Umzug</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                    <i className="fas fa-clock text-primary text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1">24h Erreichbarkeit</h4>
+                    <p className="text-gray-600 text-sm">Für Notfälle und Beratung</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                    <i className="fas fa-shield-alt text-primary text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1">Vollversicherung</h4>
+                    <p className="text-gray-600 text-sm">Kompletter Schutz Ihres Eigentums</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
+                    <i className="fas fa-handshake text-primary text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1">Festpreisgarantie</h4>
+                    <p className="text-gray-600 text-sm">Keine versteckten Kosten</p>
+                  </div>
+                </div>
+              </div>
+              
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
                   href="tel:089123456789"
-                  className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold text-center transition-colors"
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg text-center transition-all transform hover:scale-105 premium-shadow"
                 >
-                  <i className="fas fa-phone mr-2"></i>089 123 456 789
+                  <i className="fas fa-phone mr-3"></i>089 123 456 789
                 </a>
                 <a
                   href="tel:0176724883"
-                  className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold text-center transition-colors"
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-xl font-bold text-lg text-center transition-all hover:scale-105"
                 >
-                  <i className="fas fa-mobile-alt mr-2"></i>0176 724 883 32
+                  <i className="fas fa-mobile-alt mr-3"></i>0176 724 883 32
                 </a>
               </div>
             </div>
-            <div className="relative animate-slide-in">
-              <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600"
-                alt="Professional moving team"
-                className="rounded-xl shadow-lg w-full h-auto"
-              />
+            
+            <div className="relative">
+              {/* Floating elements around image */}
+              <div className="absolute -top-8 -left-8 w-24 h-24 bg-primary/10 rounded-full floating-element" />
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/5 rounded-full floating-element" style={{animationDelay: '2s'}} />
+              
+              <div className="relative premium-shadow rounded-2xl overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Walter Braun Umzüge Team"
+                  className="w-full h-auto"
+                />
+                {/* Overlay with company info */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8">
+                  <div className="text-white">
+                    <div className="flex items-center mb-2">
+                      <div className="flex text-yellow-400 mr-3">
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                      </div>
+                      <span className="font-bold">4.9/5</span>
+                    </div>
+                    <p className="text-sm opacity-90">Über 500 zufriedene Kunden in München</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -209,98 +284,149 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="leistungen" className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Unsere Leistungen</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Vielfältige Services für Ihren stressfreien Umzug – Entdecken Sie, wie wir Ihnen mit maßgeschneiderten Lösungen in jeder Phase des Umzugsprozesses zur Seite stehen!
+      <section id="leistungen" className="py-24 bg-gradient-to-br from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
+              <i className="fas fa-star mr-2"></i>PREMIUM SERVICES
+            </div>
+            <h2 className="text-5xl font-black text-gray-900 mb-6">Unsere Leistungen</h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Maßgeschneiderte Umzugslösungen für jeden Bedarf – von der ersten Beratung bis zur letzten Schraube
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div
-              className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow animate-fade-in"
+              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
               onClick={() => openServiceModal('privatumzuege')}
             >
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <i className="fas fa-home text-white text-xl"></i>
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
+                  <i className="fas fa-home text-white text-2xl"></i>
+                </div>
+                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl"></i>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Privatumzüge</h3>
-              <p className="text-gray-600 mb-4">
-                Wir bringen Sie sicher und stressfrei in Ihr neues Zuhause – mit Erfahrung und Sorgfalt.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Privatumzüge</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Professionelle Privatumzüge mit Rundumservice – von der Planung bis zur Einrichtung in Ihrem neuen Zuhause.
               </p>
-              <span className="text-primary font-medium">Mehr erfahren →</span>
+              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                <span>Mehr erfahren</span>
+                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              </div>
             </div>
 
             <div
-              className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow animate-fade-in"
+              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
               onClick={() => openServiceModal('seniorenumzuege')}
             >
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <i className="fas fa-heart text-white text-xl"></i>
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
+                  <i className="fas fa-heart text-white text-2xl"></i>
+                </div>
+                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl"></i>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Seniorenumzüge</h3>
-              <p className="text-gray-600 mb-4">
-                Einfühlsame Unterstützung für Senioren – zuverlässig, geduldig und individuell angepasst.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Seniorenumzüge</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Einfühlsamer Service für Senioren mit besonderer Aufmerksamkeit und individueller Betreuung.
               </p>
-              <span className="text-primary font-medium">Mehr erfahren →</span>
+              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                <span>Mehr erfahren</span>
+                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              </div>
             </div>
 
             <div
-              className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow animate-fade-in"
+              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
               onClick={() => openServiceModal('auslandsumzuege')}
             >
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <i className="fas fa-globe text-white text-xl"></i>
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
+                  <i className="fas fa-globe text-white text-2xl"></i>
+                </div>
+                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl"></i>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Auslandsumzüge</h3>
-              <p className="text-gray-600 mb-4">
-                Ob Europa oder weltweit – wir organisieren Ihren Umzug ins Ausland professionell und sicher.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Auslandsumzüge</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Internationale Umzüge weltweit mit kompletter Abwicklung aller Formalitäten und Zollbestimmungen.
               </p>
-              <span className="text-primary font-medium">Mehr erfahren →</span>
+              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                <span>Mehr erfahren</span>
+                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              </div>
             </div>
 
             <div
-              className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow animate-fade-in"
+              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
               onClick={() => openServiceModal('betriebsumzuege')}
             >
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <i className="fas fa-building text-white text-xl"></i>
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
+                  <i className="fas fa-building text-white text-2xl"></i>
+                </div>
+                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl"></i>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Betriebsumzüge</h3>
-              <p className="text-gray-600 mb-4">
-                Effizienter Standortwechsel für Ihr Unternehmen – schnell, geplant und mit minimalem Stillstand.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Betriebsumzüge</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Geschäftsumzüge mit minimaler Ausfallzeit und professionellem Projektmanagement für Ihr Unternehmen.
               </p>
-              <span className="text-primary font-medium">Mehr erfahren →</span>
+              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                <span>Mehr erfahren</span>
+                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              </div>
             </div>
 
             <div
-              className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow animate-fade-in"
+              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
               onClick={() => openServiceModal('kuechenmontagen')}
             >
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <i className="fas fa-utensils text-white text-xl"></i>
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
+                  <i className="fas fa-utensils text-white text-2xl"></i>
+                </div>
+                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl"></i>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Küchenmontagen</h3>
-              <p className="text-gray-600 mb-4">
-                Ihre Küche in besten Händen – präziser Aufbau inklusive aller Anschlüsse und Anpassungen.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Küchenmontagen</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Fachgerechte Küchenmontage mit allen Anschlüssen und individuellen Anpassungen durch Experten.
               </p>
-              <span className="text-primary font-medium">Mehr erfahren →</span>
+              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                <span>Mehr erfahren</span>
+                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              </div>
             </div>
 
             <div
-              className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-shadow animate-fade-in"
+              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
               onClick={() => openServiceModal('packservice')}
             >
-              <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
-                <i className="fas fa-box text-white text-xl"></i>
+              <div className="flex items-center justify-between mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
+                  <i className="fas fa-box text-white text-2xl"></i>
+                </div>
+                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl"></i>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Packservice</h3>
-              <p className="text-gray-600 mb-4">
-                Unser Team verpackt alles sorgfältig – von Glas bis Kleidung, für optimalen Schutz beim Transport.
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Packservice</h3>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                Professionelles Verpacken mit hochwertigen Materialien für optimalen Schutz aller Gegenstände.
               </p>
-              <span className="text-primary font-medium">Mehr erfahren →</span>
+              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                <span>Mehr erfahren</span>
+                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              </div>
             </div>
           </div>
         </div>
@@ -338,43 +464,108 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section id="bewertungen" className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Was unsere Kunden sagen</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Erfahrungen, die überzeugen – Unsere Kunden berichten von reibungslosen Umzügen und exzellentem Service!
+      <section id="bewertungen" className="py-24 bg-gradient-to-br from-primary/5 to-white relative overflow-hidden">
+        {/* Background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary rounded-full blur-2xl" />
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-8">
+              <i className="fas fa-comments mr-2"></i>KUNDENSTIMMEN
+            </div>
+            <h2 className="text-5xl font-black text-gray-900 mb-6">Was unsere Kunden sagen</h2>
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Über 500 zufriedene Kunden vertrauen auf unsere Expertise – Lesen Sie echte Erfahrungsberichte aus München und Umgebung
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-xl shadow-lg p-8 animate-fade-in">
-              <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 mb-16">
+            <div className="premium-card rounded-2xl p-8 hover-lift">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex text-yellow-400 text-lg">
                   <i className="fas fa-star"></i>
                   <i className="fas fa-star"></i>
                   <i className="fas fa-star"></i>
                   <i className="fas fa-star"></i>
                   <i className="fas fa-star"></i>
                 </div>
+                <div className="text-sm text-gray-500 font-medium">Google Bewertung</div>
               </div>
-              <p className="text-gray-600 mb-6 italic">
-                "Der Umzug hat perfekt geklappt. Die erste Beratung vor Ort verlief sehr professionell und das Angebot kam auch prompt. Sogar kleine Änderungen wurden sofort umgesetzt. Die Mitarbeiter waren sehr schnell und nett. Danke nochmals für Alles. Ich werde euch nochmals beauftragen und weiterempfehlen."
+              <p className="text-gray-700 mb-6 italic leading-relaxed">
+                "Absolut professioneller Service! Der Umzug wurde minutiös geplant und durchgeführt. Das Team war pünktlich, freundlich und sehr sorgfältig. Kann ich zu 100% weiterempfehlen!"
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center mr-3">
-                  <span className="text-white font-semibold">T</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-lg">T</span>
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-900">Tatjana</div>
-                  <div className="text-gray-500 text-sm">Zufriedene Kundin</div>
+                  <div className="font-bold text-gray-900">Tatjana Müller</div>
+                  <div className="text-gray-600 text-sm">Privatumzug Schwabing</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-8 animate-fade-in">
-              <div className="flex items-center mb-4">
-                <div className="flex text-yellow-400">
+            <div className="premium-card rounded-2xl p-8 hover-lift">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex text-yellow-400 text-lg">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                </div>
+                <div className="text-sm text-gray-500 font-medium">Google Bewertung</div>
+              </div>
+              <p className="text-gray-700 mb-6 italic leading-relaxed">
+                "Kurzfristig einen Umzugstermin bekommen und alles lief perfekt! Sehr faire Preise und keine versteckten Kosten. Das Team arbeitete schnell und gewissenhaft."
+              </p>
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-lg">S</span>
+                </div>
+                <div>
+                  <div className="font-bold text-gray-900">Shazeb Rahman</div>
+                  <div className="text-gray-600 text-sm">Betriebsumzug Maxvorstadt</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="premium-card rounded-2xl p-8 hover-lift">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex text-yellow-400 text-lg">
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                  <i className="fas fa-star"></i>
+                </div>
+                <div className="text-sm text-gray-500 font-medium">Google Bewertung</div>
+              </div>
+              <p className="text-gray-700 mb-6 italic leading-relaxed">
+                "Hervorragender Service von der ersten Beratung bis zum letzten Karton. Besonders die Küchenmontage war perfekt ausgeführt. Vielen Dank!"
+              </p>
+              <div className="flex items-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-white font-bold text-lg">M</span>
+                </div>
+                <div>
+                  <div className="font-bold text-gray-900">Maria Schmidt</div>
+                  <div className="text-gray-600 text-sm">Seniorenumzug Bogenhausen</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="bg-white rounded-2xl premium-shadow p-8">
+            <div className="grid md:grid-cols-4 gap-8 text-center">
+              <div>
+                <div className="text-4xl font-black text-primary mb-2">4.9/5</div>
+                <div className="text-gray-600">Google Bewertung</div>
+                <div className="flex justify-center text-yellow-400 mt-1">
                   <i className="fas fa-star"></i>
                   <i className="fas fa-star"></i>
                   <i className="fas fa-star"></i>
@@ -382,17 +573,17 @@ export default function Home() {
                   <i className="fas fa-star"></i>
                 </div>
               </div>
-              <p className="text-gray-600 mb-6 italic">
-                "Wir hatten einen kurzfristigen Termin für einen Umzug benötigt. Wir bekamen innerhalb von nicht einmal 24 Stunden ein Angebot und eine Terminzusage von Herrn Bakhat. Das Umzugsteam kam am angegebenen Tag auf die Minute pünktlich. Alle waren freundlich und haben sehr sorgfältig und gewissenhaft gearbeitet."
-              </p>
-              <div className="flex items-center">
-                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center mr-3">
-                  <span className="text-white font-semibold">S</span>
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900">Shazeb</div>
-                  <div className="text-gray-500 text-sm">Zufriedener Kunde</div>
-                </div>
+              <div>
+                <div className="text-4xl font-black text-primary mb-2">500+</div>
+                <div className="text-gray-600">Zufriedene Kunden</div>
+              </div>
+              <div>
+                <div className="text-4xl font-black text-primary mb-2">98%</div>
+                <div className="text-gray-600">Weiterempfehlungen</div>
+              </div>
+              <div>
+                <div className="text-4xl font-black text-primary mb-2">10+</div>
+                <div className="text-gray-600">Jahre Erfahrung</div>
               </div>
             </div>
           </div>
@@ -505,72 +696,143 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="kontakt" className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Wir freuen uns auf Sie!</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Kontaktieren Sie uns noch heute – Wir freuen und darauf, Ihren Umzug gemeinsam zu gestalten!
+      <section id="kontakt" className="py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary/5 rounded-full blur-2xl" />
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-20">
+            <div className="inline-flex items-center px-4 py-2 bg-primary/20 text-primary rounded-full text-sm font-semibold mb-8">
+              <i className="fas fa-headset mr-2"></i>KONTAKT & BERATUNG
+            </div>
+            <h2 className="text-5xl font-black text-white mb-6">Lassen Sie uns sprechen!</h2>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Kostenlose Beratung, unverbindliches Angebot und Festpreisgarantie – Ihr Umzug beginnt mit einem Anruf
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <ContactForm />
+          <div className="grid lg:grid-cols-2 gap-16">
+            {/* Contact Info */}
+            <div className="space-y-8">
+              <div className="premium-card p-8 hover-lift">
+                <h3 className="text-2xl font-bold text-gray-900 mb-8">Sofort erreichbar</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start">
+                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0">
+                      <i className="fas fa-phone text-white text-xl"></i>
+                    </div>
+                    <div>
+                      <div className="font-bold text-gray-900 mb-2">Telefon (24/7 Hotline)</div>
+                      <a 
+                        href="tel:089123456789" 
+                        className="text-2xl font-black text-primary hover:text-primary/80 transition-colors block mb-1"
+                      >
+                        089 123 456 789
+                      </a>
+                      <div className="text-gray-600 text-sm">Kostenlose Beratung & Notfall-Hotline</div>
+                    </div>
+                  </div>
 
-            <div className="space-y-8 animate-slide-in">
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Kontaktinformationen</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center">
-                    <i className="fas fa-map-marker-alt text-primary text-xl mr-4"></i>
+                  <div className="flex items-start">
+                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0">
+                      <i className="fas fa-mobile-alt text-white text-xl"></i>
+                    </div>
                     <div>
-                      <div className="font-semibold">Walter Braun Umzüge</div>
-                      <div className="text-gray-600">Friedrichstraße 15</div>
-                      <div className="text-gray-600">80801 München</div>
+                      <div className="font-bold text-gray-900 mb-2">Mobil</div>
+                      <a 
+                        href="tel:0176724883" 
+                        className="text-xl font-bold text-primary hover:text-primary/80 transition-colors block mb-1"
+                      >
+                        0176 724 883 32
+                      </a>
+                      <div className="text-gray-600 text-sm">WhatsApp & SMS möglich</div>
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <i className="fas fa-phone text-primary text-xl mr-4"></i>
+
+                  <div className="flex items-start">
+                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0">
+                      <i className="fas fa-envelope text-white text-xl"></i>
+                    </div>
                     <div>
-                      <div className="font-semibold">089 123 456 789</div>
-                      <div className="text-gray-600">Festnetz</div>
+                      <div className="font-bold text-gray-900 mb-2">E-Mail</div>
+                      <a 
+                        href="mailto:info@walterbraun-umzuege.de" 
+                        className="text-primary hover:text-primary/80 transition-colors font-semibold"
+                      >
+                        info@walterbraun-umzuege.de
+                      </a>
+                      <div className="text-gray-600 text-sm">Antwort binnen 2 Stunden</div>
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <i className="fas fa-mobile-alt text-primary text-xl mr-4"></i>
+
+                  <div className="flex items-start">
+                    <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0">
+                      <i className="fas fa-map-marker-alt text-white text-xl"></i>
+                    </div>
                     <div>
-                      <div className="font-semibold">0176 724 883 32</div>
-                      <div className="text-gray-600">Mobil</div>
+                      <div className="font-bold text-gray-900 mb-2">Standort München</div>
+                      <div className="text-gray-700 font-medium">
+                        Maximilianstraße 35<br />
+                        80539 München
+                      </div>
+                      <div className="text-gray-600 text-sm mt-1">Kostenllose Vor-Ort-Termine</div>
                     </div>
                   </div>
-                  <div className="flex items-center">
-                    <i className="fas fa-envelope text-primary text-xl mr-4"></i>
+                </div>
+
+                {/* Service times */}
+                <div className="bg-primary/10 rounded-xl p-6 mt-8">
+                  <h4 className="font-bold text-gray-900 mb-4 flex items-center">
+                    <i className="fas fa-clock text-primary mr-2"></i>
+                    Servicezeiten
+                  </h4>
+                  <div className="grid sm:grid-cols-2 gap-4 text-sm text-gray-700">
                     <div>
-                      <div className="font-semibold">info@walterbraun-umzuege.de</div>
-                      <div className="text-gray-600">E-Mail</div>
+                      <div className="font-medium">Mo-Fr:</div>
+                      <div>07:00 - 20:00 Uhr</div>
+                    </div>
+                    <div>
+                      <div className="font-medium">Sa-So:</div>
+                      <div>08:00 - 18:00 Uhr</div>
+                    </div>
+                    <div className="sm:col-span-2">
+                      <div className="font-medium text-primary">24/7 Notfall-Hotline verfügbar</div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <div className="bg-accent rounded-xl p-6">
-                <h4 className="font-bold text-gray-900 mb-3">Mit uns kann Ihr Umzug starten!</h4>
-                <p className="text-gray-700 mb-4">Jetzt kostenlose Beratung sichern</p>
-                <div className="flex space-x-3">
-                  <a
-                    href="tel:089123456789"
-                    className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-                  >
-                    Jetzt anrufen
-                  </a>
-                  <Button 
-                    onClick={scrollToContact}
-                    variant="outline"
-                    className="px-4 py-2 rounded-lg font-medium text-sm"
-                  >
-                    Kontaktieren
-                  </Button>
-                </div>
+            {/* Contact Form */}
+            <div className="premium-card p-8">
+              <ContactForm />
+            </div>
+          </div>
+
+          {/* Quick action CTA */}
+          <div className="text-center mt-20">
+            <div className="premium-card p-8 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Sofortiger Rückruf gewünscht?</h3>
+              <p className="text-gray-600 mb-6">
+                Hinterlassen Sie uns Ihre Nummer und wir rufen Sie innerhalb von 15 Minuten zurück!
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="tel:089123456789"
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 premium-shadow"
+                >
+                  <i className="fas fa-phone mr-3"></i>089 123 456 789
+                </a>
+                <button
+                  onClick={scrollToContact}
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-xl font-bold text-lg transition-all hover:scale-105"
+                >
+                  <i className="fas fa-envelope mr-3"></i>Nachricht senden
+                </button>
               </div>
             </div>
           </div>

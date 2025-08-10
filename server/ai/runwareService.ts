@@ -88,7 +88,9 @@ export class RunwareService {
   }
 
   private async callRunware(prompt: string): Promise<{ imageURL: string; imageName: string }> {
-    const response = await fetch(`${this.baseUrl}/image`, {
+    const taskUUID = this.generateUUID();
+    
+    const response = await fetch(`${this.baseUrl}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -96,14 +98,16 @@ export class RunwareService {
       },
       body: JSON.stringify([{
         taskType: "imageInference",
+        taskUUID: taskUUID,
+        outputType: "URL",
+        outputFormat: "JPG",
         positivePrompt: prompt,
-        model: "runware:100@1",
-        numberofImages: 1,
-        height: 720,
-        width: 1280,
-        steps: 25,
-        CFGScale: 7,
-        seed: Math.floor(Math.random() * 1000000)
+        model: "runware:101@1",
+        numberResults: 1,
+        height: 800,
+        width: 1200,
+        steps: 30,
+        CFGScale: 7.5
       }])
     });
 
@@ -122,6 +126,14 @@ export class RunwareService {
       imageURL: data.data[0].imageURL,
       imageName: data.data[0].imageName || "blog-image"
     };
+  }
+
+  private generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 
   private async logGeneration(prompt: string, response: string, success: boolean, error?: string): Promise<void> {

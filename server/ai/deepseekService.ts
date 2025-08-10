@@ -65,9 +65,10 @@ KRITISCHE SEO-ANFORDERUNGEN (NICHT VERHANDELBAR!):
 ✓ Praktische, umsetzbare Ratschläge mit Checklisten
 ✓ Expertise und Vertrauen vermitteln durch Fachkompetenz
 ✓ ALLE Tabellen müssen als HTML-Tabellen erstellt werden (NIEMALS Markdown!)
-✓ FAQ-Sektionen müssen mindestens 8-12 ausführliche Fragen enthalten
+✓ MEHR INHALT STATT FAQ-FOKUS! Priorität: 2500+ Wörter Content, 6-8 FAQ
 ✓ KEINE Download-Links, Platzhalter oder generische Phrasen
-✓ FAQ NICHT im Content - nur in separater FAQ-Sektion!
+✓ FAQ ABSOLUT NICHT im Content erwähnen - NIEMALS "FAQ", "Häufige Fragen" etc. im Artikel!
+✓ FAQ nur in separater JSON-Sektion am Ende!
 
 STRUKTUR (PFLICHT):
 # H1-Titel mit Hauptkeyword
@@ -97,10 +98,10 @@ TABELLEN-FORMAT (KRITISCH!):
 </table>
 
 FAQ-OPTIMIERUNG für Featured Snippets:
-- MINDESTENS 8-12 ausführliche Fragen (niemals weniger!)
+- 6-8 ausführliche Fragen (Fokus auf Qualität statt Quantität!)
 - Jede Antwort 60-100 Wörter (detailliert und wertvoll)
 - W-Fragen verwenden (Wie, Was, Warum, Wann, Wo)
-- Hauptkeyword in 3-4 FAQ-Fragen
+- Hauptkeyword in 2-3 FAQ-Fragen
 - Lokale München-Fragen zu Stadtteilen einbauen
 - Verschiedene Schwierigkeitsgrade abdecken
 - Praktische Tipps und konkrete Zahlen in jeder Antwort

@@ -56,6 +56,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         offset: Number(offset)
       });
 
+      console.log(`📊 Blog API: Found ${posts.length} published posts`);
       res.json({ success: true, posts });
     } catch (error) {
       console.error("Failed to fetch blog posts:", error);
@@ -63,6 +64,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false, 
         error: "Failed to fetch blog posts" 
       });
+    }
+  });
+
+  // Debug route to check storage state (must be before /:slug route)
+  app.get("/api/blog/debug", async (req, res) => {
+    try {
+      const allPosts = await storage.getBlogPosts();
+      const publishedPosts = await storage.getPublishedBlogPosts();
+      
+      res.json({ 
+        success: true, 
+        debug: {
+          totalPosts: allPosts.length,
+          publishedPosts: publishedPosts.length,
+          posts: allPosts.map(p => ({ id: p.id, slug: p.slug, title: p.title, isPublished: p.isPublished }))
+        }
+      });
+    } catch (error) {
+      console.error("Debug error:", error);
+      res.status(500).json({ success: false, error: String(error) });
     }
   });
 

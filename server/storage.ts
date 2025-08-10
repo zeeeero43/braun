@@ -83,8 +83,8 @@ export class MemStorage implements IStorage {
     const post: AutoBlogPost = {
       id,
       ...postData,
-      keywords: Array.isArray(postData.keywords) ? postData.keywords : (typeof postData.keywords === 'string' ? [postData.keywords] : []),
-      tags: Array.isArray(postData.tags) ? postData.tags : (typeof postData.tags === 'string' ? [postData.tags] : []),
+      keywords: Array.isArray(postData.keywords) ? postData.keywords as string[] : (typeof postData.keywords === 'string' ? [postData.keywords] : []),
+      tags: Array.isArray(postData.tags) ? postData.tags as string[] : (typeof postData.tags === 'string' ? [postData.tags] : []),
       createdAt: now,
       updatedAt: now,
       publishedAt: postData.isPublished ? (postData.publishedAt || now) : null
@@ -151,7 +151,7 @@ export class MemStorage implements IStorage {
     const idea: BlogIdea = {
       id,
       ...ideaData,
-      keywords: Array.isArray(ideaData.keywords) ? ideaData.keywords : (typeof ideaData.keywords === 'string' ? [ideaData.keywords] : []),
+      keywords: Array.isArray(ideaData.keywords) ? ideaData.keywords as string[] : (typeof ideaData.keywords === 'string' ? [ideaData.keywords] : []),
       createdAt: new Date()
     };
     this.blogIdeas.set(id, idea);

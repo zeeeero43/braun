@@ -88,18 +88,21 @@ export class BlogScheduler {
 
       console.log(`📋 Selected topic: ${topic.topic}`);
 
-      // Generate content and image in parallel
+      // Generate content first, then image with custom description
       console.log("🤖 Generating content with DeepSeek...");
-      const [blogContent, imageData] = await Promise.all([
-        this.deepSeekService.generateBlogContent(topic.topic, topic.keywords, topic.category).catch(error => {
-          console.error("❌ DeepSeek generation failed:", error);
-          throw error;
-        }),
-        this.runwareService.generateBlogImage(topic.topic, topic.category).catch(error => {
-          console.error("❌ Image generation failed:", error);
-          throw error;
-        })
-      ]);
+      const blogContent = await this.deepSeekService.generateBlogContent(topic.topic, topic.keywords, topic.category).catch(error => {
+        console.error("❌ DeepSeek generation failed:", error);
+        throw error;
+      });
+      
+      console.log("🎨 Generating optimized image description...");
+      const imageDescription = await this.deepSeekService.generateImageDescription(blogContent.title, topic.category);
+      
+      console.log("🖼️ Generating image with custom prompt...");
+      const imageData = await this.runwareService.generateBlogImageWithDescription(imageDescription, blogContent.title, topic.category).catch(error => {
+        console.error("❌ Image generation failed:", error);
+        throw error;
+      });
       
       console.log("✅ Content generated successfully");
 
@@ -107,6 +110,10 @@ export class BlogScheduler {
       const slug = this.createSlug(blogContent.title);
 
       // Save blog post to database
+      console.log("💾 Saving blog post to database...");
+      console.log(`   📝 Title: ${blogContent.title}`);
+      console.log(`   🔗 Slug: ${slug}`);
+      
       const newPost = await storage.createBlogPost({
         slug,
         title: blogContent.title,
@@ -125,6 +132,8 @@ export class BlogScheduler {
         isPublished: true,
         publishedAt: new Date()
       });
+      
+      console.log(`✅ Blog post saved successfully with ID: ${newPost.id}`);
 
       const duration = (Date.now() - startTime) / 1000;
       console.log(`✅ Blog post generated successfully in ${duration}s:`);

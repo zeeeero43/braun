@@ -1,0 +1,266 @@
+import { useQuery } from "@tanstack/react-query";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Clock, Calendar, User, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { useState } from "react";
+
+interface BlogPost {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  author: string;
+  readTime: string;
+  image: string;
+  imageAlt: string;
+  publishedAt: string;
+  tags: string[];
+}
+
+interface BlogResponse {
+  success: boolean;
+  posts: BlogPost[];
+}
+
+interface CategoriesResponse {
+  success: boolean;
+  categories: string[];
+}
+
+export default function BlogPage() {
+  const [, setLocation] = useLocation();
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 9;
+
+  const { data: blogData, isLoading: postsLoading } = useQuery<BlogResponse>({
+    queryKey: ["/api/blog", selectedCategory, currentPage],
+    queryFn: async () => {
+      const params = new URLSearchParams({
+        limit: postsPerPage.toString(),
+        offset: ((currentPage - 1) * postsPerPage).toString(),
+      });
+      
+      if (selectedCategory) {
+        params.append("category", selectedCategory);
+      }
+      
+      const res = await fetch(`/api/blog?${params}`);
+      if (!res.ok) throw new Error("Failed to fetch blog posts");
+      return res.json();
+    }
+  });
+
+  const { data: categoriesData } = useQuery<CategoriesResponse>({
+    queryKey: ["/api/blog/categories"],
+    queryFn: async () => {
+      const res = await fetch("/api/blog/categories");
+      if (!res.ok) throw new Error("Failed to fetch categories");
+      return res.json();
+    }
+  });
+
+  const posts = blogData?.posts || [];
+  const categories = categoriesData?.categories || [];
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('de-DE', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const handleCategoryFilter = (category: string) => {
+    setSelectedCategory(category === selectedCategory ? "" : category);
+    setCurrentPage(1);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Header Section */}
+      <div className="bg-green-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              Umzugstipps & Ratgeber
+            </h1>
+            <p className="text-xl opacity-90 leading-relaxed">
+              Professionelle Tipps und Ratschläge für Ihren Umzug in München und Umgebung. 
+              Von der Planung bis zur Durchführung - wir unterstützen Sie mit wertvollen Informationen.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-12">
+        {/* Navigation */}
+        <div className="mb-8">
+          <Button 
+            variant="ghost" 
+            onClick={() => setLocation("/")}
+            className="text-green-600 hover:text-green-700"
+          >
+            <ChevronLeft className="w-4 h-4 mr-2" />
+            Zurück zur Startseite
+          </Button>
+        </div>
+
+        {/* Category Filter */}
+        {categories.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">Kategorien</h2>
+            <div className="flex flex-wrap gap-3">
+              <Button
+                variant={selectedCategory === "" ? "default" : "outline"}
+                onClick={() => handleCategoryFilter("")}
+                className={selectedCategory === "" ? "bg-green-600 hover:bg-green-700" : ""}
+              >
+                Alle Artikel
+              </Button>
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  onClick={() => handleCategoryFilter(category)}
+                  className={selectedCategory === category ? "bg-green-600 hover:bg-green-700" : ""}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Blog Posts Grid */}
+        {postsLoading ? (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i} className="animate-pulse">
+                <div className="w-full h-48 bg-gray-200 rounded-t-lg"></div>
+                <CardHeader>
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-full"></div>
+                  <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                </CardHeader>
+              </Card>
+            ))}
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="text-center py-16">
+            <h3 className="text-2xl font-semibold text-gray-700 mb-4">
+              Keine Artikel gefunden
+            </h3>
+            <p className="text-gray-600">
+              {selectedCategory 
+                ? `Keine Artikel in der Kategorie "${selectedCategory}" verfügbar.`
+                : "Zur Zeit sind keine Blog-Artikel verfügbar."
+              }
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+              {posts.map((post) => (
+                <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden">
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.imageAlt}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <Badge className="bg-green-600 hover:bg-green-700 text-white">
+                        {post.category}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>{formatDate(post.publishedAt)}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
+                    
+                    <CardTitle className="text-xl group-hover:text-green-600 transition-colors duration-300 line-clamp-2">
+                      {post.title}
+                    </CardTitle>
+                  </CardHeader>
+                  
+                  <CardContent className="pt-0">
+                    <CardDescription className="text-gray-600 line-clamp-3 mb-4">
+                      {post.excerpt}
+                    </CardDescription>
+                    
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-sm text-gray-500">
+                        <User className="w-4 h-4" />
+                        <span>{post.author}</span>
+                      </div>
+                      
+                      <Link href={`/blog/${post.slug}`}>
+                        <Button 
+                          size="sm" 
+                          className="bg-green-600 hover:bg-green-700 group-hover:translate-x-1 transition-transform duration-300"
+                        >
+                          Lesen
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                    </div>
+                    
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-4">
+                        {post.tags.slice(0, 3).map((tag, index) => (
+                          <Badge key={index} variant="secondary" className="text-xs">
+                            {tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Pagination */}
+            {posts.length === postsPerPage && (
+              <div className="flex justify-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft className="w-4 h-4 mr-2" />
+                  Vorherige
+                </Button>
+                
+                <span className="flex items-center px-4 py-2 text-gray-600">
+                  Seite {currentPage}
+                </span>
+                
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentPage(prev => prev + 1)}
+                  disabled={posts.length < postsPerPage}
+                >
+                  Nächste
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

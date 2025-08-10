@@ -5,6 +5,7 @@ import ServiceModal from "@/components/service-modal";
 import ContactForm from "@/components/contact-form";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 const serviceData = {
   privatumzuege: {
@@ -177,7 +178,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <a
                   href="tel:089123456789"
                   className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg text-center transition-all transform hover:scale-105 premium-shadow"
@@ -190,6 +191,15 @@ export default function Home() {
                 >
                   <i className="fas fa-mobile-alt mr-3"></i>0176 724 883 32
                 </a>
+              </div>
+              
+              <div className="text-center">
+                <Link href="/blog">
+                  <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/5">
+                    <i className="fas fa-book mr-3"></i>
+                    Umzugstipps & Ratgeber
+                  </Button>
+                </Link>
               </div>
             </div>
             

@@ -89,10 +89,19 @@ export class BlogScheduler {
       console.log(`📋 Selected topic: ${topic.topic}`);
 
       // Generate content and image in parallel
+      console.log("🤖 Generating content with DeepSeek...");
       const [blogContent, imageData] = await Promise.all([
-        this.deepSeekService.generateBlogContent(topic.topic, topic.keywords, topic.category),
-        this.runwareService.generateBlogImage(topic.topic, topic.category)
+        this.deepSeekService.generateBlogContent(topic.topic, topic.keywords, topic.category).catch(error => {
+          console.error("❌ DeepSeek generation failed:", error);
+          throw error;
+        }),
+        this.runwareService.generateBlogImage(topic.topic, topic.category).catch(error => {
+          console.error("❌ Image generation failed:", error);
+          throw error;
+        })
       ]);
+      
+      console.log("✅ Content generated successfully");
 
       // Create slug from title
       const slug = this.createSlug(blogContent.title);

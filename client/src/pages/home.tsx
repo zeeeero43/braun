@@ -3,6 +3,7 @@ import Navigation from "@/components/navigation";
 import HeroSection from "@/components/hero-section";
 import ServiceModal from "@/components/service-modal";
 import ContactForm from "@/components/contact-form";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Button } from "@/components/ui/button";
 
 const serviceData = {
@@ -707,7 +708,7 @@ export default function Home() {
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Contact Info */}
             <div className="space-y-8">
-              <div className="premium-card p-8 hover-lift">
+              <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                 <h3 className="text-2xl font-bold text-gray-900 mb-8">Sofort erreichbar</h3>
                 
                 <div className="space-y-6">
@@ -805,7 +806,7 @@ export default function Home() {
 
           {/* Quick action CTA */}
           <div className="text-center mt-20">
-            <div className="premium-card p-8 max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-lg max-w-4xl mx-auto">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Sofortiger Rückruf gewünscht?</h3>
               <p className="text-gray-600 mb-6">
                 Hinterlassen Sie uns Ihre Nummer und wir rufen Sie innerhalb von 15 Minuten zurück!
@@ -917,6 +918,8 @@ export default function Home() {
         onClose={closeServiceModal}
         serviceData={currentServiceData}
       />
+      
+      <WhatsAppButton />
     </div>
   );
 }

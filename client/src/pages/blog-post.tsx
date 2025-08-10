@@ -284,6 +284,85 @@ export default function BlogPostPage() {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-16 mt-16">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="md:col-span-2">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
+                  <i className="fas fa-truck text-white text-xl"></i>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-white">WALTER BRAUN</h3>
+                  <div className="text-primary font-bold">UMZÜGE MÜNCHEN</div>
+                </div>
+              </div>
+              <p className="text-gray-300 mb-6 max-w-md">
+                Ihr zuverlässiger Partner für stressfreie Umzüge in München und Umgebung. 
+                Über 20 Jahre Erfahrung und höchste Qualitätsstandards.
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+                  <i className="fab fa-facebook text-xl"></i>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+                  <i className="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="#" className="text-gray-400 hover:text-primary transition-colors">
+                  <i className="fab fa-google text-xl"></i>
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-bold mb-4 text-white">Leistungen</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li><a href="/#leistungen" className="hover:text-primary transition-colors">Privatumzüge</a></li>
+                <li><a href="/#leistungen" className="hover:text-primary transition-colors">Büroumzüge</a></li>
+                <li><a href="/#leistungen" className="hover:text-primary transition-colors">Fernumzüge</a></li>
+                <li><a href="/#leistungen" className="hover:text-primary transition-colors">Möbellager</a></li>
+                <li><a href="/blog" className="hover:text-primary transition-colors">Blog & Ratgeber</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-lg font-bold mb-4 text-white">Kontakt</h4>
+              <ul className="space-y-2 text-gray-300">
+                <li className="flex items-center">
+                  <i className="fas fa-phone text-primary mr-3"></i>
+                  <a href="tel:089123456789" className="hover:text-primary transition-colors">089 123 456 789</a>
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-envelope text-primary mr-3"></i>
+                  <a href="mailto:info@walterbraun-umzuege.de" className="hover:text-primary transition-colors">info@walterbraun-umzuege.de</a>
+                </li>
+                <li className="flex items-start">
+                  <i className="fas fa-map-marker-alt text-primary mr-3 mt-1"></i>
+                  <div>
+                    <div>Musterstraße 123</div>
+                    <div>80333 München</div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8 mt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400 text-sm">
+                © 2024 Walter Braun Umzüge. Alle Rechte vorbehalten.
+              </p>
+              <div className="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" className="text-gray-400 hover:text-primary transition-colors text-sm">Impressum</a>
+                <a href="#" className="text-gray-400 hover:text-primary transition-colors text-sm">Datenschutz</a>
+                <a href="#" className="text-gray-400 hover:text-primary transition-colors text-sm">AGB</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Link, useLocation } from "wouter";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [location] = useLocation();
+  const isBlogPage = location.startsWith('/blog');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +18,12 @@ export default function Navigation() {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
+    if (isBlogPage) {
+      // Navigate to home page with section
+      window.location.href = `/#${sectionId}`;
+      return;
+    }
+    
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -31,7 +40,7 @@ export default function Navigation() {
 
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-      isScrolled 
+      isScrolled || isBlogPage
         ? "bg-white/95 backdrop-blur-md shadow-xl border-b border-gray-100" 
         : "bg-transparent"
     }`}>
@@ -45,16 +54,18 @@ export default function Navigation() {
                 <i className="fas fa-truck text-white font-bold"></i>
               </div>
               <div>
-                <h1 className={`text-xl font-black transition-colors ${
-                  isScrolled ? "text-gray-900" : "text-white"
-                }`}>
-                  WALTER BRAUN
-                </h1>
-                <div className={`text-xs font-semibold transition-colors ${
-                  isScrolled ? "text-primary" : "text-primary"
-                }`}>
-                  UMZÜGE MÜNCHEN
-                </div>
+                <Link href="/">
+                  <h1 className={`text-xl font-black transition-colors cursor-pointer hover:text-primary ${
+                    isScrolled || isBlogPage ? "text-gray-900" : "text-white"
+                  }`}>
+                    WALTER BRAUN
+                  </h1>
+                  <div className={`text-xs font-semibold transition-colors ${
+                    isScrolled || isBlogPage ? "text-primary" : "text-primary"
+                  }`}>
+                    UMZÜGE MÜNCHEN
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -65,8 +76,8 @@ export default function Navigation() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className={`font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:bg-primary/10 ${
-                  isScrolled 
+                className={`font-semibold px-4 py-2 rounded-lg transition-all duration-300 hover:bg-primary/10 cursor-pointer ${
+                  isScrolled || isBlogPage
                     ? "text-gray-700 hover:text-primary" 
                     : "text-white hover:text-primary hover:bg-white/10"
                 }`}
@@ -80,7 +91,7 @@ export default function Navigation() {
             <a
               href="tel:089123456789"
               className={`hidden sm:flex items-center px-4 py-2 rounded-lg font-bold transition-all duration-300 ${
-                isScrolled 
+                isScrolled || isBlogPage
                   ? "bg-primary text-white hover:bg-primary/90" 
                   : "bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
               }`}
@@ -95,7 +106,7 @@ export default function Navigation() {
                   variant="ghost"
                   size="sm"
                   className={`lg:hidden p-3 rounded-lg transition-all ${
-                    isScrolled 
+                    isScrolled || isBlogPage
                       ? "text-gray-700 hover:bg-gray-100" 
                       : "text-white hover:bg-white/20"
                   }`}

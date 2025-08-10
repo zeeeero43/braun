@@ -20,10 +20,10 @@ export class RunwareService {
 
   async generateBlogImage(title: string, category: string): Promise<{ imageUrl: string; imageAlt: string; imagePrompt: string }> {
     const prompt = this.createImagePrompt(title, category);
+    const imageAlt = this.generateImageAlt(title, category);
     
     try {
       const response = await this.callRunware(prompt);
-      const imageAlt = this.generateImageAlt(title, category);
       
       // Log successful generation
       await this.logGeneration(prompt, response.imageURL, true);
@@ -34,9 +34,26 @@ export class RunwareService {
         imagePrompt: prompt
       };
     } catch (error) {
-      // Log failed generation
+      // Log failed generation and use fallback image
       await this.logGeneration(prompt, "", false, error instanceof Error ? error.message : "Unknown error");
-      throw error;
+      
+      console.log("🖼️ Using fallback image due to API error");
+      
+      // Use fallback image from Unsplash with moving/business theme
+      const fallbackImages = [
+        "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=1200&h=800&fit=crop", // Moving truck
+        "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&h=800&fit=crop", // Home interior
+        "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&h=800&fit=crop", // Moving boxes
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=800&fit=crop", // Business office
+      ];
+      
+      const randomImage = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+      
+      return {
+        imageUrl: randomImage,
+        imageAlt,
+        imagePrompt: prompt
+      };
     }
   }
 
@@ -66,8 +83,9 @@ export class RunwareService {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.apiKey}`
       },
-      body: JSON.stringify({
-        prompt,
+      body: JSON.stringify([{
+        taskType: "imageInference",
+        positivePrompt: prompt,
         model: "runware:100@1",
         numberofImages: 1,
         height: 720,
@@ -75,7 +93,7 @@ export class RunwareService {
         steps: 25,
         CFGScale: 7,
         seed: Math.floor(Math.random() * 1000000)
-      })
+      }])
     });
 
     if (!response.ok) {

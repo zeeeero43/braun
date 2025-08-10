@@ -66,26 +66,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get single blog post by slug
-  app.get("/api/blog/:slug", async (req, res) => {
+  // Get blog categories (must be before /:slug route)
+  app.get("/api/blog/categories", async (req, res) => {
     try {
-      const { slug } = req.params;
-      
-      const post = await storage.getBlogPostBySlug(slug);
-
-      if (!post || !post.isPublished) {
-        return res.status(404).json({ 
-          success: false, 
-          error: "Blog post not found" 
-        });
-      }
-
-      res.json({ success: true, post });
+      const categories = await storage.getBlogCategories();
+      res.json({ 
+        success: true, 
+        categories: categories.length > 0 ? categories : ["Umzugstipps", "Ratgeber", "Checklisten"]
+      });
     } catch (error) {
-      console.error("Failed to fetch blog post:", error);
+      console.error("Failed to fetch categories:", error);
       res.status(500).json({ 
         success: false, 
-        error: "Failed to fetch blog post" 
+        error: "Failed to fetch categories" 
       });
     }
   });
@@ -136,20 +129,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get blog categories
-  app.get("/api/blog/categories", async (req, res) => {
+  // Get single blog post by slug (must be after specific routes)
+  app.get("/api/blog/:slug", async (req, res) => {
     try {
-      const categories = await storage.getBlogCategories();
+      const { slug } = req.params;
+      
+      const post = await storage.getBlogPostBySlug(slug);
 
-      res.json({ 
-        success: true, 
-        categories
-      });
+      if (!post || !post.isPublished) {
+        return res.status(404).json({ 
+          success: false, 
+          error: "Blog post not found" 
+        });
+      }
+
+      res.json({ success: true, post });
     } catch (error) {
-      console.error("Failed to fetch categories:", error);
+      console.error("Failed to fetch blog post:", error);
       res.status(500).json({ 
         success: false, 
-        error: "Failed to fetch categories" 
+        error: "Failed to fetch blog post" 
       });
     }
   });

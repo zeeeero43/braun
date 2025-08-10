@@ -893,6 +893,11 @@ export default function Home() {
                     Kontakt
                   </button>
                 </li>
+                <li>
+                  <Link href="/blog" className="hover:text-white transition-colors">
+                    Blog & Ratgeber
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>

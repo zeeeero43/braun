@@ -59,7 +59,7 @@ export class TopicGenerationService {
       await this.ensureTopicPool();
 
       // Get unused topics
-      const topics = await storage.getBlogIdeas(false);
+      const topics = await storage.getBlogIdeas(true);
 
       if (topics.length === 0) {
         console.error("No unused topics available");

@@ -83,6 +83,8 @@ export class MemStorage implements IStorage {
     const post: AutoBlogPost = {
       id,
       ...postData,
+      keywords: Array.isArray(postData.keywords) ? postData.keywords : (typeof postData.keywords === 'string' ? [postData.keywords] : []),
+      tags: Array.isArray(postData.tags) ? postData.tags : (typeof postData.tags === 'string' ? [postData.tags] : []),
       createdAt: now,
       updatedAt: now,
       publishedAt: postData.isPublished ? (postData.publishedAt || now) : null
@@ -149,6 +151,7 @@ export class MemStorage implements IStorage {
     const idea: BlogIdea = {
       id,
       ...ideaData,
+      keywords: Array.isArray(ideaData.keywords) ? ideaData.keywords : (typeof ideaData.keywords === 'string' ? [ideaData.keywords] : []),
       createdAt: new Date()
     };
     this.blogIdeas.set(id, idea);
@@ -183,6 +186,7 @@ export class MemStorage implements IStorage {
     const log: AiGenerationLog = {
       id,
       ...logData,
+      error: logData.error || null,
       createdAt: new Date()
     };
     this.aiLogs.set(id, log);

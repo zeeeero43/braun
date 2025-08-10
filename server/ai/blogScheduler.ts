@@ -75,9 +75,15 @@ export class BlogScheduler {
 
     try {
       // Get next topic
-      const topic = await this.topicService.getNextTopic();
+      let topic = await this.topicService.getNextTopic();
       if (!topic) {
-        throw new Error("No topics available for generation");
+        console.log("No unused topics found, ensuring topic pool...");
+        await this.topicService.ensureTopicPool();
+        topic = await this.topicService.getNextTopic();
+        
+        if (!topic) {
+          throw new Error("No topics available for generation even after generating new ones");
+        }
       }
 
       console.log(`📋 Selected topic: ${topic.topic}`);

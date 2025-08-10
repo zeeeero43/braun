@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Clock, Calendar, User, ChevronLeft, Share2, Tag } from "lucide-react";
 import { Helmet } from "react-helmet";
+import Navigation from "@/components/navigation";
 
 interface BlogPost {
   id: number;
@@ -148,7 +149,8 @@ export default function BlogPostPage() {
       </Helmet>
 
       <div className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8 pt-32">
           {/* Navigation */}
           <div className="mb-8">
             <Link href="/blog">

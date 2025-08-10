@@ -57,7 +57,7 @@ export default function HeroSection() {
           <Button 
             onClick={scrollToAbout}
             variant="outline"
-            className="border-white/60 text-white hover:bg-white/25 hover:text-white hover:border-white/80 px-8 py-3 rounded-lg font-semibold text-lg backdrop-blur-sm hover:scale-105 transition-all duration-300"
+            className="border-white/60 text-gray-900 bg-white/90 hover:bg-white hover:text-gray-900 hover:border-white px-8 py-3 rounded-lg font-semibold text-lg backdrop-blur-sm hover:scale-105 transition-all duration-300"
           >
             <i className="fas fa-arrow-down mr-3"></i>Mehr erfahren
           </Button>
@@ -86,13 +86,13 @@ export default function HeroSection() {
         {/* Trust indicators */}
         <div className="mt-12 flex flex-wrap justify-center items-center gap-6 text-sm text-gray-200">
           <div className="flex items-center">
-            <i className="fas fa-certificate text-primary mr-2"></i>Münchner Traditionsunternehmen
+            <i className="fas fa-certificate text-white mr-2"></i>Münchner Traditionsunternehmen
           </div>
           <div className="flex items-center">
-            <i className="fas fa-handshake text-primary mr-2"></i>Persönliche Beratung
+            <i className="fas fa-handshake text-white mr-2"></i>Persönliche Beratung
           </div>
           <div className="flex items-center">
-            <i className="fas fa-star text-primary mr-2"></i>4.9/5 Google Bewertung
+            <i className="fas fa-star text-white mr-2"></i>4.9/5 Google Bewertung
           </div>
         </div>
       </div>

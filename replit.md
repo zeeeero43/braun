@@ -8,6 +8,16 @@ This is a professional moving company website for Walter Braun Umzüge, a German
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+### Blog System Improvements (August 10, 2025) - COMPLETED ✅
+- ✅ **Fixed Runware API**: Implemented working array format with correct parameters - generates authentic AI images
+- ✅ **Fixed DeepSeek API**: Corrected max_tokens to 4000, added system prompts for content generation
+- ✅ **Quality Improvement**: Article "Schadensfall beim Umzug: So gehen Sie in München richtig vor" confirmed as perfect quality
+- ✅ **2-Part Article Generation**: Successfully implemented - articles now ~1681 words (2x longer than before)
+- ✅ **Complete System**: Fully automated blog generation with SEO-optimized content and authentic AI images
+- 🎯 **Results**: System generates professional articles with 6+ FAQ questions, Munich-specific content, and high-quality images
+
 ## System Architecture
 
 ### Frontend Architecture

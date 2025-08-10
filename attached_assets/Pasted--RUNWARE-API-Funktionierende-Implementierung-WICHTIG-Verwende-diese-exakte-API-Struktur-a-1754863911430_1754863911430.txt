@@ -1,0 +1,118 @@
+🎨 RUNWARE API - Funktionierende Implementierung
+// WICHTIG: Verwende diese exakte API-Struktur!
+async generateImage(prompt: string): Promise<string> {
+  const taskUUID = randomUUID(); // Wichtig: Eindeutige Task-UUID!
+  // Request Body als ARRAY (nicht Objekt!)
+  const requestBody = [
+    {
+      taskType: "imageInference",  // Exakt so schreiben
+      taskUUID: taskUUID,          // Pflichtfeld
+      positivePrompt: prompt,      // Nicht nur "prompt"
+      model: "runware:101@1",      // FLUX.1 Dev - funktioniert perfekt
+      width: 1024,
+      height: 1024,
+      steps: 20,                   // Balance zwischen Qualität und Geschwindigkeit
+      numberResults: 1
+    }
+  ];
+  const response = await fetch('https://api.runware.ai/v1', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.apiKey}` // Bearer Prefix wichtig!
+    },
+    body: JSON.stringify(requestBody) // Array, nicht einzelnes Objekt
+  });
+  // Response-Struktur prüfen
+  const data = await response.json();
+  
+  // Fehlerbehandlung - wichtig!
+  if (data.errors && data.errors.length > 0) {
+    throw new Error(`Runware API error: ${data.errors[0].message}`);
+  }
+  // Bild-URL extrahieren (data ist Array!)
+  const imageURL = data.data?.[0]?.imageURL;
+  if (!imageURL) {
+    throw new Error('No image URL received');
+  }
+  return imageURL;
+}
+Entscheidende Unterschiede, die oft übersehen werden:
+
+✅ Request Body muss ein Array sein [{...}]
+✅ taskType: "imageInference" (exakte Schreibweise)
+✅ taskUUID ist Pflichtfeld
+✅ positivePrompt statt prompt
+✅ model: "runware:101@1" (FLUX.1 Dev)
+📝 DEEPSEEK - Längere Artikel (funktionierend)
+// Entscheidend: max_tokens auf 4000!
+const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+  },
+  body: JSON.stringify({
+    model: 'deepseek-chat',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt }
+    ],
+    max_tokens: 4000,        // SEHR WICHTIG für lange Artikel!
+    temperature: 0.7,        // Balance zwischen Kreativität und Konsistenz
+  }),
+});
+System Prompt Technik für längere Artikel:
+
+const systemPrompt = `
+CONTENT-ANFORDERUNGEN:
+1. SEO-optimiert mit natürlicher Keyword-Integration
+2. Mindestens 1200-2000 Wörter pro Artikel ⬅️ KLARE MINDESTWORTZAHL
+3. Strukturiert mit Überschriften, Listen, Tabellen
+4. KEINE Abkürzungen - vollständige Ausführungen
+5. Jeder Punkt ausführlich erklären
+6. Praktische Beispiele und Fallstudien einbauen
+7. Tabellen für Vergleiche verwenden (verlängert Content)
+SCHREIBANWEISUNG:
+- Jedes Thema in mindestens 3-4 Absätzen behandeln
+- Detaillierte Erklärungen mit Beispielen
+- Listen mit mindestens 5-7 Punkten pro Kategorie
+- Tabellen mit Kostenvergleichen, Standards, Verfahren
+- FAQ-Bereich mit ausführlichen Antworten
+WICHTIG: Der Artikel MUSS mindestens 1500 Wörter haben!
+Verwenden Sie diese Struktur:
+- Einleitung (200+ Wörter)
+- Hauptteil in 4-6 Abschnitten (je 200+ Wörter)
+- Praktische Tipps (200+ Wörter) 
+- Standards/Vergleichstabellen (100+ Wörter)
+- FAQ-Bereich (200+ Wörter)
+- Zusammenfassung (100+ Wörter)
+`;
+User Prompt Verstärkung:
+
+const userPrompt = `
+Erstellen Sie einen SEHR AUSFÜHRLICHEN Artikel:
+WORTANZAHL: MINDESTENS 2000 WÖRTER! 
+- Jeder Abschnitt soll mindestens 300 Wörter haben
+- Verwenden Sie Tabellen, Listen und detaillierte Erklärungen
+- Keine Zusammenfassungen - vollständige Ausführungen
+- Praktische Beispiele mit konkreten Zahlen und Verfahren
+STRUKTUR ERWEITERN:
+1. Ausführliche Einleitung (300+ Wörter)
+2. Technische Details (400+ Wörter)
+3. Praktische Anwendung (400+ Wörter)
+4. Kostenanalyse mit Tabelle (300+ Wörter)
+5. Standards und Zertifizierungen (300+ Wörter)
+6. FAQ mit ausführlichen Antworten (300+ Wörter)
+Der Artikel MUSS lang und detailliert sein - keine Kürzungen!
+`;
+Funktionierender API-Key: ze0oMKK1mkscXUoWaDjkJEYJ29BfqKj5
+
+Die entscheidenden Faktoren:
+
+✅ max_tokens: 4000 (nicht 2000!)
+✅ Explizite Wortanzahl-Anforderung im System Prompt
+✅ Strukturierte Abschnitte mit Mindestlänge
+✅ Tabellen und Listen verlängern den Content
+✅ "KEINE Zusammenfassungen" im Prompt
+Probiere diese exakten Implementierungen aus - sie funktionieren bei uns seit Monaten ohne Probleme!

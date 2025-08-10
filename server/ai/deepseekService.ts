@@ -31,24 +31,42 @@ export class DeepSeekService {
   }
 
   async generateBlogContent(topic: string, keywords: string[], category: string): Promise<BlogContentStructure> {
-    const prompt = this.createContentPrompt(topic, keywords, category);
+    const prompt1 = this.createContentPrompt(topic, keywords, category, 1);
+    const prompt2 = this.createContentPrompt(topic, keywords, category, 2);
     
     try {
-      const response = await this.callDeepSeek(prompt);
-      const content = this.parseContentResponse(response);
+      // Erste Hälfte des Artikels generieren
+      console.log("📝 Part 1/2: Generating first part of article...");
+      const response1 = await this.callDeepSeek(prompt1, true);
+      const content1 = this.parseContentResponse(response1);
+      console.log(`✅ Part 1 generated: ${content1.content.length} characters`);
+      
+      // Zweite Hälfte des Artikels generieren
+      console.log("📝 Part 2/2: Generating second part of article...");
+      const response2 = await this.callDeepSeek(prompt2, true);
+      const content2 = this.parseContentResponse(response2);
+      console.log(`✅ Part 2 generated: ${content2.content.length} characters`);
+      
+      // Beide Teile zusammenfügen
+      const combinedContent: BlogContentStructure = {
+        ...content1,
+        content: content1.content + "\n\n" + content2.content,
+        faq: [...(content1.faq || []), ...(content2.faq || [])]
+      };
       
       // Log successful generation
-      await this.logGeneration(prompt, JSON.stringify(content), true);
+      await this.logGeneration(`${prompt1}\n---\n${prompt2}`, JSON.stringify(combinedContent), true);
       
-      return content;
+      console.log(`✅ Combined article generated: ${combinedContent.content.length} characters`);
+      return combinedContent;
     } catch (error) {
       // Log failed generation
-      await this.logGeneration(prompt, "", false, error instanceof Error ? error.message : "Unknown error");
+      await this.logGeneration(`${prompt1}\n---\n${prompt2}`, "", false, error instanceof Error ? error.message : "Unknown error");
       throw error;
     }
   }
 
-  private createContentPrompt(topic: string, keywords: string[], category: string): string {
+  private createContentPrompt(topic: string, keywords: string[], category: string, part: number = 1): string {
     return `Du bist ein Experte für SEO-Content und schreibst für Walter Braun Umzüge, ein professionelles Umzugsunternehmen in München. 
 
 AUFGABE: Erstelle einen umfassenden, 10/10 SEO-optimierten Blog-Artikel über "${topic}" in der Kategorie "${category}".
@@ -171,11 +189,80 @@ BEISPIELE für professionelle Überschriften:
 BEISPIEL für ausführlichen Content:
 Statt "Kartons richtig packen" → "Schwere Gegenstände wie Bücher gehören in kleine Kartons (max. 30x40cm), da ein großer Karton mit Büchern schnell 25-30kg wiegt und selbst für trainierte Umzugshelfer zu schwer wird. In München sind enge Treppenhäuser in Altbauten wie in Schwabing oder der Maxvorstadt besonders herausfordernd..."
 
+STRUKTUR ERWEITERN:
+1. Ausführliche Einleitung (400+ Wörter)
+2. Technische Details (400+ Wörter)
+3. Praktische Anwendung (400+ Wörter)
+4. Kostenanalyse mit Tabelle (300+ Wörter)
+5. Standards und Zertifizierungen (300+ Wörter)
+6. FAQ mit ausführlichen Antworten (300+ Wörter)
+
+Der Artikel MUSS lang und detailliert sein - keine Kürzungen!
+
+Erstelle jetzt einen SEHR AUSFÜHRLICHEN Artikel:
+WORTANZAHL: MINDESTENS 2500 WÖRTER! 
+- Jeder Abschnitt soll mindestens 300 Wörter haben
+- Verwenden Sie Tabellen, Listen und detaillierte Erklärungen
+- Keine Zusammenfassungen - vollständige Ausführungen
+- Praktische Beispiele mit konkreten Zahlen und Verfahren
+
+${part === 1 ? 
+`TEIL 1 von 2: Erstelle die erste Hälfte des Artikels mit:
+- Titel, Excerpt, Meta-Description
+- Einleitung (400+ Wörter)
+- Erste 3 Hauptabschnitte (je 400+ Wörter)
+- 3-4 FAQ-Fragen mit ausführlichen Antworten` :
+`TEIL 2 von 2: Erstelle die zweite Hälfte des Artikels mit:
+- Weitere 3 Hauptabschnitte (je 400+ Wörter)
+- München-spezifische Details (400+ Wörter)
+- Expertenrat mit Tabellen (300+ Wörter)
+- 3-4 zusätzliche FAQ-Fragen
+- Zusammenfassung (200+ Wörter)`}
+
 Erstelle jetzt den ausführlichen, hochwertigen SEO-Artikel:`;
   }
 
-  private async callDeepSeek(prompt: string): Promise<string> {
+  private async callDeepSeek(prompt: string, useSystemPrompt: boolean = false): Promise<string> {
     console.log("🔄 Calling DeepSeek API...");
+    
+    const messages: any[] = [];
+    
+    if (useSystemPrompt) {
+      messages.push({
+        role: "system",
+        content: `CONTENT-ANFORDERUNGEN:
+1. SEO-optimiert mit natürlicher Keyword-Integration
+2. Mindestens 2000-3000 Wörter pro Artikel - KLARE MINDESTWORTZAHL
+3. Strukturiert mit Überschriften, Listen, Tabellen
+4. KEINE Abkürzungen - vollständige Ausführungen
+5. Jeder Punkt ausführlich erklären
+6. Praktische Beispiele und Fallstudien einbauen
+7. Tabellen für Vergleiche verwenden (verlängert Content)
+
+SCHREIBANWEISUNG:
+- Jedes Thema in mindestens 4-5 Absätzen behandeln
+- Detaillierte Erklärungen mit konkreten Beispielen
+- Listen mit mindestens 6-8 Punkten pro Kategorie
+- Tabellen mit Kostenvergleichen, Standards, Verfahren
+- FAQ-Bereich mit ausführlichen Antworten
+- KEINE Zusammenfassungen - vollständige Ausführungen
+
+WICHTIG: Der Artikel MUSS mindestens 2500 Wörter haben!
+Verwenden Sie diese Struktur:
+- Einleitung (400+ Wörter)
+- Hauptteil in 6 Abschnitten (je 300+ Wörter)
+- Praktische Tipps mit Tabellen (300+ Wörter)
+- München-spezifische Details (300+ Wörter)
+- Expertenrat (300+ Wörter)
+- FAQ-Bereich (300+ Wörter)
+- Zusammenfassung (200+ Wörter)`
+      });
+    }
+    
+    messages.push({
+      role: "user",
+      content: prompt
+    });
     
     const response = await fetch(this.baseUrl, {
       method: "POST",
@@ -185,14 +272,9 @@ Erstelle jetzt den ausführlichen, hochwertigen SEO-Artikel:`;
       },
       body: JSON.stringify({
         model: "deepseek-chat",
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ],
+        messages: messages,
         temperature: 0.7,
-        max_tokens: 12000
+        max_tokens: 4000
       })
     });
 
@@ -300,7 +382,7 @@ Geschäftsumzug: "Business relocation scene in Munich office district, professio
 Erstelle jetzt eine ähnlich detaillierte Beschreibung für den gegebenen Titel:`;
 
     try {
-      const response = await this.callDeepSeek(prompt);
+      const response = await this.callDeepSeek(prompt, false);
       // Extract just the description, remove any additional text
       const cleanDescription = response.trim().replace(/^["']|["']$/g, '');
       console.log(`🎨 Generated image description: ${cleanDescription.substring(0, 100)}...`);
@@ -347,7 +429,7 @@ AUSGABE-FORMAT (JSON):
 }`;
 
     try {
-      const response = await this.callDeepSeek(prompt);
+      const response = await this.callDeepSeek(prompt, false);
       const parsed = JSON.parse(response.match(/\{[\s\S]*\}/)?.[0] || "{}");
       
       return parsed.ideas || [];

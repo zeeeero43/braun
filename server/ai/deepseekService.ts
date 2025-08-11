@@ -31,42 +31,26 @@ export class DeepSeekService {
   }
 
   async generateBlogContent(topic: string, keywords: string[], category: string): Promise<BlogContentStructure> {
-    const prompt1 = this.createContentPrompt(topic, keywords, category, 1);
-    const prompt2 = this.createContentPrompt(topic, keywords, category, 2);
+    const prompt = this.createContentPrompt(topic, keywords, category);
     
     try {
-      // Erste Hälfte des Artikels generieren
-      console.log("📝 Part 1/2: Generating first part of article...");
-      const response1 = await this.callDeepSeek(prompt1, true);
-      const content1 = this.parseContentResponse(response1);
-      console.log(`✅ Part 1 generated: ${content1.content.length} characters`);
-      
-      // Zweite Hälfte des Artikels generieren
-      console.log("📝 Part 2/2: Generating second part of article...");
-      const response2 = await this.callDeepSeek(prompt2, true);
-      const content2 = this.parseContentResponse(response2);
-      console.log(`✅ Part 2 generated: ${content2.content.length} characters`);
-      
-      // Beide Teile zusammenfügen
-      const combinedContent: BlogContentStructure = {
-        ...content1,
-        content: content1.content + "\n\n" + content2.content,
-        faq: [...(content1.faq || []), ...(content2.faq || [])]
-      };
+      console.log("📝 Generating complete article...");
+      const response = await this.callDeepSeek(prompt, true);
+      const content = this.parseContentResponse(response);
+      console.log(`✅ Article generated: ${content.content.length} characters`);
       
       // Log successful generation
-      await this.logGeneration(`${prompt1}\n---\n${prompt2}`, JSON.stringify(combinedContent), true);
+      await this.logGeneration(prompt, JSON.stringify(content), true);
       
-      console.log(`✅ Combined article generated: ${combinedContent.content.length} characters`);
-      return combinedContent;
+      return content;
     } catch (error) {
       // Log failed generation
-      await this.logGeneration(`${prompt1}\n---\n${prompt2}`, "", false, error instanceof Error ? error.message : "Unknown error");
+      await this.logGeneration(prompt, "", false, error instanceof Error ? error.message : "Unknown error");
       throw error;
     }
   }
 
-  private createContentPrompt(topic: string, keywords: string[], category: string, part: number = 1): string {
+  private createContentPrompt(topic: string, keywords: string[], category: string): string {
     return `Du bist ein Experte für SEO-Content und schreibst für Walter Braun Umzüge, ein professionelles Umzugsunternehmen in München. 
 
 AUFGABE: Erstelle einen umfassenden, 10/10 SEO-optimierten Blog-Artikel über "${topic}" in der Kategorie "${category}".
@@ -206,18 +190,14 @@ WORTANZAHL: MINDESTENS 2500 WÖRTER!
 - Keine Zusammenfassungen - vollständige Ausführungen
 - Praktische Beispiele mit konkreten Zahlen und Verfahren
 
-${part === 1 ? 
-`TEIL 1 von 2: Erstelle die erste Hälfte des Artikels mit:
+VOLLSTÄNDIGER ARTIKEL: Erstelle den kompletten Artikel mit:
 - Titel, Excerpt, Meta-Description
 - Einleitung (400+ Wörter)
-- Erste 3 Hauptabschnitte (je 400+ Wörter)
-- 3-4 FAQ-Fragen mit ausführlichen Antworten` :
-`TEIL 2 von 2: Erstelle die zweite Hälfte des Artikels mit:
-- Weitere 3 Hauptabschnitte (je 400+ Wörter)
-- München-spezifische Details (400+ Wörter)
-- Expertenrat mit Tabellen (300+ Wörter)
-- 3-4 zusätzliche FAQ-Fragen
-- Zusammenfassung (200+ Wörter)`}
+- 4-6 Hauptabschnitte (je 300+ Wörter)
+- München-spezifische Details integriert
+- Expertenrat mit Tabellen
+- 6-8 FAQ-Fragen mit ausführlichen Antworten
+- Zusammenfassung (200+ Wörter)
 
 Erstelle jetzt den ausführlichen, hochwertigen SEO-Artikel:`;
   }

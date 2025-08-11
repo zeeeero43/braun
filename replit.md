@@ -10,13 +10,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### Blog System Improvements (August 10, 2025) - COMPLETED ✅
+### Blog System Improvements (August 11, 2025) - COMPLETED ✅
 - ✅ **Fixed Runware API**: Implemented working array format with correct parameters - generates authentic AI images
 - ✅ **Fixed DeepSeek API**: Corrected max_tokens to 4000, added system prompts for content generation
 - ✅ **Quality Improvement**: Article "Schadensfall beim Umzug: So gehen Sie in München richtig vor" confirmed as perfect quality
-- ✅ **2-Part Article Generation**: Successfully implemented - articles now ~1681 words (2x longer than before)
-- ✅ **Complete System**: Fully automated blog generation with SEO-optimized content and authentic AI images
-- 🎯 **Results**: System generates professional articles with 6+ FAQ questions, Munich-specific content, and high-quality images
+- ✅ **Fixed Duplicate Articles**: Removed 2-part generation to prevent duplicate article creation
+- ✅ **Optimized System**: Single-call generation with comprehensive content (4-6 sections, 6-8 FAQs)
+- 🎯 **Current Status**: Stable automated blog generation with no duplicates, authentic AI images, SEO optimization
 
 ## System Architecture
 

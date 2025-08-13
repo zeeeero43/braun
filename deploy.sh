@@ -102,9 +102,21 @@ clone_repository() {
         
         # Git Clone mit Fehlerbehandlung
         if ! git clone "$repo_url" .; then
-            print_error "Git Clone fehlgeschlagen! Überprüfen Sie die Repository URL."
-            print_status "Repository URL: $repo_url"
-            exit 1
+            print_warning "Git Clone fehlgeschlagen - Verzeichnis nicht leer. Versuche alternative Methode..."
+            
+            # Alternative: Repository in temporäres Verzeichnis klonen und dann kopieren
+            temp_dir="/tmp/walter-braun-repo-$(date +%s)"
+            if git clone "$repo_url" "$temp_dir"; then
+                print_status "Repository in temporäres Verzeichnis geklont, kopiere Dateien..."
+                cp -r "$temp_dir"/* .
+                cp -r "$temp_dir"/.* . 2>/dev/null || true  # Versteckte Dateien kopieren
+                rm -rf "$temp_dir"
+                print_status "Dateien erfolgreich kopiert"
+            else
+                print_error "Git Clone komplett fehlgeschlagen! Überprüfen Sie die Repository URL."
+                print_status "Repository URL: $repo_url"
+                exit 1
+            fi
         fi
         
         # Repository Inhalt prüfen

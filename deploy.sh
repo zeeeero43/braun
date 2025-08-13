@@ -75,13 +75,27 @@ setup_firewall() {
     ufw --force enable
 }
 
-# Projekt Verzeichnis erstellen
-setup_project_directory() {
+# Git Repository klonen
+clone_repository() {
     local project_dir="/opt/walter-braun-umzuege"
-    print_status "Projekt Verzeichnis wird erstellt: $project_dir"
+    local repo_url="$1"
     
+    print_status "Projekt wird von Git Repository geklont: $project_dir"
+    
+    # Verzeichnis erstellen und wechseln
     mkdir -p $project_dir
     cd $project_dir
+    
+    # Repository klonen
+    if [[ -n "$repo_url" ]]; then
+        print_status "Klone Repository: $repo_url"
+        git clone "$repo_url" .
+    else
+        print_error "Keine Repository URL angegeben!"
+        print_status "Bitte führen Sie manuell aus:"
+        print_status "git clone https://github.com/IHR_USERNAME/walter-braun-umzuege.git ."
+        exit 1
+    fi
     
     # Berechtigungen setzen
     if [[ $EUID -eq 0 ]]; then
@@ -92,6 +106,8 @@ setup_project_directory() {
     mkdir -p uploads logs ssl init-db
     chmod 755 uploads logs
     chmod 700 ssl
+    
+    print_status "Repository erfolgreich geklont"
 }
 
 # Environment Datei erstellen
@@ -191,13 +207,23 @@ EOF
 
 # Hauptfunktion
 main() {
+    local repo_url="$1"
+    
     print_status "Walter Braun Umzüge Deployment wird gestartet..."
+    
+    # Repository URL prüfen
+    if [[ -z "$repo_url" ]]; then
+        print_error "Keine Repository URL angegeben!"
+        print_status "Verwendung: $0 <repository-url>"
+        print_status "Beispiel: $0 https://github.com/username/walter-braun-umzuege.git"
+        exit 1
+    fi
     
     check_root
     update_system
     install_docker
     setup_firewall
-    setup_project_directory
+    clone_repository "$repo_url"
     create_env_file
     
     # Nur starten wenn Docker-Dateien vorhanden sind

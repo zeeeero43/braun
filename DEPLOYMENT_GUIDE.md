@@ -59,7 +59,7 @@ node --version
 npm --version
 ```
 
-### 4. Projekt Setup
+### 4. Projekt Setup über Git (Empfohlen)
 
 ```bash
 # Arbeitsverzeichnis erstellen
@@ -67,12 +67,15 @@ sudo mkdir -p /opt/walter-braun-umzuege
 sudo chown $USER:$USER /opt/walter-braun-umzuege
 cd /opt/walter-braun-umzuege
 
-# Git Repository klonen (ersetzen Sie mit Ihrer Repository URL)
+# Git Repository klonen
 git clone https://github.com/IHR_USERNAME/walter-braun-umzuege.git .
 
-# Oder Dateien manuell hochladen und entpacken
-# Beispiel mit scp von lokalem Computer:
-# scp -r /pfad/zu/ihrem/projekt/* root@IHR_VPS_IP:/opt/walter-braun-umzuege/
+# Oder direkt mit einem spezifischen Branch
+git clone -b main https://github.com/IHR_USERNAME/walter-braun-umzuege.git .
+
+# Repository Status prüfen
+git status
+git log --oneline -5
 ```
 
 ### 5. Umgebungsvariablen konfigurieren

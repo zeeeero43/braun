@@ -2,16 +2,20 @@
 
 ## Schnellstart für VPS Deployment
 
-### Automatische Installation (Empfohlen)
+### Automatische Installation mit Git (Empfohlen)
 
-1. **Dateien auf VPS hochladen:**
+1. **Git Repository erstellen und Code hochladen:**
+   - Erstellen Sie ein öffentliches GitHub Repository
+   - Laden Sie alle Dateien hoch (folgen Sie `GIT_SETUP.md`)
+
+2. **One-Liner Deployment:**
    ```bash
-   # Alle Projekt-Dateien auf Ihren VPS kopieren
-   scp -r ./* root@IHR_VPS_IP:/opt/walter-braun-umzuege/
+   curl -fsSL https://raw.githubusercontent.com/IHR_USERNAME/walter-braun-umzuege/main/deploy.sh | sudo bash -s https://github.com/IHR_USERNAME/walter-braun-umzuege.git
    ```
 
-2. **Deployment Script ausführen:**
+3. **Oder Schritt für Schritt:**
    ```bash
+   git clone https://github.com/IHR_USERNAME/walter-braun-umzuege.git /opt/walter-braun-umzuege
    cd /opt/walter-braun-umzuege
    chmod +x deploy.sh
    sudo ./deploy.sh

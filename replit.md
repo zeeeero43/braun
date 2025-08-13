@@ -22,9 +22,10 @@ Preferred communication style: Simple, everyday language.
 - ✅ **Gallery Update**: Replaced 4 stock images with 16 authentic company photos from business operations
 - ✅ **Image Enhancement**: Made gallery images larger (h-64) with improved responsive grid (2-3-4 columns)
 - ✅ **Zoom Removal**: Removed cursor-pointer and zoom functionality per user request - images are view-only
-- ✅ **Partners Section**: Added new Partners section after Hero with placeholder content ready for partner logos
-- ✅ **Authentic Content**: All gallery images now show real team, vehicles, equipment, and work situations
-- 🎯 **Current Status**: Professional gallery with authentic company photos, Partners section ready for content
+- ✅ **Partners Integration**: Added professional certifications section with 5 authentic logos/badges
+- ✅ **Certifications Added**: CHECK24 Top Profi 2025, ImmoScout24 certifications, BGL and AMÖ memberships
+- ✅ **Professional Credibility**: Section renamed to "Zertifizierungen & Mitgliedschaften" for accuracy
+- 🎯 **Current Status**: Complete gallery with authentic photos and professional certification display
 
 ## System Architecture
 

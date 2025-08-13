@@ -35,6 +35,13 @@ import galleryImage14 from "@assets/5_1755077937608.jpg";
 import galleryImage15 from "@assets/2_1755077937608.jpg";
 import galleryImage16 from "@assets/4_1755077937608.jpg";
 
+// Partner logos and certifications
+import check24Badge from "@assets/55ac899c-0579-4f91-b6fb-cebed1f32ac3_1755078266605.jpg";
+import immoScout24Cert from "@assets/immo24-687x1024_1755078266606.jpg";
+import immoScout24Logo from "@assets/IMMO-300x149_1755078266606.png";
+import bglLogo from "@assets/Bundesverband-300x150_1755078266606.png";
+import amoLogo from "@assets/AMO_1755078266606.png";
+
 const serviceData = {
   privatumzuege: {
     title: "Privatumzüge",
@@ -189,34 +196,61 @@ export default function Home() {
       <Navigation />
       <HeroSection />
 
-      {/* Partners Section */}
+      {/* Certifications & Partners Section */}
       <section className="py-20 bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Unsere Partner</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Zertifizierungen & Mitgliedschaften</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Vertrauensvolle Zusammenarbeit mit regionalen Partnern für Ihren perfekten Umzug
+              Geprüfte Qualität und professionelle Standards durch anerkannte Branchenverbände
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
-            {/* Partner placeholders - will be replaced with actual partner logos */}
-            {[1, 2, 3, 4, 5, 6].map((partner) => (
-              <div
-                key={partner}
-                className="bg-gray-50 rounded-lg p-6 h-20 flex items-center justify-center hover:bg-gray-100 transition-colors"
-              >
-                <div className="text-gray-400 text-center">
-                  <i className="fas fa-building text-2xl mb-1"></i>
-                  <div className="text-xs">Partner {partner}</div>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
+            <div className="bg-white rounded-lg p-4 flex items-center justify-center hover:shadow-lg transition-shadow">
+              <img
+                src={check24Badge}
+                alt="CHECK24 Top Profi 2025"
+                className="max-h-20 w-auto"
+              />
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 flex items-center justify-center hover:shadow-lg transition-shadow">
+              <img
+                src={immoScout24Cert}
+                alt="ImmoScout24 Top Umzugsvermittler"
+                className="max-h-24 w-auto"
+              />
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 flex items-center justify-center hover:shadow-lg transition-shadow">
+              <img
+                src={immoScout24Logo}
+                alt="ImmobilienScout24 Partner"
+                className="max-h-16 w-auto"
+              />
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 flex items-center justify-center hover:shadow-lg transition-shadow">
+              <img
+                src={bglLogo}
+                alt="BGL - Bundesverband Güterkraftverkehr Logistik und Entsorgung"
+                className="max-h-16 w-auto"
+              />
+            </div>
+            
+            <div className="bg-white rounded-lg p-4 flex items-center justify-center hover:shadow-lg transition-shadow">
+              <img
+                src={amoLogo}
+                alt="AMÖ - Bundesverband Möbelspedition und Logistik"
+                className="max-h-20 w-auto"
+              />
+            </div>
           </div>
 
           <div className="text-center mt-8">
             <p className="text-sm text-gray-500">
-              Interessiert an einer Partnerschaft? <a href="#kontakt" className="text-primary hover:text-primary/80 font-medium">Kontaktieren Sie uns</a>
+              Qualität und Sicherheit durch geprüfte Branchenstandards
             </p>
           </div>
         </div>

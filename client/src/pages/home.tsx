@@ -384,7 +384,7 @@ export default function Home() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in">
+            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in" style={{animationDelay: '0.1s'}}>
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <i className="fas fa-shield-alt text-white text-lg sm:text-2xl"></i>
               </div>
@@ -394,7 +394,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in">
+            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in" style={{animationDelay: '0.2s'}}>
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <i className="fas fa-graduation-cap text-white text-lg sm:text-2xl"></i>
               </div>
@@ -404,7 +404,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in">
+            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in" style={{animationDelay: '0.3s'}}>
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <i className="fas fa-star text-white text-lg sm:text-2xl"></i>
               </div>
@@ -414,7 +414,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in">
+            <div className="text-center p-4 sm:p-6 bg-accent rounded-xl animate-fade-in" style={{animationDelay: '0.4s'}}>
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                 <i className="fas fa-umbrella text-white text-lg sm:text-2xl"></i>
               </div>
@@ -440,8 +440,9 @@ export default function Home() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <div
-              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden animate-slide-up"
               onClick={() => openServiceModal('privatumzuege')}
+              style={{animationDelay: '0.1s'}}
             >
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
@@ -468,8 +469,9 @@ export default function Home() {
             </div>
 
             <div
-              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden animate-slide-up"
               onClick={() => openServiceModal('seniorenumzuege')}
+              style={{animationDelay: '0.2s'}}
             >
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
@@ -496,8 +498,9 @@ export default function Home() {
             </div>
 
             <div
-              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden animate-slide-up"
               onClick={() => openServiceModal('auslandsumzuege')}
+              style={{animationDelay: '0.3s'}}
             >
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">

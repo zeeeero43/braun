@@ -207,3 +207,15 @@
     transform: translateY(0);
   }
 }
+
+/* Force dialog positioning on mobile - Service Modals */
+@media (max-width: 640px) {
+  [data-radix-popper-content-wrapper],
+  [data-radix-dialog-content] {
+    left: 1rem !important;
+    right: 1rem !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: translateY(-50%) !important;
+  }
+}

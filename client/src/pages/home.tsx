@@ -6,6 +6,7 @@ import ContactForm from "@/components/contact-form";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import teamImage from "@assets/thumbnail_e11700c1-5142-4f7b-8f62-807fe02e071b_1755077031397.jpg";
 
 const serviceData = {
   privatumzuege: {
@@ -210,8 +211,8 @@ export default function Home() {
               
               <div className="relative premium-shadow rounded-2xl overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Walter Braun Umzüge Team"
+                  src={teamImage}
+                  alt="Walter Braun Umzüge Team - Professionelle Umzugshelfer"
                   className="w-full h-auto"
                 />
                 {/* Overlay with company info */}
@@ -303,134 +304,170 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div
-              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
               onClick={() => openServiceModal('privatumzuege')}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
-                  <i className="fas fa-home text-white text-2xl"></i>
-                </div>
-                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i className="fas fa-arrow-right text-xl"></i>
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Privatumzug München"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Privatumzüge</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Professionelle Privatumzüge mit Rundumservice – von der Planung bis zur Einrichtung in Ihrem neuen Zuhause.
-              </p>
-              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
-                <span>Mehr erfahren</span>
-                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Privatumzüge</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Professionelle Privatumzüge mit Rundumservice – von der Planung bis zur Einrichtung in Ihrem neuen Zuhause.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
               </div>
             </div>
 
             <div
-              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
               onClick={() => openServiceModal('seniorenumzuege')}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
-                  <i className="fas fa-heart text-white text-2xl"></i>
-                </div>
-                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i className="fas fa-arrow-right text-xl"></i>
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Seniorenumzug München"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Seniorenumzüge</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Einfühlsamer Service für Senioren mit besonderer Aufmerksamkeit und individueller Betreuung.
-              </p>
-              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
-                <span>Mehr erfahren</span>
-                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Seniorenumzüge</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Einfühlsamer Service für Senioren mit besonderer Aufmerksamkeit und individueller Betreuung.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
               </div>
             </div>
 
             <div
-              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
               onClick={() => openServiceModal('auslandsumzuege')}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
-                  <i className="fas fa-globe text-white text-2xl"></i>
-                </div>
-                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i className="fas fa-arrow-right text-xl"></i>
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Auslandsumzug von München"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Auslandsumzüge</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Internationale Umzüge weltweit mit kompletter Abwicklung aller Formalitäten und Zollbestimmungen.
-              </p>
-              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
-                <span>Mehr erfahren</span>
-                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Auslandsumzüge</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Internationale Umzüge weltweit mit kompletter Abwicklung aller Formalitäten und Zollbestimmungen.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
               </div>
             </div>
 
             <div
-              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
               onClick={() => openServiceModal('betriebsumzuege')}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
-                  <i className="fas fa-building text-white text-2xl"></i>
-                </div>
-                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i className="fas fa-arrow-right text-xl"></i>
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Betriebsumzug München Office"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Betriebsumzüge</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Geschäftsumzüge mit minimaler Ausfallzeit und professionellem Projektmanagement für Ihr Unternehmen.
-              </p>
-              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
-                <span>Mehr erfahren</span>
-                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Betriebsumzüge</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Geschäftsumzüge mit minimaler Ausfallzeit und professionellem Projektmanagement für Ihr Unternehmen.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
               </div>
             </div>
 
             <div
-              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
               onClick={() => openServiceModal('kuechenmontagen')}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
-                  <i className="fas fa-utensils text-white text-2xl"></i>
-                </div>
-                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i className="fas fa-arrow-right text-xl"></i>
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Küchenmontage München"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Küchenmontagen</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Fachgerechte Küchenmontage mit allen Anschlüssen und individuellen Anpassungen durch Experten.
-              </p>
-              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
-                <span>Mehr erfahren</span>
-                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Küchenmontagen</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Fachgerechte Küchenmontage mit allen Anschlüssen und individuellen Anpassungen durch Experten.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
               </div>
             </div>
 
             <div
-              className="group bg-white rounded-2xl premium-shadow p-8 cursor-pointer hover-lift transition-all duration-500 border border-gray-100"
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
               onClick={() => openServiceModal('packservice')}
             >
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/80 rounded-2xl flex items-center justify-center shadow-lg">
-                  <i className="fas fa-box text-white text-2xl"></i>
-                </div>
-                <div className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                  <i className="fas fa-arrow-right text-xl"></i>
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  alt="Packservice München Umzugskartons"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Packservice</h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Professionelles Verpacken mit hochwertigen Materialien für optimalen Schutz aller Gegenstände.
-              </p>
-              <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
-                <span>Mehr erfahren</span>
-                <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Packservice</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Professionelles Verpacken mit hochwertigen Materialien für optimalen Schutz aller Gegenstände.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
               </div>
             </div>
           </div>

@@ -107,7 +107,7 @@ export default function ContactForm() {
               <FormItem>
                 <FormLabel>Ihr Name*</FormLabel>
                 <FormControl>
-                  <Input placeholder="Max Mustermann" {...field} />
+                  <Input placeholder="Max Mustermann" {...field} className="placeholder:text-gray-400" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -121,7 +121,7 @@ export default function ContactForm() {
               <FormItem>
                 <FormLabel>Ihre Telefonnummer*</FormLabel>
                 <FormControl>
-                  <Input placeholder="089 123 456 789" {...field} />
+                  <Input placeholder="+49800 67 63 755" {...field} className="placeholder:text-gray-400" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -135,7 +135,7 @@ export default function ContactForm() {
               <FormItem>
                 <FormLabel>Ihre E-Mail-Adresse*</FormLabel>
                 <FormControl>
-                  <Input placeholder="max@example.com" {...field} />
+                  <Input placeholder="max@example.com" {...field} className="placeholder:text-gray-400" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -151,7 +151,7 @@ export default function ContactForm() {
                 <FormControl>
                   <Textarea 
                     placeholder="Beschreiben Sie Ihren Umzug..."
-                    className="min-h-[120px]"
+                    className="min-h-[120px] placeholder:text-gray-400"
                     {...field} 
                   />
                 </FormControl>

@@ -317,16 +317,16 @@ export default function Home() {
               
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <a
-                  href="tel:089123456789"
+                  href="tel:+4980067637558"
                   className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg text-center transition-all transform hover:scale-105 premium-shadow"
                 >
-                  <i className="fas fa-phone mr-3"></i>089 123 456 789
+                  <i className="fas fa-phone mr-3"></i>+49800 67 63 755
                 </a>
                 <a
-                  href="tel:0176724883"
+                  href="tel:+491743861652"
                   className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-8 py-4 rounded-xl font-bold text-lg text-center transition-all hover:scale-105"
                 >
-                  <i className="fas fa-mobile-alt mr-3"></i>0176 724 883 32
+                  <i className="fas fa-mobile-alt mr-3"></i>+49 174 3861652
                 </a>
               </div>
               
@@ -1047,14 +1047,14 @@ export default function Home() {
                       <i className="fas fa-phone text-white text-xl"></i>
                     </div>
                     <div>
-                      <div className="font-bold text-gray-900 mb-2">Telefon (24/7 Hotline)</div>
+                      <div className="font-bold text-gray-900 mb-2">Telefon</div>
                       <a 
-                        href="tel:089123456789" 
+                        href="tel:+4980067637558" 
                         className="text-2xl font-black text-primary hover:text-primary/80 transition-colors block mb-1"
                       >
-                        089 123 456 789
+                        +49800 67 63 755
                       </a>
-                      <div className="text-gray-600 text-sm">Kostenlose Beratung & Notfall-Hotline</div>
+                      <div className="text-gray-600 text-sm">Kostenlose Beratung</div>
                     </div>
                   </div>
 
@@ -1065,10 +1065,10 @@ export default function Home() {
                     <div>
                       <div className="font-bold text-gray-900 mb-2">Mobil</div>
                       <a 
-                        href="tel:0176724883" 
+                        href="tel:+491743861652" 
                         className="text-xl font-bold text-primary hover:text-primary/80 transition-colors block mb-1"
                       >
-                        0176 724 883 32
+                        +49 174 3861652
                       </a>
                       <div className="text-gray-600 text-sm">WhatsApp & SMS möglich</div>
                     </div>
@@ -1121,7 +1121,7 @@ export default function Home() {
                       <div>08:00 - 18:00 Uhr</div>
                     </div>
                     <div className="sm:col-span-2">
-                      <div className="font-medium text-primary">24/7 Notfall-Hotline verfügbar</div>
+                      <div className="font-medium text-primary">Auch außerhalb der Geschäftszeiten erreichbar</div>
                     </div>
                   </div>
                 </div>
@@ -1143,10 +1143,10 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="tel:089123456789"
+                  href="tel:+4980067637558"
                   className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 premium-shadow"
                 >
-                  <i className="fas fa-phone mr-3"></i>089 123 456 789
+                  <i className="fas fa-phone mr-3"></i>+49800 67 63 755
                 </a>
                 <button
                   onClick={scrollToContact}

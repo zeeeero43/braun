@@ -89,14 +89,14 @@ export default function Navigation() {
 
           <div className="flex items-center space-x-4">
             <a
-              href="tel:089123456789"
+              href="tel:+4980067637558"
               className={`hidden sm:flex items-center px-4 py-2 rounded-lg font-bold transition-all duration-300 ${
                 isScrolled || isBlogPage
                   ? "bg-primary text-white hover:bg-primary/90" 
                   : "bg-white/20 text-white backdrop-blur-sm hover:bg-white/30"
               }`}
             >
-              <i className="fas fa-phone mr-2"></i>089 123 456 789
+              <i className="fas fa-phone mr-2"></i>+49800 67 63 755
             </a>
 
             {/* Mobile Navigation */}
@@ -135,10 +135,10 @@ export default function Navigation() {
                     </button>
                   ))}
                   <a
-                    href="tel:089123456789"
+                    href="tel:+4980067637558"
                     className="bg-primary text-white font-bold py-4 px-6 rounded-xl text-center transition-colors hover:bg-primary/90 mt-6"
                   >
-                    <i className="fas fa-phone mr-2"></i>089 123 456 789
+                    <i className="fas fa-phone mr-2"></i>+49800 67 63 755
                   </a>
                 </div>
               </SheetContent>

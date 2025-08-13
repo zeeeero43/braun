@@ -1,0 +1,25 @@
+
+WARN[0000] /opt/walter-braun-umzuege/docker-compose.yml: the attribute `version`                                                                                                                                   is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Running 4/4
+ ✔ Container walter_braun_nginx                       Removed              0.0s
+ ✔ Container walter_braun_web                         Removed              0.0s
+ ✔ Container walter_braun_db                          Removed              0.2s
+ ✔ Network walter-braun-umzuege_walter_braun_network  Removed              0.2s
+root@ubuntu:/opt/walter-braun-umzuege# docker compose up -d
+WARN[0000] /opt/walter-braun-umzuege/docker-compose.yml: the attribute `version`                                                                                                                                   is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Running 4/4
+ ✔ Network walter-braun-umzuege_walter_braun_network  Created                                                                                                                                                0.0s
+ ✔ Container walter_braun_db                          Healthy                                                                                                                                               30.7s
+ ✔ Container walter_braun_web                         Started                                                                                                                                               30.9s
+ ✔ Container walter_braun_nginx                       Started                                                                                                                                               31.1s
+root@ubuntu:/opt/walter-braun-umzuege# docker compose ps
+WARN[0000] /opt/walter-braun-umzuege/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+NAME                 IMAGE                      COMMAND                  SERVICE    CREATED              STATUS                         PORTS
+walter_braun_db      postgres:15-alpine         "docker-entrypoint.s…"   postgres   About a minute ago   Up About a minute (healthy)    0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_nginx   nginx:alpine               "/docker-entrypoint.…"   nginx      About a minute ago   Up 2 seconds                   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp
+walter_braun_web     walter-braun-umzuege-web   "docker-entrypoint.s…"   web        About a minute ago   Restarting (1) 3 seconds ago
+root@ubuntu:/opt/walter-braun-umzuege# curl http://localhost
+curl: (7) Failed to connect to localhost port 80 after 0 ms: Connection refused
+root@ubuntu:/opt/walter-braun-umzuege# curl http://localhost
+curl: (7) Failed to connect to localhost port 80 after 0 ms: Connection refused
+root@ubuntu:/opt/walter-braun-umzuege#

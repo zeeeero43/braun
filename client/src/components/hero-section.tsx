@@ -1,6 +1,23 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import munichImage1 from "@assets/anastasiya-dalenka-WJsGUDk-x74-unsplash-min_1755076767513.jpg";
+import munichImage2 from "@assets/jan-antonin-kolar-O3OIWMYbGQU-unsplash-min_1755076768392.jpg";
+import munichImage3 from "@assets/ian-kelsall-MEUvVqkU3QI-unsplash-min_1755076769428.jpg";
 
 export default function HeroSection() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const heroImages = [munichImage1, munichImage2, munichImage3];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
   const scrollToContact = () => {
     const element = document.getElementById("kontakt");
     if (element) {
@@ -20,14 +37,37 @@ export default function HeroSection() {
       id="home" 
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
-      {/* Munich cityscape background with parallax effect */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-110"
-        style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1595855759920-86582396756a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"
-        }}
-      />
+      {/* Munich cityscape background carousel */}
+      <div className="absolute inset-0 overflow-hidden">
+        {heroImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-110 transition-opacity duration-1000 ${
+              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              backgroundImage: `url(${image})`
+            }}
+          />
+        ))}
+      </div>
       <div className="absolute inset-0 hero-gradient" />
+      
+      {/* Carousel indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+        {heroImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentImageIndex(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentImageIndex 
+                ? 'bg-white' 
+                : 'bg-white/50 hover:bg-white/80'
+            }`}
+            aria-label={`Zu Bild ${index + 1} wechseln`}
+          />
+        ))}
+      </div>
       
       {/* Floating geometric elements */}
       <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/10 rounded-full blur-xl floating-element" />

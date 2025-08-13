@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 interface ServiceData {
@@ -31,11 +31,14 @@ export default function ServiceModal({ isOpen, onClose, serviceData }: ServiceMo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4 sm:mx-auto w-[calc(100vw-2rem)] sm:w-full">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto w-[calc(100vw-32px)] sm:w-full mx-4 sm:mx-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-gray-900">
             {serviceData.title}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Detaillierte Informationen zu {serviceData.title} von Walter Braun Umzüge
+          </DialogDescription>
         </DialogHeader>
         
         <div className="text-gray-600 space-y-4">

@@ -1,0 +1,43 @@
+🐳 Walter Braun Umzüge - Container Status
+=========================================
+📊 Container Status:
+NAME                 IMAGE                      COMMAND                  SERVICE                                                                                                       CREATED          STATUS                         PORTS
+walter_braun_db      postgres:15-alpine         "docker-entrypoint.s…"   postgre                                                                                                   s   55 seconds ago   Up 54 seconds (healthy)        0.0.0.0:5432->5432/tcp, [::]                                                                                                   :5432->5432/tcp
+walter_braun_nginx   nginx:alpine               "/docker-entrypoint.…"   nginx                                                                                                         55 seconds ago   Restarting (1) 5 seconds ago
+walter_braun_web     walter-braun-umzuege-web   "docker-entrypoint.s…"   web                                                                                                           55 seconds ago   Restarting (1) 6 seconds ago
+
+📋 Container Logs (letzte 10 Zeilen):
+--- Web Container ---
+walter_braun_web  |     at defaultResolve (node:internal/modules/esm/resolve:120                                                                                                   6:11)
+walter_braun_web  |     at ModuleLoader.defaultResolve (node:internal/modules/es                                                                                                   m/loader:404:12)
+walter_braun_web  |     at ModuleLoader.resolve (node:internal/modules/esm/loade                                                                                                   r:373:25)
+walter_braun_web  |     at ModuleLoader.getModuleJob (node:internal/modules/esm/                                                                                                   loader:250:38)
+walter_braun_web  |     at ModuleWrap.<anonymous> (node:internal/modules/esm/mod                                                                                                   ule_job:76:39)
+walter_braun_web  |     at link (node:internal/modules/esm/module_job:75:36) {
+walter_braun_web  |   code: 'ERR_MODULE_NOT_FOUND'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+
+--- Database Container ---
+walter_braun_db  | 2025-08-13 23:29:29.232 UTC [1] LOG:  listening on IPv4 addre                                                                                                   ss "0.0.0.0", port 5432
+walter_braun_db  | 2025-08-13 23:29:29.232 UTC [1] LOG:  listening on IPv6 addre                                                                                                   ss "::", port 5432
+walter_braun_db  | 2025-08-13 23:29:29.233 UTC [1] LOG:  listening on Unix socke                                                                                                   t "/var/run/postgresql/.s.PGSQL.5432"
+walter_braun_db  | 2025-08-13 23:29:29.236 UTC [29] LOG:  database system was sh                                                                                                   ut down at 2025-08-13 23:29:00 UTC
+walter_braun_db  | 2025-08-13 23:29:29.240 UTC [1] LOG:  database system is read                                                                                                   y to accept connections
+
+🧪 Health Checks:
+❌ Web Container (Port 80): FAIL
+❌ Direct Web (Port 5000): FAIL
+✅ PostgreSQL Database: OK
+
+🌐 URLs:
+   Hauptseite: http://217.154.205.93
+   Health Check: http://217.154.205.93/health
+   Nginx (Port 8080): http://217.154.205.93:8080
+
+🛠️ Useful Commands:
+   docker compose logs web -f    # Web Container Logs
+   docker compose restart web    # Restart Web
+   docker compose down && docker compose up -d  # Full Restart
+root@ubuntu:/opt/walter-braun-umzuege#

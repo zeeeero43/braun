@@ -5,18 +5,22 @@
 
 set -e
 
-echo "🐳 Docker Vite Import Fix"
-echo "========================"
+echo "🐳 Docker Vite Import Fix - FINALE LÖSUNG"
+echo "========================================"
 
 # 1. Stoppe Container
 echo "🛑 Stoppe bestehende Container..."
 docker compose down
 
-# 2. Baue Container neu (ohne Cache für clean build)
-echo "🔨 Baue Container neu..."
+# 2. Entferne alte Images (clean slate)
+echo "🗑️ Entferne alte Images..."
+docker rmi walter-braun-umzuege-web 2>/dev/null || echo "Image bereits entfernt"
+
+# 3. Baue Container neu (ohne Cache für clean build)
+echo "🔨 Baue Container neu mit Vite-freiem Server..."
 docker compose build --no-cache web
 
-# 3. Starte Container
+# 4. Starte Container
 echo "🚀 Starte Container..."
 docker compose up -d
 

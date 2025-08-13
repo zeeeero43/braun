@@ -7,6 +7,15 @@ import { WhatsAppButton } from "@/components/whatsapp-button";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import teamImage from "@assets/thumbnail_e11700c1-5142-4f7b-8f62-807fe02e071b_1755077031397.jpg";
+import privatumzugImage from "@assets/2023-07-27_1755077342023.jpg";
+import seniorenumzugImage from "@assets/unnamed-1_1755077356462.jpg";
+import auslandsumzugImage from "@assets/2021-06-23_1755077360027.jpg";
+import betriebsumzugImage from "@assets/2021-08-13_1755077362163.png";
+import kuechenmontageImage from "@assets/unnamed_1755077371522.jpg";
+import packserviceImage from "@assets/2022-03-28_1755077399829.jpg";
+import aussenliftImage from "@assets/aefaf4fa-369d-4c3b-9ba1-0a3b0f6144f6_1755077509608.jpg";
+import reinigungsserviceImage from "@assets/2024-08-31_1755077523161.jpg";
+import fernumzugImage from "@assets/59583961_321381941866855_1669204933255102464_n_1755077524189.jpg";
 
 const serviceData = {
   privatumzuege: {
@@ -352,7 +361,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/2023-07-27_1755077342023.jpg"
+                  src={privatumzugImage}
                   alt="Walter Braun Umzüge Team"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -380,7 +389,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/unnamed-1_1755077356462.jpg"
+                  src={seniorenumzugImage}
                   alt="Möbelmontage München"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -408,7 +417,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/2021-06-23_1755077360027.jpg"
+                  src={auslandsumzugImage}
                   alt="Auslandsumzug München LKW"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -436,7 +445,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/2021-08-13_1755077362163.png"
+                  src={betriebsumzugImage}
                   alt="Betriebsumzug München Büro"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -464,7 +473,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/unnamed_1755077371522.jpg"
+                  src={kuechenmontageImage}
                   alt="Küchenmontage München"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -492,7 +501,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/2022-03-28_1755077399829.jpg"
+                  src={packserviceImage}
                   alt="Packservice München Klavier"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -521,7 +530,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/aefaf4fa-369d-4c3b-9ba1-0a3b0f6144f6_1755077509608.jpg"
+                  src={aussenliftImage}
                   alt="Außenlift München Umzug"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -550,7 +559,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/2024-08-31_1755077523161.jpg"
+                  src={reinigungsserviceImage}
                   alt="Reinigungsservice München"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -579,7 +588,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="@assets/59583961_321381941866855_1669204933255102464_n_1755077524189.jpg"
+                  src={fernumzugImage}
                   alt="Fernumzug München Deutschland"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />

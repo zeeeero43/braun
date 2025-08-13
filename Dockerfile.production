@@ -36,91 +36,53 @@ COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nextjs:nodejs /app/server ./server
 COPY --from=builder --chown=nextjs:nodejs /app/shared ./shared
 
-# Create production server file ohne Vite imports
+# Install tsx for TypeScript execution
+RUN npm install tsx
+
+# Create production server file that uses the real server
 COPY --chown=nextjs:nodejs <<'EOF' /app/serve-production.js
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+// Production server that runs the real TypeScript server with tsx
+import { spawn } from 'child_process';
 
-// ES Module __dirname equivalent
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Log function
-function log(message, source = "express") {
+function log(message, source = "production") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true,
   });
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-// Import and register API routes
-async function startServer() {
-  try {
-    // Middleware
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: false }));
+log('🚀 Starting Walter Braun Umzüge Production Server...');
+log('Using tsx to run TypeScript server with full Blog system');
 
-    // Request logging middleware
-    app.use((req, res, next) => {
-      const start = Date.now();
-      res.on("finish", () => {
-        const duration = Date.now() - start;
-        if (req.path.startsWith("/api")) {
-          log(`${req.method} ${req.path} ${res.statusCode} in ${duration}ms`);
-        }
-      });
-      next();
-    });
+// Set production environment
+process.env.NODE_ENV = 'production';
 
-    // Import routes dynamically (ohne Vite)
-    const { registerRoutes } = await import('./server/routes.js');
-    await registerRoutes(app);
+// Start the real server with tsx
+const serverProcess = spawn('npx', ['tsx', 'server/index.ts'], {
+  stdio: 'inherit',
+  env: process.env
+});
 
-    // Import and start blog system
-    const { startBlogScheduler } = await import('./server/ai/blogScheduler.js');
-    log('🤖 Starting automated blog system...');
-    await startBlogScheduler();
-    log('✅ Blog scheduler initialized successfully');
+serverProcess.on('error', (error) => {
+  log(`Failed to start server: ${error.message}`, 'error');
+  process.exit(1);
+});
 
-    // Static files serving
-    const publicPath = path.resolve(__dirname, 'dist/public');
-    app.use(express.static(publicPath));
-
-    // SPA fallback
-    app.get('*', (req, res) => {
-      res.sendFile(path.resolve(publicPath, 'index.html'));
-    });
-
-    // Start server
-    app.listen(PORT, '0.0.0.0', () => {
-      log(`Walter Braun Umzüge Server läuft auf Port ${PORT}`);
-      log(`Health Check: http://localhost:${PORT}/health`);
-      log(`Environment: ${process.env.NODE_ENV || 'production'}`);
-    });
-
-  } catch (error) {
-    log(`Server Start Error: ${error.message}`, 'error');
-    process.exit(1);
-  }
-}
+serverProcess.on('exit', (code) => {
+  log(`Server process exited with code ${code}`, 'error');
+  process.exit(code);
+});
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-  log('SIGTERM received, shutting down gracefully');
-  process.exit(0);
+  log('SIGTERM received, shutting down...');
+  serverProcess.kill('SIGTERM');
 });
 
 process.on('SIGINT', () => {
-  log('SIGINT received, shutting down gracefully');  
-  process.exit(0);
+  log('SIGINT received, shutting down...');
+  serverProcess.kill('SIGINT');
 });
-
-startServer();
 EOF
 
 # Create directories

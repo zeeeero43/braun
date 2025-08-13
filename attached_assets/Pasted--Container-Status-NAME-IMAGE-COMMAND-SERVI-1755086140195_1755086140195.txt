@@ -1,0 +1,129 @@
+📊 Container Status:
+NAME                 IMAGE                      COMMAND                  SERVICE    CREATED              STATUS                           PORTS
+walter_braun_db      postgres:15-alpine         "docker-entrypoint.s…"   postgres   About a minute ago   Up About a minute (healthy)      0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_nginx   nginx:alpine               "/docker-entrypoint.…"   nginx      About a minute ago   Restarting (1) 10 seconds ago
+walter_braun_web     walter-braun-umzuege-web   "docker-entrypoint.s…"   web        About a minute ago   Restarting (127) 4 seconds ago
+📋 Container Logs (letzte 20 Zeilen):
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+🧪 Teste Anwendung...
+⚠️  Health Check fehlgeschlagen (Port 5000)
+⚠️  Hauptseite nicht erreichbar (Port 80)
+⚠️  Port 5000 nicht erreichbar
+
+🎉 Fix abgeschlossen!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📱 Ihre Website sollte jetzt erreichbar sein unter:
+   🌐 http://217.154.205.93 (Hauptseite)
+   🏥 http://217.154.205.93/health (Health Check)
+   🔧 http://217.154.205.93:5000 (Direkt)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Alle Container laufen
+⚠️  Website reagiert noch nicht - prüfen Sie die Logs:
+   docker compose logs web
+
+🔑 Vergessen Sie nicht: API-Schlüssel in .env konfigurieren!
+   nano .env
+   docker compose restart
+root@ubuntu:/opt/walter-braun-umzuege# ^C
+root@ubuntu:/opt/walter-braun-umzuege# ^C
+root@ubuntu:/opt/walter-braun-umzuege# docker compose logs web
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | sh: tsx: not found
+root@ubuntu:/opt/walter-braun-umzuege#

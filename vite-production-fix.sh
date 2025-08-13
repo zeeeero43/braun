@@ -15,9 +15,11 @@ cd "$PROJECT_DIR"
 echo "🛑 Stoppe Container..."
 docker compose down
 
-# 2. Dockerfile für Development-Modus anpassen
+# 2. Dockerfile für Development-Modus anpassen (mit tsx support)
 echo "📝 Ändere Dockerfile für Development-Modus..."
 sed -i 's/CMD \["npm", "start"\]/CMD ["npm", "run", "dev"]/' Dockerfile
+# Stelle sicher dass alle Dependencies (including dev) installiert werden
+sed -i 's/npm ci --omit=dev/npm ci/' Dockerfile
 
 # 3. Docker Compose für Development anpassen
 echo "📝 Ändere docker-compose.yml für Development..."

@@ -5,6 +5,7 @@ import { Link, useLocation } from "wouter";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [location] = useLocation();
   const isBlogPage = location.startsWith('/blog');
 
@@ -18,6 +19,8 @@ export default function Navigation() {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
+    setIsSheetOpen(false); // Close mobile menu when navigation item is clicked
+    
     if (isBlogPage) {
       // Navigate to home page with section
       window.location.href = `/#${sectionId}`;
@@ -100,7 +103,7 @@ export default function Navigation() {
             </a>
 
             {/* Mobile Navigation */}
-            <Sheet>
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
               <SheetTrigger asChild>
                 <Button
                   variant="ghost"

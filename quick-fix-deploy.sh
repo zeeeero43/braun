@@ -17,14 +17,13 @@ fi
 
 echo "🔄 Behebe Git Clone Problem..."
 
-# Ins Projektverzeichnis wechseln
-cd "$PROJECT_DIR"
+# Komplett neues Verzeichnis erstellen
+echo "📂 Entferne altes Verzeichnis komplett..."
+rm -rf "$PROJECT_DIR"
 
-# Komplett leeren und neu klonen
-echo "📂 Lösche bestehendes Verzeichnis..."
-rm -rf .git
-rm -rf *
-rm -rf .*env* 2>/dev/null || true
+echo "📁 Erstelle neues Verzeichnis..."
+mkdir -p "$PROJECT_DIR"
+cd "$PROJECT_DIR"
 
 echo "📥 Klone Repository neu..."
 git clone "$REPO_URL" .

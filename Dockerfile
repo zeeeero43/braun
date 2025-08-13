@@ -29,9 +29,9 @@ ENV PORT=5000
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Install only production dependencies
+# Install ALL dependencies (including dev dependencies like vite)
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Copy the built application
 COPY --from=builder /app/dist ./dist

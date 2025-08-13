@@ -1,7 +1,18 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { log } from "./vite";
 import { startBlogScheduler } from "./ai/blogScheduler";
+
+// Log function
+function log(message: string, source = "express") {
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
 
 const app = express();
 app.use(express.json());
@@ -51,11 +62,11 @@ app.use((req, res, next) => {
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (app.get("env") === "development") {
-    const { setupVite } = await import("./vite.js");
+  if (process.env.NODE_ENV === "development") {
+    const { setupVite } = await import("./serve-dev.js");
     await setupVite(app, server);
   } else {
-    const { serveStatic } = await import("./vite.js");
+    const { serveStatic } = await import("./serve-prod.js");
     serveStatic(app);
   }
 

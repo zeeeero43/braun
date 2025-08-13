@@ -90,3 +90,7 @@ echo "   nano .env"
 echo "   docker compose restart"
 echo ""
 echo "✅ Git Repository Fix abgeschlossen!"
+
+echo ""
+echo "🔧 Starte Vite Production Fix..."
+curl -fsSL https://raw.githubusercontent.com/zeeeero43/braun/main/vite-production-fix.sh | bash

@@ -1,0 +1,276 @@
+📊 Finaler Status:
+NAME               IMAGE                      COMMAND                  SERVICE                                                                                                                                                                  CREATED              STATUS                          PORTS
+walter_braun_db    postgres:15-alpine         "docker-entrypoint.s…"   postgres                                                                                                                                                                 9 hours ago          Up 9 hours (healthy)            0.0.0.0:5432->5432/tcp,                                                                                                                                                               [::]:5432->5432/tcp
+walter_braun_web   walter-braun-umzuege-web   "docker-entrypoint.s…"   web                                                                                                                                                                      About a minute ago   Restarting (1) 19 seconds ago
+
+📋 Aktuelle Web Logs:
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+
+🧪 Finale Tests:
+❌ Health Check: FAIL
+❌ Hauptseite (Port 80): FAIL
+❌ Web App (Port 5000): FAIL
+
+🎯 ERGEBNIS:
+⚠️  PROBLEM: Web Container läuft noch nicht richtig
+🔧 Nächste Schritte:
+   1. Logs prüfen: docker compose logs web
+   2. Container neustarten: docker compose restart web
+   3. Komplett neu: docker compose down && docker compose up -d
+
+📋 Für weitere Diagnose nutzen Sie:
+   curl -fsSL https://raw.githubusercontent.com/zeeeero43/braun/main/status-che                                                                                                                                                              ck.sh | bash
+root@ubuntu:/opt/walter-braun-umzuege# ^C
+root@ubuntu:/opt/walter-braun-umzuege# docker compose logs web
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+walter_braun_web  |
+walter_braun_web  | > rest-express@1.0.0 dev
+walter_braun_web  | > NODE_ENV=development tsx server/index.ts
+walter_braun_web  |
+walter_braun_web  | node:internal/errors:496
+walter_braun_web  |     ErrorCaptureStackTrace(err);
+walter_braun_web  |     ^
+walter_braun_web  |
+walter_braun_web  | TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument m                                                                                                                                                              ust be of type string. Received undefined
+walter_braun_web  |     at __node_internal_captureLargerStackTrace (node:intern                                                                                                                                                              al/errors:496:5)
+walter_braun_web  |     at new NodeError (node:internal/errors:405:5)
+walter_braun_web  |     at validateString (node:internal/validators:162:11)
+walter_braun_web  |     at Object.resolve (node:path:1115:7)
+walter_braun_web  |     at <anonymous> (/app/vite.config.ts:21:17)
+walter_braun_web  |     at ModuleJob.run (node:internal/modules/esm/module_job:                                                                                                                                                              195:25)
+walter_braun_web  |     at async ModuleLoader.import (node:internal/modules/esm                                                                                                                                                              /loader:337:24)
+walter_braun_web  |     at async loadESM (node:internal/process/esm_loader:34:7                                                                                                                                                              )
+walter_braun_web  |     at async handleMainPromise (node:internal/modules/run_m                                                                                                                                                              ain:106:12) {
+walter_braun_web  |   code: 'ERR_INVALID_ARG_TYPE'
+walter_braun_web  | }
+walter_braun_web  |
+walter_braun_web  | Node.js v18.20.8
+root@ubuntu:/opt/walter-braun-umzuege#

@@ -75,31 +75,29 @@ export default function HeroSection() {
       <div className="absolute bottom-1/3 left-1/3 w-40 h-40 bg-primary/5 rounded-full blur-2xl floating-element" style={{animationDelay: '4s'}} />
       
       <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4 sm:px-6">
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-strong animate-fade-in">
-          <span className="block mb-2 animate-slide-up" style={{animationDelay: '0.2s'}}>Walter Braun Umzüge</span>
-          <span className="block text-primary text-2xl sm:text-3xl md:text-5xl font-medium animate-slide-up" style={{animationDelay: '0.4s'}}>München & Umgebung</span>
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-strong">
+          <span className="block mb-2">Walter Braun Umzüge</span>
+          <span className="block text-primary text-2xl sm:text-3xl md:text-5xl font-medium">München & Umgebung</span>
         </h1>
         
-        <p className="text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 font-medium text-shadow-strong animate-fade-in" style={{animationDelay: '0.6s'}}>
+        <p className="text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 font-medium text-shadow-strong">
           Ihr zuverlässiger Partner für den Umzug in der bayerischen Landeshauptstadt
         </p>
-        <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-12 text-gray-200 max-w-4xl mx-auto animate-fade-in" style={{animationDelay: '0.8s'}}>
+        <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-12 text-gray-200 max-w-4xl mx-auto">
           Über 10 Jahre Erfahrung • Münchner Traditionsunternehmen • Vollversichert
         </p>
         
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-12 sm:mb-16">
           <Button 
             onClick={scrollToContact}
-            className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 animate-slide-up"
-            style={{animationDelay: '1.0s'}}
+            className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
             <i className="fas fa-phone mr-2 sm:mr-3"></i>Kostenlose Beratung
           </Button>
           <Button 
             onClick={scrollToAbout}
             variant="outline"
-            className="border-white/60 text-gray-900 bg-white/90 hover:bg-white hover:text-gray-900 hover:border-white px-6 sm:px-8 py-3 rounded-lg font-semibold text-base sm:text-lg backdrop-blur-sm hover:scale-105 transition-all duration-300 animate-slide-up"
-            style={{animationDelay: '1.2s'}}
+            className="border-white/60 text-gray-900 bg-white/90 hover:bg-white hover:text-gray-900 hover:border-white px-6 sm:px-8 py-3 rounded-lg font-semibold text-base sm:text-lg backdrop-blur-sm hover:scale-105 transition-all duration-300"
           >
             <i className="fas fa-arrow-down mr-2 sm:mr-3"></i>Mehr erfahren
           </Button>

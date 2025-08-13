@@ -168,31 +168,31 @@
 
   /* Leichte Homepage-Animationen */
   .animate-fade-in {
-    opacity: 0;
-    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 1;
+    animation: fadeIn 0.8s ease-out;
   }
 
   .animate-slide-up {
-    opacity: 0;
-    transform: translateY(30px);
-    animation: slideUp 0.8s ease-out forwards;
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideUp 0.8s ease-out;
   }
 
   @keyframes fadeIn {
-    from {
+    0% {
       opacity: 0;
     }
-    to {
+    100% {
       opacity: 1;
     }
   }
 
   @keyframes slideUp {
-    from {
+    0% {
       opacity: 0;
       transform: translateY(30px);
     }
-    to {
+    100% {
       opacity: 1;
       transform: translateY(0);
     }

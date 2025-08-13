@@ -11,6 +11,9 @@
 2. **One-Liner Deployment:**
    ```bash
    curl -fsSL https://raw.githubusercontent.com/IHR_USERNAME/walter-braun-umzuege/main/deploy.sh | sudo bash -s https://github.com/IHR_USERNAME/walter-braun-umzuege.git
+   
+   # Für Ihr Repository (zeeeero43/braun):
+   curl -fsSL https://raw.githubusercontent.com/zeeeero43/braun/main/deploy.sh | sudo bash -s https://github.com/zeeeero43/braun.git
    ```
 
 3. **Oder Schritt für Schritt:**

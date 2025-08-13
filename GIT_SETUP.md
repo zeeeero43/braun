@@ -54,8 +54,11 @@ walter-braun-umzuege/
 ### Einfacher One-Liner für frisches Ubuntu 22.04:
 
 ```bash
-# Als root oder mit sudo
+# Als root oder mit sudo - WICHTIG: raw.githubusercontent.com verwenden!
 curl -fsSL https://raw.githubusercontent.com/IHR_USERNAME/walter-braun-umzuege/main/deploy.sh | sudo bash -s https://github.com/IHR_USERNAME/walter-braun-umzuege.git
+
+# Für Ihr Repository:
+curl -fsSL https://raw.githubusercontent.com/zeeeero43/braun/main/deploy.sh | sudo bash -s https://github.com/zeeeero43/braun.git
 ```
 
 ### Oder Schritt für Schritt:

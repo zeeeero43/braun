@@ -17,6 +17,24 @@ import aussenliftImage from "@assets/aefaf4fa-369d-4c3b-9ba1-0a3b0f6144f6_175507
 import reinigungsserviceImage from "@assets/2024-08-31_1755077523161.jpg";
 import fernumzugImage from "@assets/59583961_321381941866855_1669204933255102464_n_1755077524189.jpg";
 
+// Gallery images
+import galleryImage1 from "@assets/8_1755077937605.jpg";
+import galleryImage2 from "@assets/ae4614aa-b3c2-4b72-8a26-7d2528c28e83_1755077937606.jpg";
+import galleryImage3 from "@assets/27459102_147389329266118_607708021338560030_n_1755077937606.jpg";
+import galleryImage4 from "@assets/28276564_153167118688339_1068416866353772404_n-768x576_1755077937606.jpg";
+import galleryImage5 from "@assets/41189652_235929070412143_3304318215705853952_n-768x576_1755077937606.jpg";
+import galleryImage6 from "@assets/125871041_656268951711484_3371757372491177057_n-768x512_1755077937607.jpg";
+import galleryImage7 from "@assets/99110162_535785393759841_2524991202936225792_n_1755077937607.jpg";
+import galleryImage8 from "@assets/95261886_525075114830869_4587058946535063552_n_1755077937607.jpg";
+import galleryImage9 from "@assets/68633255_369632753708440_3752478429337878528_n-1_1755077937607.jpg";
+import galleryImage10 from "@assets/41151240_235929160412134_7878053271745593344_n_1755077937607.jpg";
+import galleryImage11 from "@assets/36389662_188401921831525_4590750110148722688_n-768x576_1755077937608.jpg";
+import galleryImage12 from "@assets/26112442_140449393293445_3251922422130636002_n_1755077937608.jpg";
+import galleryImage13 from "@assets/26904309_143902312948153_7314531890056851375_n_1755077937608.jpg";
+import galleryImage14 from "@assets/5_1755077937608.jpg";
+import galleryImage15 from "@assets/2_1755077937608.jpg";
+import galleryImage16 from "@assets/4_1755077937608.jpg";
+
 const serviceData = {
   privatumzuege: {
     title: "Privatumzüge",
@@ -170,6 +188,39 @@ export default function Home() {
     <div className="min-h-screen">
       <Navigation />
       <HeroSection />
+
+      {/* Partners Section */}
+      <section className="py-20 bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Unsere Partner</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Vertrauensvolle Zusammenarbeit mit regionalen Partnern für Ihren perfekten Umzug
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
+            {/* Partner placeholders - will be replaced with actual partner logos */}
+            {[1, 2, 3, 4, 5, 6].map((partner) => (
+              <div
+                key={partner}
+                className="bg-gray-50 rounded-lg p-6 h-20 flex items-center justify-center hover:bg-gray-100 transition-colors"
+              >
+                <div className="text-gray-400 text-center">
+                  <i className="fas fa-building text-2xl mb-1"></i>
+                  <div className="text-xs">Partner {partner}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-sm text-gray-500">
+              Interessiert an einer Partnerschaft? <a href="#kontakt" className="text-primary hover:text-primary/80 font-medium">Kontaktieren Sie uns</a>
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* About Section */}
       <section id="about" className="py-24 bg-white relative overflow-hidden">
@@ -839,35 +890,95 @@ export default function Home() {
       </section>
 
       {/* Gallery */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Unsere Galerie</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Einblicke in unsere Arbeit – zuverlässig, sorgfältig und engagiert.
+              Einblicke in unsere tägliche Arbeit – authentische Fotos unserer Umzugsprojekte in München und Umgebung.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <img
-              src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
-              alt="Moving truck"
-              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
+              src={galleryImage1}
+              alt="Walter Braun Umzüge Team mit Fahrzeugen"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
             />
             <img
-              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
-              alt="Moving team"
-              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
+              src={galleryImage2}
+              alt="Professionelle Möbelverpackung"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
             />
             <img
-              src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
-              alt="Packed boxes"
-              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
+              src={galleryImage3}
+              alt="Außenlift in München"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
             />
             <img
-              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300"
-              alt="Truck loading"
-              className="rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer animate-fade-in"
+              src={galleryImage4}
+              alt="Winterumzug München"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage5}
+              alt="Büromöbel Montage"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage6}
+              alt="Spezial-Equipment für schwere Lasten"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage7}
+              alt="Umzug in München Altstadt"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage8}
+              alt="Sorgfältiger Möbeltransport"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage9}
+              alt="Klaviertransport mit Spezialschutz"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage10}
+              alt="LKW Beladung professionell"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage11}
+              alt="Umzugskartons und Verpackungsmaterial"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage12}
+              alt="Vermessung und Vorbereitung"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage13}
+              alt="Umzugsteam mit Fahrzeug"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage14}
+              alt="Unser professionelles Team"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage15}
+              alt="Walter Braun Umzüge Fahrzeugflotte"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
+            />
+            <img
+              src={galleryImage16}
+              alt="Team und Ausrüstung bereit"
+              className="rounded-xl shadow-lg hover:shadow-xl transition-shadow w-full h-64 object-cover animate-fade-in"
             />
           </div>
         </div>

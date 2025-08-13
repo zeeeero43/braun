@@ -66,17 +66,17 @@ const serviceData = {
     }
   },
   kuechenmontagen: {
-    title: "Küchenmontagen",
+    title: "Küchen- / Möbelmontagen",
     content: {
-      description: "Küchen sind das Herzstück jeden Zuhauses. Unsere Experten sorgen für fachgerechte Montage und Anschlüsse.",
+      description: "Küchen und Möbel sind das Herzstück jeden Zuhauses. Unsere Experten sorgen für fachgerechte Montage und Anschlüsse.",
       details: [
-        "Professionelle Demontage der alten Küche",
-        "Fachgerechte Installation der neuen Küche",
-        "Anschluss aller Elektrogeräte",
-        "Wasser- und Gasanschlüsse",
+        "Professionelle Demontage der alten Küche und Möbel",
+        "Fachgerechte Installation und Montage",
+        "Anschluss aller Elektrogeräte und Beleuchtung",
+        "Wasser- und Gasanschlüsse für Küchen",
         "Individuelle Anpassungen durch Schreiner"
       ],
-      conclusion: "Von der ersten Schraube bis zum letzten Anschluss - alles aus einer Hand."
+      conclusion: "Von der ersten Schraube bis zum letzten Anschluss - Küchen und Möbel aus einer Hand."
     }
   },
   packservice: {
@@ -91,6 +91,48 @@ const serviceData = {
         "Auspacken in der neuen Wohnung"
       ],
       conclusion: "Vom Porzellan bis zum Gemälde - alles kommt sicher an."
+    }
+  },
+  aussenlift: {
+    title: "Außenlift",
+    content: {
+      description: "Professioneller Außenlift-Service für mühelose Umzüge in höhere Stockwerke ohne Treppenhaus.",
+      details: [
+        "Moderne Außenlift-Fahrzeuge mit bis zu 30m Reichweite",
+        "Sicherer Transport schwerer Möbel und Geräte",
+        "Schnelle Abwicklung ohne Treppenhaus-Transport",
+        "Schutz der Hausfassade und Umgebung",
+        "Koordination mit Hausverwaltung und Behörden"
+      ],
+      conclusion: "Schwere Lasten sicher und effizient in jedes Stockwerk - ohne Stress für Mensch und Mobiliar."
+    }
+  },
+  reinigungsservice: {
+    title: "Reinigungsservice",
+    content: {
+      description: "Komplette Reinigung der alten und neuen Wohnung für eine stressfreie Wohnungsübergabe.",
+      details: [
+        "Grundreinigung der alten Wohnung nach Auszug",
+        "Endreinigung für Kaution-Rückgabe",
+        "Renovierungsreinigung nach Handwerkerarbeiten",
+        "Fensterreinigung innen und außen",
+        "Teppich- und Polsterreinigung"
+      ],
+      conclusion: "Übergeben Sie makellos saubere Wohnungen und erhalten garantiert Ihre Kaution zurück."
+    }
+  },
+  fernumzuege: {
+    title: "Fernumzüge",
+    content: {
+      description: "Deutschlandweite Fernumzüge mit sicherem Transport und termingerechter Lieferung.",
+      details: [
+        "Umzüge in ganz Deutschland und Europa",
+        "Zwischenlagerung bei Bedarf möglich",
+        "GPS-Tracking für transparenten Transport",
+        "Festpreise ohne versteckte Kosten",
+        "Koordination von Übergabe- und Abholterminen"
+      ],
+      conclusion: "Ob Hamburg, Berlin oder Stuttgart - wir bringen Sie sicher überall hin."
     }
   }
 };
@@ -310,8 +352,8 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                  alt="Privatumzug München"
+                  src="@assets/2023-07-27_1755077342023.jpg"
+                  alt="Walter Braun Umzüge Team"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
@@ -338,8 +380,8 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                  alt="Seniorenumzug München"
+                  src="@assets/unnamed-1_1755077356462.jpg"
+                  alt="Möbelmontage München"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
@@ -366,8 +408,8 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                  alt="Auslandsumzug von München"
+                  src="@assets/2021-06-23_1755077360027.jpg"
+                  alt="Auslandsumzug München LKW"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
@@ -394,8 +436,8 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                  alt="Betriebsumzug München Office"
+                  src="@assets/2021-08-13_1755077362163.png"
+                  alt="Betriebsumzug München Büro"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
@@ -422,7 +464,7 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
+                  src="@assets/unnamed_1755077371522.jpg"
                   alt="Küchenmontage München"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -432,9 +474,9 @@ export default function Home() {
               </div>
               
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Küchenmontagen</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Küchen- /<br />Möbelmontagen</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">
-                  Fachgerechte Küchenmontage mit allen Anschlüssen und individuellen Anpassungen durch Experten.
+                  Fachgerechte Küchen- und Möbelmontage mit allen Anschlüssen und individuellen Anpassungen durch Experten.
                 </p>
                 <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
                   <span>Mehr erfahren</span>
@@ -450,8 +492,8 @@ export default function Home() {
               {/* Service Image */}
               <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
                 <img
-                  src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80"
-                  alt="Packservice München Umzugskartons"
+                  src="@assets/2022-03-28_1755077399829.jpg"
+                  alt="Packservice München Klavier"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
@@ -463,6 +505,93 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Packservice</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed">
                   Professionelles Verpacken mit hochwertigen Materialien für optimalen Schutz aller Gegenstände.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+
+            {/* New Service 7: Außenlift */}
+            <div
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
+              onClick={() => openServiceModal('aussenlift')}
+            >
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="@assets/aefaf4fa-369d-4c3b-9ba1-0a3b0f6144f6_1755077509608.jpg"
+                  alt="Außenlift München Umzug"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
+                </div>
+              </div>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Außenlift</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Professioneller Außenlift-Service für problemlose Umzüge in höhere Stockwerke ohne Treppenhaus.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+
+            {/* New Service 8: Reinigungsservice */}
+            <div
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
+              onClick={() => openServiceModal('reinigungsservice')}
+            >
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="@assets/2024-08-31_1755077523161.jpg"
+                  alt="Reinigungsservice München"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
+                </div>
+              </div>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Reinigungsservice</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Komplette Reinigung der alten und neuen Wohnung für eine stressfreie Wohnungsübergabe.
+                </p>
+                <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
+                  <span>Mehr erfahren</span>
+                  <i className="fas fa-chevron-right ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                </div>
+              </div>
+            </div>
+
+            {/* New Service 9: Fernumzüge */}
+            <div
+              className="group bg-white rounded-2xl premium-shadow cursor-pointer hover-lift transition-all duration-500 border border-gray-100 overflow-hidden"
+              onClick={() => openServiceModal('fernumzuege')}
+            >
+              {/* Service Image */}
+              <div className="relative h-48 bg-gradient-to-br from-primary/10 to-primary/5">
+                <img
+                  src="@assets/59583961_321381941866855_1669204933255102464_n_1755077524189.jpg"
+                  alt="Fernumzug München Deutschland"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i className="fas fa-arrow-right text-xl bg-white rounded-full p-2 shadow-lg"></i>
+                </div>
+              </div>
+              
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Fernumzüge</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  Deutschlandweite Fernumzüge mit sicherem Transport und termingerechter Lieferung.
                 </p>
                 <div className="flex items-center text-primary font-bold group-hover:text-primary/80 transition-colors">
                   <span>Mehr erfahren</span>

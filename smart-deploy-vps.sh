@@ -26,9 +26,14 @@ echo "✅ Git Update abgeschlossen"
 # 2. Automatische Vite-Fixes anwenden
 echo "🔧 Wende automatische Vite-Fixes an..."
 
-# Fix 1: Dockerfile aktualisieren (production-server.js)
-echo "📝 Erstelle Vite-freie Dockerfile..."
-cat > Dockerfile << 'DOCKERFILE_EOF'
+# Verwende Production-Dockerfile mit Blog-System
+echo "📝 Verwende Production-Dockerfile mit vollständigem Blog-System..."
+if [ -f "Dockerfile.production" ]; then
+    cp Dockerfile.production Dockerfile
+    echo "✅ Production-Dockerfile mit Blog-System kopiert"
+else
+    echo "⚠️ Dockerfile.production nicht gefunden - erstelle fallback..."
+    cat > Dockerfile << 'DOCKERFILE_EOF'
 # Multi-stage build for Node.js application
 FROM node:18-alpine AS base
 
@@ -209,16 +214,20 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 CMD ["node", "production-server.js"]
 DOCKERFILE_EOF
 
-echo "✅ Dockerfile mit Vite-freiem Server erstellt"
+fi
+
+echo "✅ Production-Dockerfile mit vollständigem Blog-System bereit"
 
 # 3. Docker Container neu bauen und starten
 echo "🐳 Docker Container aktualisieren..."
 
-# Stoppe alte Container
-docker compose down
+# Sichere Datenbank vor Update
+echo "💾 Sichere Datenbank vor Update..."
+docker compose exec -T postgres pg_dump -U postgres walter_braun_umzuege > /tmp/walter_braun_backup_$(date +%Y%m%d_%H%M%S).sql || echo "Backup nicht möglich - Container läuft nicht"
 
-# Entferne alte Images für clean build
-docker rmi walter-braun-umzuege-web 2>/dev/null || echo "Altes Image bereits entfernt"
+# Stoppe nur Web-Container (Datenbank weiter laufen lassen)
+echo "🔄 Stoppe Web-Container (Datenbank bleibt aktiv)..."
+docker compose stop web
 
 # Build neu ohne Cache
 echo "🔨 Baue Container neu..."

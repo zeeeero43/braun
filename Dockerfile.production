@@ -1,0 +1,138 @@
+# Production Dockerfile für Walter Braun Umzüge mit Blog-System
+FROM node:18-alpine AS base
+
+# Dependencies Stage
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# Builder Stage 
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build frontend (Vite build)
+RUN npm run build
+
+# Production Stage
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=5000
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copy production dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy built application and all server files
+COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nextjs:nodejs /app/server ./server
+COPY --from=builder --chown=nextjs:nodejs /app/shared ./shared
+
+# Create production server file ohne Vite imports
+COPY --chown=nextjs:nodejs <<'EOF' /app/serve-production.js
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// ES Module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Log function
+function log(message, source = "express") {
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true,
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+
+// Import and register API routes
+async function startServer() {
+  try {
+    // Middleware
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+
+    // Request logging middleware
+    app.use((req, res, next) => {
+      const start = Date.now();
+      res.on("finish", () => {
+        const duration = Date.now() - start;
+        if (req.path.startsWith("/api")) {
+          log(`${req.method} ${req.path} ${res.statusCode} in ${duration}ms`);
+        }
+      });
+      next();
+    });
+
+    // Import routes dynamically (ohne Vite)
+    const { registerRoutes } = await import('./server/routes.js');
+    await registerRoutes(app);
+
+    // Import and start blog system
+    const { startBlogScheduler } = await import('./server/ai/blogScheduler.js');
+    log('🤖 Starting automated blog system...');
+    await startBlogScheduler();
+    log('✅ Blog scheduler initialized successfully');
+
+    // Static files serving
+    const publicPath = path.resolve(__dirname, 'dist/public');
+    app.use(express.static(publicPath));
+
+    // SPA fallback
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(publicPath, 'index.html'));
+    });
+
+    // Start server
+    app.listen(PORT, '0.0.0.0', () => {
+      log(`Walter Braun Umzüge Server läuft auf Port ${PORT}`);
+      log(`Health Check: http://localhost:${PORT}/health`);
+      log(`Environment: ${process.env.NODE_ENV || 'production'}`);
+    });
+
+  } catch (error) {
+    log(`Server Start Error: ${error.message}`, 'error');
+    process.exit(1);
+  }
+}
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  log('SIGTERM received, shutting down gracefully');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  log('SIGINT received, shutting down gracefully');  
+  process.exit(0);
+});
+
+startServer();
+EOF
+
+# Create directories
+RUN mkdir -p uploads logs
+RUN chown nextjs:nodejs uploads logs
+
+USER nextjs
+
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+
+CMD ["node", "serve-production.js"]

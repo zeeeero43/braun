@@ -1,0 +1,43 @@
+
+root@ubuntu:/opt/walter-braun-umzuege# ./debug-blog-system.sh
+🔍 BLOG SYSTEM DEBUGGING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🐳 Container Status:
+NAME               IMAGE                      COMMAND                  SERVICE                                                       CREATED         STATUS                     PORTS
+walter_braun_db    postgres:15-alpine         "docker-entrypoint.s…"   postgres                                                      4 minutes ago   Up 4 minutes (healthy)     0.0.0.0:5432->5432/tcp, [::]:5432->                                                   5432/tcp
+walter_braun_web   walter-braun-umzuege-web   "docker-entrypoint.s…"   web                                                           4 minutes ago   Up 4 minutes (unhealthy)   0.0.0.0:5000->5000/tcp, [::]:5000->                                                   5000/tcp, 0.0.0.0:80->5000/tcp, [::]:80->5000/tcp
+
+📋 Aktuelle Web Container Logs (letzte 20 Zeilen):
+walter_braun_web  | 🤖 Generating content with DeepSeek...
+walter_braun_web  | 📝 Generating complete article...
+walter_braun_web  | 🔄 Calling DeepSeek API...
+walter_braun_web  | ✅ DeepSeek API response received
+walter_braun_web  | 📝 Generated content length: 5251 characters
+walter_braun_web  | Successfully generated 22 new topics
+walter_braun_web  | Selected topic: Wertgegenstände sicher verpacken: Tipps für                                                    Schmuck, Kunst & Co.
+walter_braun_web  | 📋 Selected topic: Wertgegenstände sicher verpacken: Tipps f                                                   ür Schmuck, Kunst & Co.
+walter_braun_web  | 🤖 Generating content with DeepSeek...
+walter_braun_web  | 📝 Generating complete article...
+walter_braun_web  | 🔄 Calling DeepSeek API...
+walter_braun_web  | ✅ DeepSeek API response received
+walter_braun_web  | 📝 Generated content length: 9183 characters
+walter_braun_web  | 🔍 Parsing DeepSeek response...
+walter_braun_web  | ✅ JSON parsed successfully
+walter_braun_web  | ✅ All required fields present
+walter_braun_web  | 📊 Content stats: Title length: 101, Content length: 4754
+walter_braun_web  | ✅ Article generated: 4754 characters
+walter_braun_web  | 🎨 Generating optimized image description...
+walter_braun_web  | 🔄 Calling DeepSeek API...
+
+🔑 API-Schlüssel im Container prüfen:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ DEEPSEEK_API_KEY: Vorhanden (36 Zeichen)
+✅ RUNWARE_API_KEY: Vorhanden (33 Zeichen)
+
+📄 .env Datei Status:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ .env Datei existiert
+
+📋 .env Inhalt (API-Schlüssel werden maskiert):
+sed: -e expression #1, char 43: Invalid preceding regular expression
+root@ubuntu:/opt/walter-braun-umzuege#

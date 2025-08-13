@@ -275,6 +275,8 @@ if curl -f -s --max-time 10 http://localhost >/dev/null 2>&1; then
     echo "✅ Vite-Import-Problem automatisch behoben"
     echo "✅ Git Repository aktualisiert"
     echo "✅ Docker Container neu gestartet"
+    echo "⚠️ Blog-System: Deaktiviert auf VPS (läuft nur in Replit)"
+    echo "💡 Replit hat vollständiges Blog-System mit AI-Content"
 else
     echo ""
     echo "⚠️ Container startet noch - warten Sie 1-2 Minuten"

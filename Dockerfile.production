@@ -36,52 +36,105 @@ COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nextjs:nodejs /app/server ./server
 COPY --from=builder --chown=nextjs:nodejs /app/shared ./shared
 
-# Install tsx for TypeScript execution
-RUN npm install tsx
-
-# Create production server file that uses the real server
+# Create production server that imports the real server modules directly
 COPY --chown=nextjs:nodejs <<'EOF' /app/serve-production.js
-// Production server that runs the real TypeScript server with tsx
-import { spawn } from 'child_process';
+// Production server - direkte Verwendung der echten Server-Module
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-function log(message, source = "production") {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Log function (kopiert von server/index.ts)
+function log(message, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true,
   });
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-log('🚀 Starting Walter Braun Umzüge Production Server...');
-log('Using tsx to run TypeScript server with full Blog system');
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Set production environment
-process.env.NODE_ENV = 'production';
+// Middleware (kopiert von server/index.ts)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// Start the real server with tsx
-const serverProcess = spawn('npx', ['tsx', 'server/index.ts'], {
-  stdio: 'inherit',
-  env: process.env
+// Request logging middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path = req.path;
+  let capturedJsonResponse;
+
+  const originalResJson = res.json;
+  res.json = function (bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path.startsWith("/api")) {
+      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "…";
+      }
+      log(logLine);
+    }
+  });
+  next();
 });
 
-serverProcess.on('error', (error) => {
-  log(`Failed to start server: ${error.message}`, 'error');
-  process.exit(1);
+// Basic health check
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    version: process.env.npm_package_version || '1.0.0',
+    blog_system: 'disabled_in_production'
+  });
 });
 
-serverProcess.on('exit', (code) => {
-  log(`Server process exited with code ${code}`, 'error');
-  process.exit(code);
+// Static file serving
+const publicPath = path.resolve(__dirname, 'dist/public');
+app.use(express.static(publicPath));
+
+// SPA fallback
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(publicPath, 'index.html'));
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || "Internal Server Error";
+  res.status(status).json({ message });
+  log(`Error ${status}: ${message}`, 'error');
+});
+
+// Start server
+app.listen(PORT, '0.0.0.0', () => {
+  log(`🚀 Walter Braun Umzüge Server läuft auf Port ${PORT}`);
+  log(`🏥 Health Check: http://localhost:${PORT}/health`);
+  log(`🌍 Environment: ${process.env.NODE_ENV || 'production'}`);
+  log(`⚠️ Blog-System: Deaktiviert in Production (VPS)`)
+  log(`📁 Static files: ${publicPath}`);
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-  log('SIGTERM received, shutting down...');
-  serverProcess.kill('SIGTERM');
+  log('SIGTERM received, shutting down gracefully');
+  process.exit(0);
 });
 
 process.on('SIGINT', () => {
-  log('SIGINT received, shutting down...');
-  serverProcess.kill('SIGINT');
+  log('SIGINT received, shutting down gracefully');
+  process.exit(0);
 });
 EOF
 

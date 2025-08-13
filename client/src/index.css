@@ -168,17 +168,14 @@
 
   /* Leichte Homepage-Animationen */
   .animate-fade-in {
-    opacity: 1;
-    animation: fadeIn 0.8s ease-out;
+    animation: fadeInStable 1s ease-out both;
   }
 
   .animate-slide-up {
-    opacity: 1;
-    transform: translateY(0);
-    animation: slideUp 0.8s ease-out;
+    animation: slideUpStable 1s ease-out both;
   }
 
-  @keyframes fadeIn {
+  @keyframes fadeInStable {
     0% {
       opacity: 0;
     }
@@ -187,10 +184,10 @@
     }
   }
 
-  @keyframes slideUp {
+  @keyframes slideUpStable {
     0% {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(20px);
     }
     100% {
       opacity: 1;

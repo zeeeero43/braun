@@ -31,7 +31,7 @@ export default function ServiceModal({ isOpen, onClose, serviceData }: ServiceMo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4 sm:mx-auto w-[calc(100vw-2rem)] sm:w-full">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-gray-900">
             {serviceData.title}

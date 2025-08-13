@@ -2,8 +2,8 @@ import whatsappLogo from "@assets/[CITYPNG.COM]Outline Whatsapp Wa Watsup Green 
 
 export function WhatsAppButton() {
   const handleWhatsAppClick = () => {
-    // Walter Braun Umzüge WhatsApp Nummer (Beispiel - sollte durch echte Nummer ersetzt werden)
-    const phoneNumber = "4989123456789"; // Format: Ländercode + Nummer ohne führende 0
+    // Walter Braun Umzüge WhatsApp Nummer
+    const phoneNumber = "491743861652"; // Format: Ländercode + Nummer ohne führende 0
     const message = encodeURIComponent("Hallo, ich interessiere mich für Ihre Umzugsdienstleistungen in München.");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappUrl, '_blank');

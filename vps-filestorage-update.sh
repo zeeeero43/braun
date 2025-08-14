@@ -37,7 +37,7 @@ fi
 
 # Stop containers
 print_warning "Stopping containers..."
-docker-compose down
+docker compose down
 
 # Pull latest changes (if using git)
 if [ -d ".git" ]; then
@@ -47,7 +47,7 @@ fi
 
 # Rebuild containers
 print_warning "Rebuilding Docker containers..."
-docker-compose build --no-cache web
+docker compose build --no-cache web
 
 # Create data directory with proper permissions
 print_warning "Setting up data directory..."
@@ -56,7 +56,7 @@ chmod 755 ./data
 
 # Start containers
 print_warning "Starting updated containers..."
-docker-compose up -d
+docker compose up -d
 
 # Wait for containers to be ready
 print_warning "Waiting for containers to start..."
@@ -64,19 +64,19 @@ sleep 10
 
 # Check container status
 print_warning "Checking container status..."
-docker-compose ps
+docker compose ps
 
 # Check if web container is healthy
-if docker-compose ps | grep -q "web.*Up"; then
+if docker compose ps | grep -q "web.*Up"; then
     print_status "Web container is running"
 else
     print_error "Web container failed to start"
-    docker-compose logs web
+    docker compose logs web
     exit 1
 fi
 
 # Check if database container is healthy (if using PostgreSQL)
-if docker-compose ps | grep -q "db.*Up"; then
+if docker compose ps | grep -q "db.*Up"; then
     print_status "Database container is running"
 else
     print_warning "Database container not found - using FileStorage mode"
@@ -87,7 +87,7 @@ print_warning "Testing blog system..."
 sleep 5
 
 # Check logs for FileStorage confirmation
-if docker-compose logs web | tail -20 | grep -q "FileStorage\|PostgreSQL"; then
+if docker compose logs web | tail -20 | grep -q "FileStorage\|PostgreSQL"; then
     print_status "Storage system initialized successfully"
 else
     print_warning "Storage system status unclear - check logs"
@@ -115,7 +115,7 @@ echo ""
 print_status "VPS Update Complete!"
 echo "🔗 Website: http://$(hostname -I | awk '{print $1}')"
 echo "📊 Blog System: FileStorage (persistent across restarts)"
-echo "🔧 Check logs: docker-compose logs -f web"
+echo "🔧 Check logs: docker compose logs -f web"
 echo ""
 print_warning "Important: Blog posts are now stored in ./data/ directory"
 print_warning "This directory persists across container restarts!"

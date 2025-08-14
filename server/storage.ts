@@ -351,6 +351,5 @@ export class PostgreSQLStorage implements IStorage {
   }
 }
 
-// Temporarily use MemStorage while fixing PostgreSQL issues
-export const storage = new MemStorage();
-// TODO: Fix PostgreSQL storage and switch back to: process.env.DATABASE_URL ? new PostgreSQLStorage() : new MemStorage();
+// Use PostgreSQL in production, MemStorage for development/testing
+export const storage = process.env.DATABASE_URL ? new PostgreSQLStorage() : new MemStorage();

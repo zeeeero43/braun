@@ -6,7 +6,18 @@ export function WhatsAppButton() {
     const phoneNumber = "491743861652"; // Format: Ländercode + Nummer ohne führende 0
     const message = encodeURIComponent("Hallo, ich interessiere mich für Ihre Umzugsdienstleistungen in München.");
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-    window.open(whatsappUrl, '_blank');
+    
+    // Debug log für Entwicklung
+    console.log('WhatsApp URL:', whatsappUrl);
+    
+    // Versuche erst die WhatsApp App zu öffnen, dann Browser
+    try {
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error('WhatsApp öffnen fehlgeschlagen:', error);
+      // Fallback: direkter Link
+      window.location.href = whatsappUrl;
+    }
   };
 
   return (

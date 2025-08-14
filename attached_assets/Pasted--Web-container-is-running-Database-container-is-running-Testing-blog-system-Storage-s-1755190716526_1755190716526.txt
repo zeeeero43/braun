@@ -1,0 +1,405 @@
+✅ Web container is running
+✅ Database container is running
+⚠️ Testing blog system...
+⚠️ Storage system status unclear - check logs
+⚠️ Checking blog data...
+✅ Blog posts stored in PostgreSQL or new FileStorage
+⚠️ Final system check...
+❌ Website not responding - check logs
+./vps-filestorage-update.sh: line 111: docker-compose: command not found
+
+✅ VPS Update Complete!
+🔗 Website: http://217.154.205.93
+📊 Blog System: FileStorage (persistent across restarts)
+🔧 Check logs: docker compose logs -f web
+
+⚠️ Important: Blog posts are now stored in ./data/ directory
+⚠️ This directory persists across container restarts!
+root@ubuntu:/opt/walter-braun-umzuege# ^C
+root@ubuntu:/opt/walter-braun-umzuege# docker compose logs -f web
+walter_braun_web  | 4:56:55 PM [production] 🚀 Starting Walter Braun Umzüge Production Server...
+walter_braun_web  | 4:56:55 PM [production] 🔧 Using tsx for TypeScript execution with full Blog system
+walter_braun_web  | 4:56:55 PM [production] ✅ Production wrapper started successfully
+walter_braun_web  | npm warn exec The following package was not found and will be installed: tsx@4.20.4
+walter_braun_web  | 4:56:58 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 🚀 Starting Blog Scheduler...
+walter_braun_web  | 🔄 Testing PostgreSQL connection...
+walter_braun_web  | 4:56:58 PM [express] ✅ Blog scheduler initialized successfully
+walter_braun_web  | 4:56:58 PM [express] 🚀 Walter Braun Umzüge Production Server auf Port 5000
+walter_braun_web  | 4:56:58 PM [express] 🏥 Health Check: http://localhost:5000/health
+walter_braun_web  | 4:56:58 PM [express] 🌍 Environment: production
+walter_braun_web  | 4:56:58 PM [express] 📁 Static files: /app/dist/public
+walter_braun_web  | 4:56:58 PM [express] ✅ Vollständiges Blog-System aktiv
+walter_braun_web  | ⚠️ PostgreSQL connection failed, falling back to FileStorage
+walter_braun_web  | Error: Error connecting to database: fetch failed
+walter_braun_web  | ✅ Using FileStorage for persistent blog system
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Initializing topic pool with default topics...
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | Default topic already exists: Umzug in München: Der ultimative Leitfaden für einen stressfreien Wohnungswechsel
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | Default topic already exists: Professionelles Packen: So schützen Sie Ihre Gegenstände beim Umzug
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | Default topic already exists: Geschäftsumzug in München: Planung und Durchführung ohne Betriebsunterbrechung
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | Default topic already exists: Umzugskosten kalkulieren: Was kostet ein Umzug in München wirklich?
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | Default topic already exists: Checkliste für den Umzug: Nichts vergessen in 8 Wochen
+walter_braun_web  | Current unused topics: 0
+walter_braun_web  | Generating 22 new topics...
+walter_braun_web  | 🔄 Topic generation attempt 1/2...
+walter_braun_web  | 🔄 Calling DeepSeek API...
+walter_braun_web  | 📡 DeepSeek API attempt 1/3...
+walter_braun_web  | ✅ DeepSeek API response received
+walter_braun_web  | ✅ Generated content length: 5708 characters
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Der ultimative Umzugschecklist: Was Sie vor dem Umzug in München beachten müssen
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Stressfrei umziehen: Die besten Tipps für einen reibungslosen Umzug in Bayern
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Umzug mit Kindern: So gestalten Sie den Wohnungswechsel in München familienfreundlich
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Winterumzug in München: Besondere Herausforderungen und wie Sie sie meistern
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Wie Sie zerbrechliche Gegenstände sicher für den Umzug in München verpacken
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Küchenumzug leicht gemacht: So packen Sie Geschirr und Geräte effizient ein
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Wohin mit alten Möbeln? Entsorgungsmöglichkeiten in München beim Umzug
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Digitale Umzugsplanung: Die besten Apps für Ihren Umzug in München
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Umzug nach München: Die besten Stadtteile für Familien, Studenten und Berufstätige
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Anmeldefristen in München: Was Sie nach dem Umzug beachten müssen
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Umzug ins Umland: Vor- und Nachteile des Wohnens in Münchens Speckgürtel
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Parken beim Umzug in München: So beantragen Sie eine Umzugsgenehmigung
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Büroumzug in München: Schritt-für-Schritt-Anleitung für Unternehmen
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: IT-Umzug für Unternehmen: Server und Technik sicher transportieren
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Minimalismus im Büro: Wie Sie beim Firmenumzug in München Platz sparen
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Umzugsrecht in Bayern: Was Mieter und Vermieter wissen müssen
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Umzugsversicherung: Welche Policen sich für Ihren München-Umzug lohnen
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Kaution zurückfordern: So klappt's beim Auszug aus der Münchner Wohnung
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Wohnungseinrichtung nach dem Umzug: Münchener Stile und Trends
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Energiesparen in der neuen Wohnung: Tipps für Münchner Haushalte
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ⚠️ Topic already exists: Nachbarschaft kennenlernen: So integrieren Sie sich nach dem Umzug in München
+walter_braun_web  | Failed to create data directory: [Error: EACCES: permission denied, mkdir './data'] {
+walter_braun_web  |   errno: -13,
+walter_braun_web  |   code: 'EACCES',
+walter_braun_web  |   syscall: 'mkdir',
+walter_braun_web  |   path: './data'
+walter_braun_web  | }
+walter_braun_web  | Failed to write blog_ideas: [Error: ENOENT: no such file or directory, open 'data/blog_ideas.json'] {
+walter_braun_web  |   errno: -2,
+walter_braun_web  |   code: 'ENOENT',
+walter_braun_web  |   syscall: 'open',
+walter_braun_web  |   path: 'data/blog_ideas.json'
+walter_braun_web  | }
+walter_braun_web  | ✅ Successfully generated 0 new topics
+walter_braun_web  | 🔄 Topic generation attempt 2/2...
+walter_braun_web  | 🔄 Calling DeepSeek API...
+walter_braun_web  | 📡 DeepSeek API attempt 1/3...
+walter_braun_web  | ⚠️ Topic already exists: Balkon gestalten in München: Ideen für kleine und große Outdoor-Oasen
+

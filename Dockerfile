@@ -164,8 +164,8 @@ process.on('SIGINT', () => {
 EOF
 
 # Create necessary directories
-RUN mkdir -p uploads logs
-RUN chown nextjs:nodejs uploads logs
+RUN mkdir -p uploads logs data
+RUN chown nextjs:nodejs uploads logs data
 
 USER nextjs
 

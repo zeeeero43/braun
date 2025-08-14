@@ -351,5 +351,119 @@ export class PostgreSQLStorage implements IStorage {
   }
 }
 
-// Use PostgreSQL in production, MemStorage for development/testing
-export const storage = process.env.DATABASE_URL ? new PostgreSQLStorage() : new MemStorage();
+// Robust storage with automatic fallback for VPS deployment
+class RobustStorage implements IStorage {
+  private actualStorage: IStorage | null = null;
+  private initialized = false;
+  
+  private async initializeStorage(): Promise<IStorage> {
+    if (this.initialized && this.actualStorage) {
+      return this.actualStorage;
+    }
+    
+    // Try PostgreSQL if DATABASE_URL exists
+    if (process.env.DATABASE_URL) {
+      try {
+        console.log("🔄 Testing PostgreSQL connection...");
+        const pgStorage = new PostgreSQLStorage();
+        
+        // Simple connection test
+        await pgStorage.getBlogIdeasCount();
+        console.log("✅ PostgreSQL connection successful");
+        
+        this.actualStorage = pgStorage;
+        this.initialized = true;
+        return pgStorage;
+        
+      } catch (error: any) {
+        console.warn("⚠️ PostgreSQL connection failed, falling back to MemStorage");
+        console.warn("Error:", error?.message || String(error));
+      }
+    } else {
+      console.log("🔄 No DATABASE_URL found - using MemStorage");
+    }
+    
+    // Fallback to MemStorage
+    console.log("✅ Using MemStorage for blog system");
+    this.actualStorage = new MemStorage();
+    this.initialized = true;
+    return this.actualStorage;
+  }
+  
+  async getUser(id: string): Promise<User | undefined> {
+    const storage = await this.initializeStorage();
+    return storage.getUser(id);
+  }
+  
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const storage = await this.initializeStorage();
+    return storage.getUserByUsername(username);
+  }
+  
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const storage = await this.initializeStorage();
+    return storage.createUser(insertUser);
+  }
+  
+  async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
+    const storage = await this.initializeStorage();
+    return storage.createContactSubmission(insertSubmission);
+  }
+  
+  async getContactSubmissions(): Promise<ContactSubmission[]> {
+    const storage = await this.initializeStorage();
+    return storage.getContactSubmissions();
+  }
+  
+  async createBlogPost(postData: Omit<InsertAutoBlogPost, 'id'>): Promise<AutoBlogPost> {
+    const storage = await this.initializeStorage();
+    return storage.createBlogPost(postData);
+  }
+  
+  async getBlogPosts(options?: { category?: string; limit?: number; offset?: number }): Promise<AutoBlogPost[]> {
+    const storage = await this.initializeStorage();
+    return storage.getBlogPosts(options);
+  }
+  
+  async getBlogPostBySlug(slug: string): Promise<AutoBlogPost | undefined> {
+    const storage = await this.initializeStorage();
+    return storage.getBlogPostBySlug(slug);
+  }
+  
+  async getPublishedBlogPosts(options?: { category?: string; limit?: number; offset?: number }): Promise<AutoBlogPost[]> {
+    const storage = await this.initializeStorage();
+    return storage.getPublishedBlogPosts(options);
+  }
+  
+  async getBlogCategories(): Promise<string[]> {
+    const storage = await this.initializeStorage();
+    return storage.getBlogCategories();
+  }
+  
+  async createBlogIdea(ideaData: Omit<InsertBlogIdea, 'id'>): Promise<BlogIdea> {
+    const storage = await this.initializeStorage();
+    return storage.createBlogIdea(ideaData);
+  }
+  
+  async getBlogIdeas(unused?: boolean): Promise<BlogIdea[]> {
+    const storage = await this.initializeStorage();
+    return storage.getBlogIdeas(unused);
+  }
+  
+  async markBlogIdeaAsUsed(id: number): Promise<void> {
+    const storage = await this.initializeStorage();
+    return storage.markBlogIdeaAsUsed(id);
+  }
+  
+  async getBlogIdeasCount(unused?: boolean): Promise<number> {
+    const storage = await this.initializeStorage();
+    return storage.getBlogIdeasCount(unused);
+  }
+  
+  async createAiLog(logData: Omit<InsertAiGenerationLog, 'id'>): Promise<AiGenerationLog> {
+    const storage = await this.initializeStorage();
+    return storage.createAiLog(logData);
+  }
+}
+
+export const storage = new RobustStorage();

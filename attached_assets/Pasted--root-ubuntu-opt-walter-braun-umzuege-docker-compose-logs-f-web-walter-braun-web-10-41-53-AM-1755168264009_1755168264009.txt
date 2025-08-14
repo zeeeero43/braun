@@ -1,0 +1,312 @@
+
+root@ubuntu:/opt/walter-braun-umzuege# docker compose logs -f web
+walter_braun_web  | 10:41:53 AM [production] 🚀 Starting Walter Braun Umzüge Production Server...
+walter_braun_web  | 10:41:53 AM [production] 🔧 Using tsx for TypeScript execution with full Blog system
+walter_braun_web  | 10:41:53 AM [production] ✅ Production wrapper started successfully
+walter_braun_web  | npm warn exec The following package was not found and will be installed: tsx@4.20.4
+walter_braun_web  | 10:41:56 AM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 🚀 Starting Blog Scheduler...
+walter_braun_web  | 10:41:56 AM [express] ✅ Blog scheduler initialized successfully
+walter_braun_web  | 10:41:56 AM [express] 🚀 Walter Braun Umzüge Production Server auf Port 5000
+walter_braun_web  | 10:41:56 AM [express] 🏥 Health Check: http://localhost:5000/health
+walter_braun_web  | 10:41:56 AM [express] 🌍 Environment: production
+walter_braun_web  | 10:41:56 AM [express] 📁 Static files: /app/dist/public
+walter_braun_web  | 10:41:56 AM [express] ✅ Vollständiges Blog-System aktiv
+walter_braun_web  | Failed to initialize topic pool: NeonDbError: Error connecting to database: fetch failed
+walter_braun_web  |     at execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+walter_braun_web  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |     at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |     at PostgreSQLStorage.getBlogIdeasCount (/app/server/storage.ts:343:20)
+walter_braun_web  |     at TopicGenerationService.initializeTopicPool (/app/server/ai/topicGenerationService.ts:91:26)
+walter_braun_web  |     at BlogScheduler.start (/app/server/ai/blogScheduler.ts:27:7) {
+walter_braun_web  |   severity: undefined,
+walter_braun_web  |   code: undefined,
+walter_braun_web  |   detail: undefined,
+walter_braun_web  |   hint: undefined,
+walter_braun_web  |   position: undefined,
+walter_braun_web  |   internalPosition: undefined,
+walter_braun_web  |   internalQuery: undefined,
+walter_braun_web  |   where: undefined,
+walter_braun_web  |   schema: undefined,
+walter_braun_web  |   table: undefined,
+walter_braun_web  |   column: undefined,
+walter_braun_web  |   dataType: undefined,
+walter_braun_web  |   constraint: undefined,
+walter_braun_web  |   file: undefined,
+walter_braun_web  |   line: undefined,
+walter_braun_web  |   routine: undefined,
+walter_braun_web  |   sourceError: TypeError: fetch failed
+walter_braun_web  |       at node:internal/deps/undici/undici:12637:11
+walter_braun_web  |       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |       at async execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+walter_braun_web  |       at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |       at PostgreSQLStorage.getBlogIdeasCount (/app/server/storage.ts:343:20)
+walter_braun_web  |       at TopicGenerationService.initializeTopicPool (/app/server/ai/topicGenerationService.ts:91:26)
+walter_braun_web  |       at BlogScheduler.start (/app/server/ai/blogScheduler.ts:27:7) {
+walter_braun_web  |     cause: Error: connect ECONNREFUSED 172.18.0.2:443
+walter_braun_web  |         at __node_internal_captureLargerStackTrace (node:internal/errors:496:5)
+walter_braun_web  |         at __node_internal_exceptionWithHostPort (node:internal/errors:671:12)
+walter_braun_web  |         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16) {
+walter_braun_web  |       errno: -111,
+walter_braun_web  |       code: 'ECONNREFUSED',
+walter_braun_web  |       syscall: 'connect',
+walter_braun_web  |       address: '172.18.0.2',
+walter_braun_web  |       port: 443
+walter_braun_web  |     }
+walter_braun_web  |   }
+walter_braun_web  | }
+walter_braun_web  | ❌ Failed to start blog scheduler: NeonDbError: Error connecting to database: fetch failed
+walter_braun_web  |     at execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+walter_braun_web  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |     at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |     at PostgreSQLStorage.getBlogIdeasCount (/app/server/storage.ts:343:20)
+walter_braun_web  |     at TopicGenerationService.initializeTopicPool (/app/server/ai/topicGenerationService.ts:91:26)
+walter_braun_web  |     at BlogScheduler.start (/app/server/ai/blogScheduler.ts:27:7) {
+walter_braun_web  |   severity: undefined,
+walter_braun_web  |   code: undefined,
+walter_braun_web  |   detail: undefined,
+walter_braun_web  |   hint: undefined,
+walter_braun_web  |   position: undefined,
+walter_braun_web  |   internalPosition: undefined,
+walter_braun_web  |   internalQuery: undefined,
+walter_braun_web  |   where: undefined,
+walter_braun_web  |   schema: undefined,
+walter_braun_web  |   table: undefined,
+walter_braun_web  |   column: undefined,
+walter_braun_web  |   dataType: undefined,
+walter_braun_web  |   constraint: undefined,
+walter_braun_web  |   file: undefined,
+walter_braun_web  |   line: undefined,
+walter_braun_web  |   routine: undefined,
+walter_braun_web  |   sourceError: TypeError: fetch failed
+walter_braun_web  |       at node:internal/deps/undici/undici:12637:11
+walter_braun_web  |       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |       at async execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+walter_braun_web  |       at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |       at PostgreSQLStorage.getBlogIdeasCount (/app/server/storage.ts:343:20)
+walter_braun_web  |       at TopicGenerationService.initializeTopicPool (/app/server/ai/topicGenerationService.ts:91:26)
+walter_braun_web  |       at BlogScheduler.start (/app/server/ai/blogScheduler.ts:27:7) {
+walter_braun_web  |     cause: Error: connect ECONNREFUSED 172.18.0.2:443
+walter_braun_web  |         at __node_internal_captureLargerStackTrace (node:internal/errors:496:5)
+walter_braun_web  |         at __node_internal_exceptionWithHostPort (node:internal/errors:671:12)
+walter_braun_web  |         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16) {
+walter_braun_web  |       errno: -111,
+walter_braun_web  |       code: 'ECONNREFUSED',
+walter_braun_web  |       syscall: 'connect',
+walter_braun_web  |       address: '172.18.0.2',
+walter_braun_web  |       port: 443
+walter_braun_web  |     }
+walter_braun_web  |   }
+walter_braun_web  | }
+walter_braun_web  | Failed to start blog scheduler: NeonDbError: Error connecting to database: fetch failed
+walter_braun_web  |     at execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+walter_braun_web  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |     at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |     at PostgreSQLStorage.getBlogIdeasCount (/app/server/storage.ts:343:20)
+walter_braun_web  |     at TopicGenerationService.initializeTopicPool (/app/server/ai/topicGenerationService.ts:91:26)
+walter_braun_web  |     at BlogScheduler.start (/app/server/ai/blogScheduler.ts:27:7) {
+walter_braun_web  |   severity: undefined,
+walter_braun_web  |   code: undefined,
+walter_braun_web  |   detail: undefined,
+walter_braun_web  |   hint: undefined,
+walter_braun_web  |   position: undefined,
+walter_braun_web  |   internalPosition: undefined,
+walter_braun_web  |   internalQuery: undefined,
+walter_braun_web  |   where: undefined,
+walter_braun_web  |   schema: undefined,
+walter_braun_web  |   table: undefined,
+walter_braun_web  |   column: undefined,
+walter_braun_web  |   dataType: undefined,
+walter_braun_web  |   constraint: undefined,
+walter_braun_web  |   file: undefined,
+walter_braun_web  |   line: undefined,
+walter_braun_web  |   routine: undefined,
+walter_braun_web  |   sourceError: TypeError: fetch failed
+walter_braun_web  |       at node:internal/deps/undici/undici:12637:11
+walter_braun_web  |       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |       at async execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+walter_braun_web  |       at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |       at PostgreSQLStorage.getBlogIdeasCount (/app/server/storage.ts:343:20)
+walter_braun_web  |       at TopicGenerationService.initializeTopicPool (/app/server/ai/topicGenerationService.ts:91:26)
+walter_braun_web  |       at BlogScheduler.start (/app/server/ai/blogScheduler.ts:27:7) {
+walter_braun_web  |     cause: Error: connect ECONNREFUSED 172.18.0.2:443
+walter_braun_web  |         at __node_internal_captureLargerStackTrace (node:internal/errors:496:5)
+walter_braun_web  |         at __node_internal_exceptionWithHostPort (node:internal/errors:671:12)
+walter_braun_web  |         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16) {
+walter_braun_web  |       errno: -111,
+walter_braun_web  |       code: 'ECONNREFUSED',
+walter_braun_web  |       syscall: 'connect',
+walter_braun_web  |       address: '172.18.0.2',
+walter_braun_web  |       port: 443
+walter_braun_web  |     }
+walter_braun_web  |   }
+walter_braun_web  | }
+walter_braun_web  | Failed to fetch blog posts: NeonDbError: Error connecting to database: fetch failed
+walter_braun_web  |     at execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+walter_braun_web  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |     at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |     at PostgreSQLStorage.getPublishedBlogPosts (/app/server/storage.ts:301:12)
+walter_braun_web  |     at <anonymous> (/app/server/routes.ts:53:21) {
+walter_braun_web  |   severity: undefined,
+walter_braun_web  |   code: undefined,
+walter_braun_web  |   detail: undefined,
+walter_braun_web  |   hint: undefined,
+walter_braun_web  |   position: undefined,
+walter_braun_web  |   internalPosition: undefined,
+walter_braun_web  |   internalQuery: undefined,
+walter_braun_web  |   where: undefined,
+walter_braun_web  |   schema: undefined,
+walter_braun_web  |   table: undefined,
+walter_braun_web  |   column: undefined,
+walter_braun_web  |   dataType: undefined,
+walter_braun_web  |   constraint: undefined,
+walter_braun_web  |   file: undefined,
+walter_braun_web  |   line: undefined,
+walter_braun_web  |   routine: undefined,
+walter_braun_web  |   sourceError: TypeError: fetch failed
+walter_braun_web  |       at node:internal/deps/undici/undici:12637:11
+walter_braun_web  |       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |       at async execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+walter_braun_web  |       at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |       at PostgreSQLStorage.getPublishedBlogPosts (/app/server/storage.ts:301:12)
+walter_braun_web  |       at <anonymous> (/app/server/routes.ts:53:21) {
+walter_braun_web  |     cause: Error: connect ECONNREFUSED 172.18.0.2:443
+walter_braun_web  |         at __node_internal_captureLargerStackTrace (node:internal/errors:496:5)
+walter_braun_web  |         at __node_internal_exceptionWithHostPort (node:internal/errors:671:12)
+walter_braun_web  |         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16) {
+walter_braun_web  |       errno: -111,
+walter_braun_web  |       code: 'ECONNREFUSED',
+walter_braun_web  |       syscall: 'connect',
+walter_braun_web  |       address: '172.18.0.2',
+walter_braun_web  |       port: 443
+walter_braun_web  |     }
+walter_braun_web  |   }
+walter_braun_web  | }
+walter_braun_web  | 10:42:01 AM [express] GET /api/blog 500 in 9ms :: {"success":false,"error":"Failed to fetch blog post…
+walter_braun_web  | Failed to fetch categories: NeonDbError: Error connecting to database: fetch failed
+walter_braun_web  |     at execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+walter_braun_web  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |     at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |     at PostgreSQLStorage.getBlogCategories (/app/server/storage.ts:305:20)
+walter_braun_web  |     at <anonymous> (/app/server/routes.ts:93:26) {
+walter_braun_web  |   severity: undefined,
+walter_braun_web  |   code: undefined,
+walter_braun_web  |   detail: undefined,
+walter_braun_web  |   hint: undefined,
+walter_braun_web  |   position: undefined,
+walter_braun_web  |   internalPosition: undefined,
+walter_braun_web  |   internalQuery: undefined,
+walter_braun_web  |   where: undefined,
+walter_braun_web  |   schema: undefined,
+walter_braun_web  |   table: undefined,
+walter_braun_web  |   column: undefined,
+walter_braun_web  |   dataType: undefined,
+walter_braun_web  |   constraint: undefined,
+walter_braun_web  |   file: undefined,
+walter_braun_web  |   line: undefined,
+walter_braun_web  |   routine: undefined,
+walter_braun_web  |   sourceError: TypeError: fetch failed
+walter_braun_web  |       at node:internal/deps/undici/undici:12637:11
+walter_braun_web  |       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |       at async execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+walter_braun_web  |       at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |       at PostgreSQLStorage.getBlogCategories (/app/server/storage.ts:305:20)
+walter_braun_web  |       at <anonymous> (/app/server/routes.ts:93:26) {
+walter_braun_web  |     cause: Error: connect ECONNREFUSED 172.18.0.2:443
+walter_braun_web  |         at __node_internal_captureLargerStackTrace (node:internal/errors:496:5)
+walter_braun_web  |         at __node_internal_exceptionWithHostPort (node:internal/errors:671:12)
+walter_braun_web  |         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16) {
+walter_braun_web  |       errno: -111,
+walter_braun_web  |       code: 'ECONNREFUSED',
+walter_braun_web  |       syscall: 'connect',
+walter_braun_web  |       address: '172.18.0.2',
+walter_braun_web  |       port: 443
+walter_braun_web  |     }
+walter_braun_web  |   }
+walter_braun_web  | }
+walter_braun_web  | 10:42:01 AM [express] GET /api/blog/categories 500 in 8ms :: {"success":false,"error":"Failed to fetc…
+walter_braun_web  | Failed to fetch categories: NeonDbError: Error connecting to database: fetch failed
+walter_braun_web  |     at execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+walter_braun_web  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |     at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |     at PostgreSQLStorage.getBlogCategories (/app/server/storage.ts:305:20)
+walter_braun_web  |     at <anonymous> (/app/server/routes.ts:93:26) {
+walter_braun_web  |   severity: undefined,
+walter_braun_web  |   code: undefined,
+walter_braun_web  |   detail: undefined,
+walter_braun_web  |   hint: undefined,
+walter_braun_web  |   position: undefined,
+walter_braun_web  |   internalPosition: undefined,
+walter_braun_web  |   internalQuery: undefined,
+walter_braun_web  |   where: undefined,
+walter_braun_web  |   schema: undefined,
+walter_braun_web  |   table: undefined,
+walter_braun_web  |   column: undefined,
+walter_braun_web  |   dataType: undefined,
+walter_braun_web  |   constraint: undefined,
+walter_braun_web  |   file: undefined,
+walter_braun_web  |   line: undefined,
+walter_braun_web  |   routine: undefined,
+walter_braun_web  |   sourceError: TypeError: fetch failed
+walter_braun_web  |       at node:internal/deps/undici/undici:12637:11
+walter_braun_web  |       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |       at async execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+walter_braun_web  |       at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |       at PostgreSQLStorage.getBlogCategories (/app/server/storage.ts:305:20)
+walter_braun_web  |       at <anonymous> (/app/server/routes.ts:93:26) {
+walter_braun_web  |     cause: Error: connect ECONNREFUSED 172.18.0.2:443
+walter_braun_web  |         at __node_internal_captureLargerStackTrace (node:internal/errors:496:5)
+walter_braun_web  |         at __node_internal_exceptionWithHostPort (node:internal/errors:671:12)
+walter_braun_web  |         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16) {
+walter_braun_web  |       errno: -111,
+walter_braun_web  |       code: 'ECONNREFUSED',
+walter_braun_web  |       syscall: 'connect',
+walter_braun_web  |       address: '172.18.0.2',
+walter_braun_web  |       port: 443
+walter_braun_web  |     }
+walter_braun_web  |   }
+walter_braun_web  | }
+walter_braun_web  | 10:43:34 AM [express] GET /api/blog/categories 500 in 14ms :: {"success":false,"error":"Failed to fet…
+walter_braun_web  | Failed to fetch blog posts: NeonDbError: Error connecting to database: fetch failed
+walter_braun_web  |     at execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1549:24)
+walter_braun_web  |     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |     at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |     at PostgreSQLStorage.getPublishedBlogPosts (/app/server/storage.ts:301:12)
+walter_braun_web  |     at <anonymous> (/app/server/routes.ts:53:21) {
+walter_braun_web  |   severity: undefined,
+walter_braun_web  |   code: undefined,
+walter_braun_web  |   detail: undefined,
+walter_braun_web  |   hint: undefined,
+walter_braun_web  |   position: undefined,
+walter_braun_web  |   internalPosition: undefined,
+walter_braun_web  |   internalQuery: undefined,
+walter_braun_web  |   where: undefined,
+walter_braun_web  |   schema: undefined,
+walter_braun_web  |   table: undefined,
+walter_braun_web  |   column: undefined,
+walter_braun_web  |   dataType: undefined,
+walter_braun_web  |   constraint: undefined,
+walter_braun_web  |   file: undefined,
+walter_braun_web  |   line: undefined,
+walter_braun_web  |   routine: undefined,
+walter_braun_web  |   sourceError: TypeError: fetch failed
+walter_braun_web  |       at node:internal/deps/undici/undici:12637:11
+walter_braun_web  |       at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+walter_braun_web  |       at async execute (file:///app/node_modules/@neondatabase/serverless/index.mjs:1548:15)
+walter_braun_web  |       at NeonHttpPreparedQuery.execute (/app/node_modules/src/neon-http/session.ts:68:18)
+walter_braun_web  |       at PostgreSQLStorage.getPublishedBlogPosts (/app/server/storage.ts:301:12)
+walter_braun_web  |       at <anonymous> (/app/server/routes.ts:53:21) {
+walter_braun_web  |     cause: Error: connect ECONNREFUSED 172.18.0.2:443
+walter_braun_web  |         at __node_internal_captureLargerStackTrace (node:internal/errors:496:5)
+walter_braun_web  |         at __node_internal_exceptionWithHostPort (node:internal/errors:671:12)
+walter_braun_web  |         at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1555:16) {
+walter_braun_web  |       errno: -111,
+walter_braun_web  |       code: 'ECONNREFUSED',
+walter_braun_web  |       syscall: 'connect',
+walter_braun_web  |       address: '172.18.0.2',
+walter_braun_web  |       port: 443
+walter_braun_web  |     }
+walter_braun_web  |   }
+walter_braun_web  | }
+walter_braun_web  | 10:43:34 AM [express] GET /api/blog 500 in 15ms :: {"success":false,"error":"Failed to fetch blog pos…
+

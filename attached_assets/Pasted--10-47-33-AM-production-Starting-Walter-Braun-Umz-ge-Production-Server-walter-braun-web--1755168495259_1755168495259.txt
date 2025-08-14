@@ -1,0 +1,27 @@
+ 10:47:33 AM [production] 🚀 Starting Walter Braun Umzüge Production Server...
+walter_braun_web  | 10:47:33 AM [production] 🔧 Using tsx for TypeScript execution with full Blog system
+walter_braun_web  | 10:47:33 AM [production] ✅ Production wrapper started successfully
+walter_braun_web  | npm warn exec The following package was not found and will be installed: tsx@4.20.4
+walter_braun_web  | 10:47:36 AM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 🚀 Starting Blog Scheduler...
+walter_braun_web  | 🔄 Testing PostgreSQL connection...
+walter_braun_web  | 10:47:36 AM [express] ✅ Blog scheduler initialized successfully
+walter_braun_web  | 10:47:36 AM [express] 🚀 Walter Braun Umzüge Production Server auf Port 5000
+walter_braun_web  | 10:47:36 AM [express] 🏥 Health Check: http://localhost:5000/health
+walter_braun_web  | 10:47:36 AM [express] 🌍 Environment: production
+walter_braun_web  | 10:47:36 AM [express] 📁 Static files: /app/dist/public
+walter_braun_web  | 10:47:36 AM [express] ✅ Vollständiges Blog-System aktiv
+walter_braun_web  | ⚠️ PostgreSQL connection failed, falling back to MemStorage
+walter_braun_web  | Error: Error connecting to database: fetch failed
+walter_braun_web  | ✅ Using MemStorage for blog system
+walter_braun_web  | Initializing topic pool with default topics...
+walter_braun_web  | Current unused topics: 0
+walter_braun_web  | Generating 22 new topics...
+walter_braun_web  | 🔄 Calling DeepSeek API...
+walter_braun_web  | 📊 Blog API: Found 0 published posts
+walter_braun_web  | 10:47:39 AM [express] GET /api/blog 200 in 3ms :: {"success":true,"posts":[]}
+walter_braun_web  | 10:47:39 AM [express] GET /api/blog/categories 200 in 1ms :: {"success":true,"categories":["Umzugstip…
+walter_braun_web  | 10:47:57 AM [express] GET /api/blog/categories 304 in 1ms :: {"success":true,"categories":["Umzugstip…
+walter_braun_web  | 📊 Blog API: Found 0 published posts
+walter_braun_web  | 10:47:57 AM [express] GET /api/blog 304 in 1ms :: {"success":true,"posts":[]}
+root@ubuntu:/opt/walter-braun-umzuege#

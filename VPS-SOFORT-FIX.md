@@ -18,17 +18,30 @@ ssh root@[VPS-IP]
 cd /opt/walter-braun-umzuege
 ```
 
-### 2. Git Update und Container-Neustart
+### 2. Git Update holen
 ```bash
 # Neuste Fixes holen
 git pull origin main
+```
 
-# Container mit robustem Storage neu starten
+### 3. Database Environment Fix ausführen
+```bash
+# Database-Verbindung korrigieren (wichtig!)
+chmod +x vps-db-env-fix.sh
+./vps-db-env-fix.sh
+```
+
+### 4. Alternative: Manueller Fix
+Wenn das Script Probleme hat:
+```bash
+# Container stoppen
 docker-compose down
-docker-compose up -d --build
 
-# Status prüfen
-docker-compose ps
+# .env korrigieren - lokale DB statt externe
+echo "DATABASE_URL=postgresql://postgres:secure_password_2024@postgres:5432/walter_braun_umzuege" > .env
+
+# Container neu starten
+docker-compose up -d --build
 ```
 
 ### 3. System testen

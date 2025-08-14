@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 import { drizzle } from "drizzle-orm/neon-http";
 import { neon } from "@neondatabase/serverless";
 import { eq, desc } from "drizzle-orm";
+import { FileStorage } from "./storage/fileStorage";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -351,7 +352,7 @@ export class PostgreSQLStorage implements IStorage {
   }
 }
 
-// Robust storage with automatic fallback for VPS deployment
+// Robust storage with file-based persistence for VPS deployment
 class RobustStorage implements IStorage {
   private actualStorage: IStorage | null = null;
   private initialized = false;
@@ -361,7 +362,7 @@ class RobustStorage implements IStorage {
       return this.actualStorage;
     }
     
-    // Try PostgreSQL if DATABASE_URL exists
+    // Try PostgreSQL first if DATABASE_URL exists
     if (process.env.DATABASE_URL) {
       try {
         console.log("🔄 Testing PostgreSQL connection...");
@@ -369,23 +370,23 @@ class RobustStorage implements IStorage {
         
         // Simple connection test
         await pgStorage.getBlogIdeasCount();
-        console.log("✅ PostgreSQL connection successful");
+        console.log("✅ PostgreSQL connection successful - using PostgreSQL");
         
         this.actualStorage = pgStorage;
         this.initialized = true;
         return pgStorage;
         
       } catch (error: any) {
-        console.warn("⚠️ PostgreSQL connection failed, falling back to MemStorage");
+        console.warn("⚠️ PostgreSQL connection failed, falling back to FileStorage");
         console.warn("Error:", error?.message || String(error));
       }
     } else {
-      console.log("🔄 No DATABASE_URL found - using MemStorage");
+      console.log("🔄 No DATABASE_URL found - using FileStorage");
     }
     
-    // Fallback to MemStorage
-    console.log("✅ Using MemStorage for blog system");
-    this.actualStorage = new MemStorage();
+    // Fallback to FileStorage (persists data across restarts)
+    console.log("✅ Using FileStorage for persistent blog system");
+    this.actualStorage = new FileStorage('./data');
     this.initialized = true;
     return this.actualStorage;
   }

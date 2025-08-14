@@ -1057,7 +1057,7 @@ export default function Home() {
                       >
                         +49800 67 63 755
                       </a>
-                      <div className="text-gray-600 text-xs lg:text-sm">Kostenlose Beratung</div>
+                      <div className="text-gray-600 text-xs lg:text-sm">Kostenlose Beratung + Hotline</div>
                     </div>
                   </div>
 

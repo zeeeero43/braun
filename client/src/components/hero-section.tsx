@@ -92,12 +92,7 @@ export default function HeroSection() {
             onClick={scrollToContact}
             className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
-            <div className="flex flex-col items-center">
-              <div className="flex items-center">
-                <i className="fas fa-phone mr-2 sm:mr-3"></i>Kostenlose Beratung
-              </div>
-              <span className="text-xs opacity-90 mt-1">+ kostenlose Hotline</span>
-            </div>
+            <i className="fas fa-phone mr-2 sm:mr-3"></i>Kostenlose Beratung + Hotline
           </Button>
           <Button 
             onClick={scrollToAbout}

@@ -2,22 +2,9 @@ import whatsappLogo from "@assets/[CITYPNG.COM]Outline Whatsapp Wa Watsup Green 
 
 export function WhatsAppButton() {
   const handleWhatsAppClick = () => {
-    // Walter Braun Umzüge WhatsApp Nummer
-    const phoneNumber = "491743861652"; // Format: Ländercode + Nummer ohne führende 0
-    const message = encodeURIComponent("Hallo, ich interessiere mich für Ihre Umzugsdienstleistungen in München.");
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-    
-    // Debug log für Entwicklung
-    console.log('WhatsApp URL:', whatsappUrl);
-    
-    // Versuche erst die WhatsApp App zu öffnen, dann Browser
-    try {
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    } catch (error) {
-      console.error('WhatsApp öffnen fehlgeschlagen:', error);
-      // Fallback: direkter Link
-      window.location.href = whatsappUrl;
-    }
+    const url = "https://web.whatsapp.com/send?phone=491743861652&text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Ihre%20Umzugsdienstleistungen%20in%20M%C3%BCnchen.";
+    console.log('Opening WhatsApp:', url);
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (

@@ -36,7 +36,7 @@ PGPASSWORD=secure_password_2024
 PGDATABASE=walter_braun_umzuege
 
 # AI APIs für Blog-System
-DEEPSEEK_API_KEY=sk-c40f8a2a3cb440f997f4d3a5c6a3c854
+DEEPSEEK_API_KEY=
 RUNWARE_API_KEY=c4bbca5f-e3e8-43c9-bd70-51e48b050da7
 
 # Container-interne PostgreSQL Verbindung

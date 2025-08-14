@@ -77,7 +77,7 @@ export default function HeroSection() {
       <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4 sm:px-6">
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-strong animate-fade-in" style={{animationDelay: '0.2s'}}>
           <span className="block mb-2">Walter Braun Umzüge</span>
-          <span className="block text-primary text-2xl sm:text-3xl md:text-5xl font-medium">München & Umgebung</span>
+          <span className="block text-primary text-3xl sm:text-4xl md:text-6xl font-medium">München</span>
         </h1>
         
         <p className="text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 font-medium text-shadow-strong animate-fade-in" style={{animationDelay: '0.4s'}}>
@@ -118,8 +118,8 @@ export default function HeroSection() {
             <div className="text-xs sm:text-sm font-medium text-gray-200">Versichert</div>
           </div>
           <div className="bg-white/15 backdrop-blur-sm rounded-xl p-4 sm:p-6 text-center">
-            <div className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">24h</div>
-            <div className="text-xs sm:text-sm font-medium text-gray-200">Erreichbar</div>
+            <div className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2">Persönlicher</div>
+            <div className="text-xs sm:text-sm font-medium text-gray-200">Ansprechpartner</div>
           </div>
         </div>
 

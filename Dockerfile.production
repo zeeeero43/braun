@@ -14,9 +14,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build frontend und kompiliere TypeScript zu JavaScript
+# Build frontend only
 RUN npm run build
-RUN npx tsc server/serve-prod.ts --outDir dist/server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSyntheticDefaultImports true
 
 # Production Stage
 FROM base AS runner
@@ -36,6 +35,7 @@ RUN npm ci --only=production && npm cache clean --force
 COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nextjs:nodejs /app/server ./server
 COPY --from=builder --chown=nextjs:nodejs /app/shared ./shared
+COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
 
 # Install tsx und esbuild für TypeScript execution  
 RUN npm install tsx esbuild

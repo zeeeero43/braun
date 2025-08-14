@@ -1,0 +1,28 @@
+
+#20 [builder 5/5] RUN npx tsc server/serve-prod.ts --outDir dist/server --module                                                                                              ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allo                                                                                             wSyntheticDefaultImports true
+#20 6.482 server/routes.ts(4,47): error TS2307: Cannot find module '@shared/sche                                                                                             ma' or its corresponding type declarations.
+#20 6.483 server/storage.ts(1,228): error TS2307: Cannot find module '@shared/sc                                                                                             hema' or its corresponding type declarations.
+#20 ERROR: process "/bin/sh -c npx tsc server/serve-prod.ts --outDir dist/server                                                                                              --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop tr                                                                                             ue --allowSyntheticDefaultImports true" did not complete successfully: exit code                                                                                             : 2
+------
+ > [builder 5/5] RUN npx tsc server/serve-prod.ts --outDir dist/server --module                                                                                              ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allow                                                                                             SyntheticDefaultImports true:
+6.482 server/routes.ts(4,47): error TS2307: Cannot find module '@shared/schema'                                                                                              or its corresponding type declarations.
+6.483 server/storage.ts(1,228): error TS2307: Cannot find module '@shared/schema                                                                                             ' or its corresponding type declarations.
+------
+Dockerfile:19
+
+--------------------
+
+  17 |     # Build frontend und kompiliere TypeScript zu JavaScript
+
+  18 |     RUN npm run build
+
+  19 | >>> RUN npx tsc server/serve-prod.ts --outDir dist/server --module ESNext                                                                                              --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSynthe                                                                                             ticDefaultImports true
+
+  20 |
+
+  21 |     # Production Stage
+
+--------------------
+
+failed to solve: process "/bin/sh -c npx tsc server/serve-prod.ts --outDir dist/                                                                                             server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInte                                                                                             rop true --allowSyntheticDefaultImports true" did not complete successfully: exi                                                                                             t code: 2
+

@@ -9,20 +9,21 @@ export function WhatsAppButton() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
+      {/* Pulse Animation - behind button */}
+      <div className="absolute inset-0 rounded-full bg-green-500 opacity-20 whatsapp-pulse pointer-events-none"></div>
+      
       <button
         onClick={handleWhatsAppClick}
-        className="bg-green-500 hover:bg-green-600 rounded-full p-4 shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 group"
+        className="relative z-10 bg-green-500 hover:bg-green-600 rounded-full p-4 shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-300 group cursor-pointer"
         aria-label="WhatsApp Kontakt"
+        style={{ pointerEvents: 'auto' }}
       >
         <img 
           src={whatsappLogo} 
           alt="WhatsApp" 
-          className="w-8 h-8 filter brightness-0 invert group-hover:scale-110 transition-transform duration-300"
+          className="w-8 h-8 filter brightness-0 invert group-hover:scale-110 transition-transform duration-300 pointer-events-none"
         />
       </button>
-      
-      {/* Pulse Animation */}
-      <div className="absolute inset-0 rounded-full bg-green-500 opacity-20 whatsapp-pulse"></div>
     </div>
   );
 }

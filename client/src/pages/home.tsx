@@ -291,8 +291,8 @@ export default function Home() {
                     <i className="fas fa-clock text-primary text-sm sm:text-lg"></i>
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-900 mb-1 text-sm sm:text-base">24h Erreichbarkeit</h4>
-                    <p className="text-gray-600 text-xs sm:text-sm">Auch am Wochenende für Sie da</p>
+                    <h4 className="font-bold text-gray-900 mb-1 text-sm sm:text-base">Persönlicher Ansprechpartner</h4>
+                    <p className="text-gray-600 text-xs sm:text-sm">Individuelle Beratung für Ihren Umzug</p>
                   </div>
                 </div>
                 <div className="flex items-start">

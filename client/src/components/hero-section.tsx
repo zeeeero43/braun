@@ -77,7 +77,7 @@ export default function HeroSection() {
       <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-4 sm:px-6">
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-shadow-strong animate-fade-in" style={{animationDelay: '0.2s'}}>
           <span className="block mb-2">Walter Braun Umzüge</span>
-          <span className="block text-primary text-3xl sm:text-4xl md:text-6xl font-medium">München</span>
+          <span className="block text-primary text-4xl sm:text-5xl md:text-7xl font-medium">München</span>
         </h1>
         
         <p className="text-lg sm:text-xl md:text-2xl mb-3 sm:mb-4 font-medium text-shadow-strong animate-fade-in" style={{animationDelay: '0.4s'}}>
@@ -92,7 +92,12 @@ export default function HeroSection() {
             onClick={scrollToContact}
             className="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
           >
-            <i className="fas fa-phone mr-2 sm:mr-3"></i>Kostenlose Beratung
+            <div className="flex flex-col items-center">
+              <div className="flex items-center">
+                <i className="fas fa-phone mr-2 sm:mr-3"></i>Kostenlose Beratung
+              </div>
+              <span className="text-xs opacity-90 mt-1">+ kostenlose Hotline</span>
+            </div>
           </Button>
           <Button 
             onClick={scrollToAbout}

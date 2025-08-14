@@ -14,8 +14,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build frontend (Vite build)
+# Build frontend und kompiliere TypeScript zu JavaScript
 RUN npm run build
+RUN npx tsc server/serve-prod.ts --outDir dist/server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSyntheticDefaultImports true
 
 # Production Stage
 FROM base AS runner
@@ -36,106 +37,58 @@ COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nextjs:nodejs /app/server ./server
 COPY --from=builder --chown=nextjs:nodejs /app/shared ./shared
 
-# Create production server that imports the real server modules directly
+# Install tsx und esbuild für TypeScript execution  
+RUN npm install tsx esbuild
+
+# Create production server startup script
 COPY --chown=nextjs:nodejs <<'EOF' /app/serve-production.js
-// Production server - direkte Verwendung der echten Server-Module
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+// Production server startup - verwendet tsx für vollständige TypeScript Unterstützung
+import { spawn } from 'child_process';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Log function (kopiert von server/index.ts)
-function log(message, source = "express") {
+function log(message, source = "production") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true,
   });
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-const app = express();
-const PORT = process.env.PORT || 5000;
+log('🚀 Starting Walter Braun Umzüge Production Server...');
+log('🔧 Using tsx for TypeScript execution with full Blog system');
 
-// Middleware (kopiert von server/index.ts)
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// Environment setup
+process.env.NODE_ENV = 'production';
 
-// Request logging middleware
-app.use((req, res, next) => {
-  const start = Date.now();
-  const path = req.path;
-  let capturedJsonResponse;
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
-
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-      log(logLine);
-    }
-  });
-  next();
+// Start production server with tsx
+const serverProcess = spawn('npx', ['tsx', 'server/serve-prod.ts'], {
+  stdio: 'inherit',
+  env: process.env,
+  cwd: process.cwd()
 });
 
-// Basic health check
-app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
-    timestamp: new Date().toISOString(),
-    version: process.env.npm_package_version || '1.0.0',
-    blog_system: 'disabled_in_production'
-  });
+serverProcess.on('error', (error) => {
+  log(`❌ Failed to start server: ${error.message}`, 'error');
+  process.exit(1);
 });
 
-// Static file serving
-const publicPath = path.resolve(__dirname, 'dist/public');
-app.use(express.static(publicPath));
-
-// SPA fallback
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(publicPath, 'index.html'));
-});
-
-// Error handler
-app.use((err, req, res, next) => {
-  const status = err.status || err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  res.status(status).json({ message });
-  log(`Error ${status}: ${message}`, 'error');
-});
-
-// Start server
-app.listen(PORT, '0.0.0.0', () => {
-  log(`🚀 Walter Braun Umzüge Server läuft auf Port ${PORT}`);
-  log(`🏥 Health Check: http://localhost:${PORT}/health`);
-  log(`🌍 Environment: ${process.env.NODE_ENV || 'production'}`);
-  log(`⚠️ Blog-System: Deaktiviert in Production (VPS)`)
-  log(`📁 Static files: ${publicPath}`);
+serverProcess.on('exit', (code, signal) => {
+  if (signal) {
+    log(`🔄 Server process killed by signal ${signal}`, 'info');
+  } else {
+    log(`❌ Server process exited with code ${code}`, 'error');
+  }
+  process.exit(code || 1);
 });
 
 // Graceful shutdown
-process.on('SIGTERM', () => {
-  log('SIGTERM received, shutting down gracefully');
-  process.exit(0);
-});
+function shutdown(signal) {
+  log(`📡 ${signal} received, shutting down gracefully...`);
+  serverProcess.kill(signal);
+}
 
-process.on('SIGINT', () => {
-  log('SIGINT received, shutting down gracefully');
-  process.exit(0);
-});
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
+
+log('✅ Production wrapper started successfully');
 EOF
 
 # Create directories

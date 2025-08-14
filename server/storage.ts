@@ -1,5 +1,9 @@
 import { type User, type InsertUser, type ContactSubmission, type InsertContactSubmission, type AutoBlogPost, type InsertAutoBlogPost, type BlogIdea, type InsertBlogIdea, type AiGenerationLog, type InsertAiGenerationLog } from "@shared/schema";
+import { users, contactSubmissions, autoBlogPosts, blogIdeas, aiGenerationLogs } from "@shared/schema";
 import { randomUUID } from "crypto";
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon } from "@neondatabase/serverless";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -194,4 +198,159 @@ export class MemStorage implements IStorage {
   }
 }
 
+// PostgreSQL Storage Implementation
+export class PostgreSQLStorage implements IStorage {
+  private db: ReturnType<typeof drizzle>;
+
+  constructor() {
+    const sql = neon(process.env.DATABASE_URL!);
+    this.db = drizzle(sql);
+  }
+
+  async getUser(id: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.id, id));
+    return result[0];
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const result = await this.db.select().from(users).where(eq(users.username, username));
+    return result[0];
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const result = await this.db.insert(users).values(insertUser).returning();
+    return result[0];
+  }
+
+  async createContactSubmission(insertSubmission: InsertContactSubmission): Promise<ContactSubmission> {
+    const result = await this.db.insert(contactSubmissions).values(insertSubmission).returning();
+    return result[0];
+  }
+
+  async getContactSubmissions(): Promise<ContactSubmission[]> {
+    return await this.db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt));
+  }
+
+  // Blog functionality with PostgreSQL
+  async createBlogPost(postData: Omit<InsertAutoBlogPost, 'id'>): Promise<AutoBlogPost> {
+    const insertData = {
+      slug: postData.slug,
+      title: postData.title,
+      excerpt: postData.excerpt,
+      content: postData.content,
+      metaDescription: postData.metaDescription,
+      keywords: Array.isArray(postData.keywords) ? postData.keywords as string[] : [],
+      tags: Array.isArray(postData.tags) ? postData.tags as string[] : [],
+      category: postData.category,
+      author: postData.author || "Walter Braun Umzüge Team",
+      readTime: postData.readTime,
+      image: postData.image,
+      imageAlt: postData.imageAlt,
+      imagePrompt: postData.imagePrompt,
+      faqData: Array.isArray(postData.faqData) ? postData.faqData as Array<{question: string, answer: string}> : [],
+      isPublished: postData.isPublished || true,
+      publishedAt: postData.publishedAt
+    };
+    
+    const result = await this.db.insert(autoBlogPosts).values(insertData).returning();
+    return result[0];
+  }
+
+  async getBlogPosts(options?: { category?: string; limit?: number; offset?: number }): Promise<AutoBlogPost[]> {
+    let baseQuery = this.db.select().from(autoBlogPosts);
+    
+    if (options?.category) {
+      baseQuery = baseQuery.where(eq(autoBlogPosts.category, options.category));
+    }
+    
+    let finalQuery = baseQuery.orderBy(desc(autoBlogPosts.createdAt));
+    
+    if (options?.limit) {
+      finalQuery = finalQuery.limit(options.limit);
+    }
+    
+    if (options?.offset) {
+      finalQuery = finalQuery.offset(options.offset);
+    }
+    
+    return await finalQuery;
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<AutoBlogPost | undefined> {
+    const result = await this.db.select().from(autoBlogPosts).where(eq(autoBlogPosts.slug, slug));
+    return result[0];
+  }
+
+  async getPublishedBlogPosts(options?: { category?: string; limit?: number; offset?: number }): Promise<AutoBlogPost[]> {
+    let baseQuery = this.db.select().from(autoBlogPosts).where(eq(autoBlogPosts.isPublished, true));
+    
+    if (options?.category) {
+      baseQuery = baseQuery.where(eq(autoBlogPosts.category, options.category));
+    }
+    
+    let finalQuery = baseQuery.orderBy(desc(autoBlogPosts.publishedAt));
+    
+    if (options?.limit) {
+      finalQuery = finalQuery.limit(options.limit);
+    }
+    
+    if (options?.offset) {
+      finalQuery = finalQuery.offset(options.offset);
+    }
+    
+    return await finalQuery;
+  }
+
+  async getBlogCategories(): Promise<string[]> {
+    const result = await this.db.selectDistinct({ category: autoBlogPosts.category }).from(autoBlogPosts);
+    return result.map(r => r.category);
+  }
+
+  // Blog ideas
+  async createBlogIdea(ideaData: Omit<InsertBlogIdea, 'id'>): Promise<BlogIdea> {
+    const insertData = {
+      topic: ideaData.topic,
+      category: ideaData.category,
+      keywords: Array.isArray(ideaData.keywords) ? ideaData.keywords as string[] : [],
+      isUsed: ideaData.isUsed || false
+    };
+    
+    const result = await this.db.insert(blogIdeas).values(insertData).returning();
+    return result[0];
+  }
+
+  async getBlogIdeas(unused?: boolean): Promise<BlogIdea[]> {
+    let baseQuery = this.db.select().from(blogIdeas);
+    
+    if (unused !== undefined) {
+      baseQuery = baseQuery.where(eq(blogIdeas.isUsed, !unused));
+    }
+    
+    return await baseQuery.orderBy(blogIdeas.createdAt);
+  }
+
+  async markBlogIdeaAsUsed(id: number): Promise<void> {
+    await this.db.update(blogIdeas).set({ isUsed: true }).where(eq(blogIdeas.id, id));
+  }
+
+  async getBlogIdeasCount(unused?: boolean): Promise<number> {
+    let baseQuery = this.db.select().from(blogIdeas);
+    
+    if (unused !== undefined) {
+      baseQuery = baseQuery.where(eq(blogIdeas.isUsed, !unused));
+    }
+    
+    const result = await baseQuery;
+    return result.length;
+  }
+
+  // AI logs
+  async createAiLog(logData: Omit<InsertAiGenerationLog, 'id'>): Promise<AiGenerationLog> {
+    const result = await this.db.insert(aiGenerationLogs).values(logData).returning();
+    return result[0];
+  }
+}
+
+// Temporarily use MemStorage while fixing PostgreSQL issues
 export const storage = new MemStorage();
+// TODO: Fix PostgreSQL storage and switch back to: process.env.DATABASE_URL ? new PostgreSQLStorage() : new MemStorage();

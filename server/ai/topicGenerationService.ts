@@ -29,27 +29,48 @@ export class TopicGenerationService {
   }
 
   private async generateNewTopics(count: number): Promise<void> {
-    try {
-      const newIdeas = await this.deepSeekService.generateTopicIdeas(count);
-      
-      for (const idea of newIdeas) {
-        try {
-          await storage.createBlogIdea({
-            topic: idea.topic,
-            category: idea.category,
-            keywords: idea.keywords,
-            isUsed: false
-          });
-        } catch (insertError) {
-          // Skip if topic already exists
-          console.warn(`Topic already exists: ${idea.topic}`);
+    const maxRetries = 2;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`🔄 Topic generation attempt ${attempt}/${maxRetries}...`);
+        const newIdeas = await this.deepSeekService.generateTopicIdeas(count);
+        
+        let successCount = 0;
+        for (const idea of newIdeas) {
+          try {
+            await storage.createBlogIdea({
+              topic: idea.topic,
+              category: idea.category,
+              keywords: idea.keywords,
+              isUsed: false
+            });
+            successCount++;
+          } catch (insertError) {
+            // Skip if topic already exists
+            console.warn(`⚠️ Topic already exists: ${idea.topic}`);
+          }
         }
+        
+        console.log(`✅ Successfully generated ${successCount} new topics`);
+        
+        if (successCount > 0) {
+          return; // Success - exit retry loop
+        }
+        
+      } catch (error: any) {
+        console.error(`❌ Topic generation attempt ${attempt} failed:`, error.message || String(error));
+        
+        if (attempt === maxRetries) {
+          console.error("All topic generation attempts failed - blog system will continue with existing topics");
+          return; // Don't throw - allow system to continue
+        }
+        
+        // Wait before retry
+        const waitTime = attempt * 3000;
+        console.log(`⏳ Retrying topic generation in ${waitTime/1000}s...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
       }
-      
-      console.log(`Successfully generated ${newIdeas.length} new topics`);
-    } catch (error) {
-      console.error("Failed to generate new topics:", error);
-      throw error;
     }
   }
 

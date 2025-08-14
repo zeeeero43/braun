@@ -58,10 +58,14 @@ export class BlogScheduler {
       try {
         await this.generateBlogPost();
         this.scheduleNextGeneration(); // Schedule next iteration
-      } catch (error) {
-        console.error("❌ Error in scheduled blog generation:", error);
-        // Retry in 30 minutes on error
-        setTimeout(() => this.scheduleNextGeneration(), 30 * 60 * 1000);
+      } catch (error: any) {
+        console.error("❌ Error in scheduled blog generation:", error.message || String(error));
+        
+        // More intelligent retry logic
+        const retryDelay = error.message?.includes('API') ? 15 * 60 * 1000 : 30 * 60 * 1000; // 15min for API errors, 30min for others
+        
+        console.log(`⏳ Scheduling next generation attempt in ${retryDelay/60000} minutes...`);
+        setTimeout(() => this.scheduleNextGeneration(), retryDelay);
       }
     }, nextInterval);
 

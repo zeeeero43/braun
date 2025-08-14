@@ -1,0 +1,53 @@
+#15 5.537
+#15 5.537 (!) Some chunks are larger than 500 kB after minification. Consider:
+#15 5.537 - Using dynamic import() to code-split the application
+#15 5.537 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#15 5.537 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#15 5.537 ../dist/public/assets/index-BQgzjtOO.js                                                                                                   509.78 kB │ gzip: 150.67 kB
+#15 5.537 ✓ built in 4.59s
+#15 5.590
+#15 5.590   dist/index.js  56.9kb
+#15 5.590
+#15 5.590 ⚡ Done in 5ms
+#15 5.595 npm notice
+#15 5.595 npm notice New major version of npm available! 10.8.2 -> 11.5.2
+#15 5.595 npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+#15 5.595 npm notice To update run: npm install -g npm@11.5.2
+#15 5.595 npm notice
+#15 DONE 5.6s
+
+#16 [builder 5/5] RUN npx tsc server/serve-prod.ts --outDir dist/server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSyntheticDefaultImports true
+#16 6.411 server/routes.ts(4,47): error TS2307: Cannot find module '@shared/schema' or its corresponding type declarations.
+#16 6.411 server/storage.ts(1,228): error TS2307: Cannot find module '@shared/schema' or its corresponding type declarations.
+#16 ERROR: process "/bin/sh -c npx tsc server/serve-prod.ts --outDir dist/server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSyntheticDefaultImports true" did not complete successfully: exit code: 2
+------
+ > [builder 5/5] RUN npx tsc server/serve-prod.ts --outDir dist/server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSyntheticDefaultImports true:
+6.411 server/routes.ts(4,47): error TS2307: Cannot find module '@shared/schema' or its corresponding type declarations.
+6.411 server/storage.ts(1,228): error TS2307: Cannot find module '@shared/schema' or its corresponding type declarations.
+------
+Dockerfile:19
+
+--------------------
+
+  17 |     # Build frontend und kompiliere TypeScript zu JavaScript
+
+  18 |     RUN npm run build
+
+  19 | >>> RUN npx tsc server/serve-prod.ts --outDir dist/server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSyntheticDefaultImports true
+
+  20 |
+
+  21 |     # Production Stage
+
+--------------------
+
+failed to solve: process "/bin/sh -c npx tsc server/serve-prod.ts --outDir dist/server --module ESNext --target ES2022 --moduleResolution bundler --esModuleInterop true --allowSyntheticDefaultImports true" did not complete successfully: exit code: 2
+
+🏁 Emergency Fix abgeschlossen!
+📊 Container Status:
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+🏥 Health Check:
+curl: (7) Failed to connect to localhost port 80 after 0 ms: Connection refused
+❌ Problem erkannt
+./vps-emergency-fix.sh: line 129: EOL: command not found
+root@ubuntu:/opt/walter-braun-umzuege#

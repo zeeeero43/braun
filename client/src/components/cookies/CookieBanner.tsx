@@ -12,6 +12,11 @@ export default function CookieBanner() {
     showConsentSettings, 
     hideConsent 
   } = useCookieConsent();
+  
+  const handleSettingsClick = () => {
+    console.log("Settings button clicked"); // Debug log
+    showConsentSettings();
+  };
 
   if (!showBanner) return null;
 
@@ -66,7 +71,7 @@ export default function CookieBanner() {
                 </Button>
                 
                 <Button
-                  onClick={showConsentSettings}
+                  onClick={handleSettingsClick}
                   variant="ghost"
                   className="text-gray-600 hover:text-gray-800 px-6"
                 >

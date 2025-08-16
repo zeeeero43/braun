@@ -1272,12 +1272,7 @@ export default function Home() {
                     Datenschutz
                   </Link>
                 </li>
-                <li>
-                  <CookieSettingsButton 
-                    variant="ghost"
-                    className="text-gray-400 hover:text-white transition-colors text-left p-0 h-auto font-normal"
-                  />
-                </li>
+
               </ul>
             </div>
           </div>
@@ -1288,9 +1283,9 @@ export default function Home() {
               </p>
               <div className="flex items-center gap-4">
                 <CookieSettingsButton 
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
-                  className="text-gray-400 border-gray-600 hover:text-white hover:border-gray-400"
+                  className="text-gray-400 hover:text-white"
                 />
                 <span className="text-xs text-gray-500">DSGVO-konform</span>
               </div>

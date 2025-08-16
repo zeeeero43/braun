@@ -170,9 +170,9 @@ export default function Impressum() {
               </p>
               <div className="flex items-center gap-4">
                 <CookieSettingsButton 
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
-                  className="text-gray-400 border-gray-600 hover:text-white hover:border-gray-400"
+                  className="text-gray-400 hover:text-white"
                 />
                 <span className="text-xs text-gray-500">DSGVO-konform</span>
               </div>

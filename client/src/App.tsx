@@ -7,6 +7,7 @@ import Home from "@/pages/home";
 import BlogPage from "@/pages/blog";
 import BlogPostPage from "@/pages/blog-post";
 import NotFound from "@/pages/not-found";
+import PerformanceMonitor from "@/components/seo/PerformanceMonitor";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <PerformanceMonitor />
         <Toaster />
         <Router />
       </TooltipProvider>

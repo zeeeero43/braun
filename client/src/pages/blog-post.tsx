@@ -7,6 +7,10 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Clock, Calendar, User, ChevronLeft, Share2, Tag } from "lucide-react";
 import { Helmet } from "react-helmet";
 import Navigation from "@/components/navigation";
+import SEOHead from "@/components/seo/SEOHead";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
+import LazyImage from "@/components/seo/LazyImage";
+import { generateFAQData } from "@/hooks/useSEOData";
 
 interface BlogPost {
   id: number;
@@ -144,23 +148,18 @@ export default function BlogPostPage() {
 
   return (
     <>
-      <Helmet>
-        <title>{post.title}</title>
-        <meta name="description" content={post.metaDescription} />
-        <meta name="keywords" content={post.keywords.join(", ")} />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.metaDescription} />
-        <meta property="og:image" content={post.image} />
-        <meta property="og:type" content="article" />
-        <meta property="article:author" content={post.author} />
-        <meta property="article:published_time" content={post.publishedAt} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.metaDescription} />
-        <meta name="twitter:image" content={post.image} />
-        <link rel="canonical" href={`https://walterbraun-umzuege.de/blog/${post.slug}`} />
-        <script type="application/ld+json">
-          {JSON.stringify({
+      <SEOHead 
+        title={post.title}
+        description={post.metaDescription}
+        keywords={post.keywords}
+        url={`https://walterbraun-muenchen.de/blog/${post.slug}`}
+        image={post.image}
+        type="article"
+        author={post.author}
+        publishedTime={post.publishedAt}
+        modifiedTime={post.publishedAt}
+        structuredData={[
+          {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             "headline": post.title,
@@ -175,22 +174,32 @@ export default function BlogPostPage() {
               "name": "Walter Braun Umzüge",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://walterbraun-umzuege.de/logo.png"
+                "url": "https://walterbraun-muenchen.de/logo.png"
               }
             },
             "datePublished": post.publishedAt,
             "dateModified": post.publishedAt,
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://walterbraun-umzuege.de/blog/${post.slug}`
+              "@id": `https://walterbraun-muenchen.de/blog/${post.slug}`
             }
-          })}
-        </script>
-      </Helmet>
+          },
+          generateFAQData(post.faqData || [])
+        ].filter(Boolean)}
+      />
 
       <div className="min-h-screen bg-gray-50">
         <Navigation />
         <div className="container mx-auto px-4 py-8 pt-32">
+          {/* Breadcrumbs */}
+          <Breadcrumbs 
+            items={[
+              { name: "Blog", url: "/blog" },
+              { name: post.title, url: `/blog/${post.slug}` }
+            ]}
+            className="mb-6"
+          />
+          
           {/* Navigation */}
           <div className="mb-8">
             <Link href="/blog">
@@ -204,10 +213,12 @@ export default function BlogPostPage() {
           <div className="max-w-4xl mx-auto">
             {/* Hero Image */}
             <div className="relative mb-8 rounded-2xl overflow-hidden shadow-2xl">
-              <img
+              <LazyImage
                 src={post.image}
                 alt={post.imageAlt}
                 className="w-full h-64 md:h-80 object-cover"
+                width={800}
+                height={400}
               />
               <div className="absolute top-6 left-6">
                 <Badge className="bg-green-600 text-white text-sm px-3 py-1">

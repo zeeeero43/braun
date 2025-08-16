@@ -7,6 +7,8 @@ import { Clock, Calendar, User, ArrowRight, ChevronLeft, ChevronRight } from "lu
 import { Link, useLocation } from "wouter";
 import { useState } from "react";
 import Navigation from "@/components/navigation";
+import SEOHead from "@/components/seo/SEOHead";
+import Breadcrumbs from "@/components/seo/Breadcrumbs";
 
 interface BlogPost {
   id: number;
@@ -83,15 +85,24 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <Helmet>
-        <title>Blog & Ratgeber - Umzugstipps für München | Walter Braun Umzüge</title>
-        <meta name="description" content="Professionelle Umzugstipps und Ratgeber für München und Bayern. Packen, Organisieren, Umzugsrecht - Ihr Experte Walter Braun Umzüge." />
-        <meta name="keywords" content="Umzugstipps München, Umzug Ratgeber, Packen Organisieren, Umzugsrecht Bayern" />
-        <meta property="og:title" content="Blog & Ratgeber - Umzugstipps für München" />
-        <meta property="og:description" content="Professionelle Umzugstipps und Ratgeber für München und Bayern von Walter Braun Umzüge." />
-        <meta property="og:type" content="website" />
-        <link rel="canonical" href="https://walterbraun-umzuege.de/blog" />
-      </Helmet>
+      <SEOHead 
+        title="Blog & Ratgeber - Umzugstipps für München"
+        description="Professionelle Umzugstipps und Ratgeber für München und Bayern. Packen, Organisieren, Umzugsrecht - Ihr Experte Walter Braun Umzüge."
+        keywords={["Umzugstipps München", "Umzug Ratgeber", "Packen Organisieren", "Umzugsrecht Bayern", "Umzugsplanung", "München Umzug", "Umzugsfirma München"]}
+        url="https://walterbraun-muenchen.de/blog"
+        type="website"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "name": "Walter Braun Umzüge Blog & Ratgeber",
+          "description": "Professionelle Umzugstipps und Ratgeber für München und Bayern",
+          "url": "https://walterbraun-muenchen.de/blog",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Walter Braun Umzüge"
+          }
+        }}
+      />
       <Navigation />
       {/* Header Section */}
       <div className="bg-green-600 text-white py-16 pt-32">
@@ -109,6 +120,14 @@ export default function BlogPage() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          items={[
+            { name: "Blog", url: "/blog" }
+          ]}
+          className="mb-6"
+        />
+        
         {/* Navigation */}
         <div className="mb-8">
           <Button 

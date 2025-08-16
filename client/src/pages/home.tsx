@@ -4,6 +4,8 @@ import HeroSection from "@/components/hero-section";
 import ServiceModal from "@/components/service-modal";
 import ContactForm from "@/components/contact-form";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import SEOHead from "@/components/seo/SEOHead";
+import { useLocalBusinessData, generateServiceData } from "@/hooks/useSEOData";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import teamImage from "@assets/thumbnail_e11700c1-5142-4f7b-8f62-807fe02e071b_1755077031397.jpg";
@@ -173,6 +175,7 @@ const serviceData = {
 
 export default function Home() {
   const [selectedService, setSelectedService] = useState<keyof typeof serviceData | null>(null);
+  const { data: localBusinessData } = useLocalBusinessData();
 
   const openServiceModal = (serviceId: keyof typeof serviceData) => {
     setSelectedService(serviceId);
@@ -191,8 +194,39 @@ export default function Home() {
 
   const currentServiceData = selectedService ? serviceData[selectedService] : null;
 
+  const homeStructuredData = [
+    localBusinessData,
+    generateServiceData(),
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Walter Braun Umzüge",
+      "url": "https://walterbraun-muenchen.de",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://walterbraun-muenchen.de/blog?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ].filter(Boolean);
+
   return (
     <div className="min-h-screen">
+      <SEOHead 
+        title="Walter Braun Umzüge München - Ihr Profi für stressfreie Umzüge"
+        description="Professionelle Umzugsdienstleistungen in München & Bayern. ✓ Privatumzug ✓ Firmenumzug ✓ Packservice ✓ CHECK24 Top Profi 2025. Jetzt kostenlos anfragen!"
+        keywords={[
+          "Umzug München", "Umzugsfirma München", "Umzugsunternehmen Bayern", 
+          "Privatumzug", "Firmenumzug", "Packservice München", "Entrümpelung München",
+          "Umzugsservice", "CHECK24 Top Profi", "ImmoScout24 Partner"
+        ]}
+        url="https://walterbraun-muenchen.de"
+        type="local_business"
+        structuredData={homeStructuredData}
+      />
       <Navigation />
       <HeroSection />
 

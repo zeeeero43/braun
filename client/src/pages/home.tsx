@@ -1263,14 +1263,14 @@ export default function Home() {
               <h4 className="font-semibold mb-3 lg:mb-4 text-base lg:text-lg">Rechtliches</h4>
               <ul className="space-y-2 text-gray-400 text-sm lg:text-base">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <Link href="/impressum" className="hover:text-white transition-colors">
                     Impressum
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <Link href="/datenschutz" className="hover:text-white transition-colors">
                     Datenschutz
-                  </a>
+                  </Link>
                 </li>
                 <li>
                   <CookieSettingsButton 

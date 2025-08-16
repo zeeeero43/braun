@@ -7,6 +7,8 @@ import Home from "@/pages/home";
 import BlogPage from "@/pages/blog";
 import BlogPostPage from "@/pages/blog-post";
 import NotFound from "@/pages/not-found";
+import Impressum from "@/pages/impressum";
+import Datenschutz from "@/pages/datenschutz";
 import PerformanceMonitor from "@/components/seo/PerformanceMonitor";
 import CookieManager from "@/components/cookies/CookieManager";
 
@@ -16,6 +18,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/blog" component={BlogPage} />
       <Route path="/blog/:slug" component={BlogPostPage} />
+      <Route path="/impressum" component={Impressum} />
+      <Route path="/datenschutz" component={Datenschutz} />
       <Route component={NotFound} />
     </Switch>
   );

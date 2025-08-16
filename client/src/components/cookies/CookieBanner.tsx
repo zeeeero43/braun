@@ -29,13 +29,10 @@ export default function CookieBanner() {
             
             {/* Content */}
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-3">
+              <div className="mb-3">
                 <h3 className="text-lg font-semibold text-gray-900">
                   Ihre Privatsphäre ist uns wichtig
                 </h3>
-                <Badge variant="outline" className="text-xs">
-                  DSGVO konform
-                </Badge>
               </div>
               
               <p className="text-sm text-gray-600 mb-4 leading-relaxed">

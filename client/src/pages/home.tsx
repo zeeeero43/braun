@@ -6,6 +6,8 @@ import ContactForm from "@/components/contact-form";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import SEOHead from "@/components/seo/SEOHead";
 import { useLocalBusinessData, generateServiceData } from "@/hooks/useSEOData";
+import CookieSettingsButton from "@/components/cookies/CookieSettingsButton";
+import GoogleAnalytics from "@/components/tracking/GoogleAnalytics";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import teamImage from "@assets/thumbnail_e11700c1-5142-4f7b-8f62-807fe02e071b_1755077031397.jpg";
@@ -1271,15 +1273,28 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
-                    Cookie-Richtlinie (EU)
-                  </a>
+                  <CookieSettingsButton 
+                    variant="ghost"
+                    className="text-gray-400 hover:text-white transition-colors text-left p-0 h-auto font-normal"
+                  />
                 </li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-6 lg:mt-8 pt-6 lg:pt-8 text-center text-gray-400">
-            <p className="text-sm lg:text-base">&copy; 2025 Walter Braun Umzüge. Alle Rechte vorbehalten.</p>
+          <div className="border-t border-gray-800 mt-6 lg:mt-8 pt-6 lg:pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-sm lg:text-base text-gray-400">
+                &copy; 2025 Walter Braun Umzüge. Alle Rechte vorbehalten.
+              </p>
+              <div className="flex items-center gap-4">
+                <CookieSettingsButton 
+                  variant="outline"
+                  size="sm"
+                  className="text-gray-400 border-gray-600 hover:text-white hover:border-gray-400"
+                />
+                <span className="text-xs text-gray-500">DSGVO-konform</span>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
@@ -1292,6 +1307,7 @@ export default function Home() {
       />
       
       <WhatsAppButton />
+      <GoogleAnalytics />
     </div>
   );
 }

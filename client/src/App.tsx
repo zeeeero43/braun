@@ -8,6 +8,7 @@ import BlogPage from "@/pages/blog";
 import BlogPostPage from "@/pages/blog-post";
 import NotFound from "@/pages/not-found";
 import PerformanceMonitor from "@/components/seo/PerformanceMonitor";
+import CookieManager from "@/components/cookies/CookieManager";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <PerformanceMonitor />
+        <CookieManager />
         <Toaster />
         <Router />
       </TooltipProvider>

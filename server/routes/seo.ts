@@ -119,13 +119,13 @@ router.get("/api/structured-data/local-business", (req, res) => {
     ],
     "url": "https://walterbraun-muenchen.de",
     "telephone": "+49-174-3861652",
-    "email": "info@walterbraun-muenchen.de",
+    "email": "info@walterbraun-umzuege.de",
     "priceRange": "€€",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Musterstraße 123",
+      "streetAddress": "Landsberger Str. 302",
       "addressLocality": "München",
-      "postalCode": "80331",
+      "postalCode": "80687",
       "addressCountry": "DE",
       "addressRegion": "Bayern"
     },

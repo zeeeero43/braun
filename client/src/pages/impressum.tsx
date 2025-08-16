@@ -40,13 +40,13 @@ export default function Impressum() {
                   Jawan Bakhat
                 </div>
                 <div className="text-lg text-green-600 font-medium">
-                  Weinheimer Umzüge und Küchenmontage
+                  Walter Braun Umzüge München
                 </div>
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-gray-500 mt-1" />
                   <div>
-                    <div>Stettiner Straße 117</div>
-                    <div>69469 Weinheim</div>
+                    <div>Landsberger Str. 302</div>
+                    <div>80687 München</div>
                   </div>
                 </div>
               </div>
@@ -72,8 +72,8 @@ export default function Impressum() {
                   <Mail className="w-5 h-5 text-gray-500" />
                   <div>
                     <span className="text-gray-600">E-Mail: </span>
-                    <a href="mailto:weinheimer.umzuege@web.de" className="text-green-600 hover:underline font-medium">
-                      weinheimer.umzuege@web.de
+                    <a href="mailto:info@walterbraun-umzuege.de" className="text-green-600 hover:underline font-medium">
+                      info@walterbraun-umzuege.de
                     </a>
                   </div>
                 </div>

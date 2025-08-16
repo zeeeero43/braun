@@ -45,10 +45,10 @@ export default function Datenschutz() {
                 <p>
                   <strong>Verantwortlicher im Sinne der DSGVO:</strong><br />
                   Jawan Bakhat<br />
-                  Weinheimer Umzüge und Küchenmontage<br />
-                  Stettiner Straße 117<br />
-                  69469 Weinheim<br />
-                  E-Mail: weinheimer.umzuege@web.de<br />
+                  Walter Braun Umzüge München<br />
+                  Landsberger Str. 302<br />
+                  80687 München<br />
+                  E-Mail: info@walterbraun-umzuege.de<br />
                   Telefon: +49 176 724 883 32
                 </p>
               </div>
@@ -249,8 +249,8 @@ export default function Datenschutz() {
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
                     <Mail className="w-4 h-4 text-gray-500" />
-                    <a href="mailto:weinheimer.umzuege@web.de" className="text-green-600 hover:underline">
-                      weinheimer.umzuege@web.de
+                    <a href="mailto:info@walterbraun-umzuege.de" className="text-green-600 hover:underline">
+                      info@walterbraun-umzuege.de
                     </a>
                   </div>
                   <div className="flex items-center gap-3">

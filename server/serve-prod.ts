@@ -1,4 +1,6 @@
-// Production server für VPS - vollständiges Blog-System ohne Vite
+#!/usr/bin/env node
+
+// Production server für VPS - vollständiges Blog-System
 import express, { type Request, Response, NextFunction } from "express";
 import path from "path";
 import { fileURLToPath } from "url";

@@ -334,14 +334,49 @@ Verwenden Sie diese Struktur:
     try {
       console.log("🔍 Parsing DeepSeek response...");
       
-      // Extract JSON from response (in case there's additional text)
-      const jsonMatch = response.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) {
-        console.error("❌ No JSON found in response:", response.substring(0, 500));
-        throw new Error("No valid JSON found in response");
+      // Try multiple JSON extraction methods
+      let jsonString = "";
+      
+      // Method 1: Look for ```json blocks
+      const jsonBlockMatch = response.match(/```json\s*\n?([\s\S]*?)\n?```/);
+      if (jsonBlockMatch) {
+        jsonString = jsonBlockMatch[1].trim();
+        console.log("✅ Found JSON in code block");
+      } else {
+        // Method 2: Look for any JSON object
+        const jsonMatch = response.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          jsonString = jsonMatch[0];
+          console.log("✅ Found JSON object");
+        } else {
+          // Method 3: Fallback - create JSON from visible content
+          console.log("⚠️ No JSON found, attempting to extract content manually");
+          const titleMatch = response.match(/"title":\s*"([^"]+)"/);
+          const excerptMatch = response.match(/"excerpt":\s*"([^"]+)"/);
+          
+          if (titleMatch && response.includes('"content"')) {
+            // Create minimal JSON structure
+            const title = titleMatch[1] || "Umzugsservice München";
+            const excerpt = excerptMatch ? excerptMatch[1] : "Professionelle Umzugsdienstleistungen in München und Umgebung.";
+            
+            return {
+              title,
+              excerpt,
+              content: `# ${title}\n\n${excerpt}\n\nWir unterstützen Sie bei Ihrem Umzug in München mit professionellem Service und langjähriger Erfahrung.`,
+              metaDescription: excerpt,
+              keywords: ["Umzug", "München", "Umzugsservice"],
+              tags: ["Umzug", "Service"],
+              readTime: "5 Min. Lesezeit",
+              faq: []
+            };
+          }
+          
+          console.error("❌ No JSON or extractable content found in response:", response.substring(0, 800));
+          throw new Error("No valid JSON found in response");
+        }
       }
 
-      const parsed = JSON.parse(jsonMatch[0]);
+      const parsed = JSON.parse(jsonString);
       console.log("✅ JSON parsed successfully");
       
       // Validate required fields

@@ -112,16 +112,11 @@ async function startServer() {
       log(`Error ${status}: ${message}`, "error");
     });
 
-    // Static files serving
-    const publicPath = path.resolve(__dirname, "../dist/public");
-    app.use(express.static(publicPath));
-
-    // SPA fallback
-    app.get("*", (req, res) => {
-      res.sendFile(path.resolve(publicPath, "index.html"));
-    });
+    // Static files serving - will be called by index.ts in production
+    setupStaticFiles(app);
 
     const port = parseInt(process.env.PORT || "5000");
+    const publicPath = path.resolve(__dirname, "../dist/public");
     app.listen(port, "0.0.0.0", () => {
       log(`🚀 Walter Braun Umzüge Production Server auf Port ${port}`);
       log(`🏥 Health Check: http://localhost:${port}/health`);
@@ -147,4 +142,25 @@ process.on("SIGINT", () => {
   process.exit(0);
 });
 
-startServer();
+// Export function for use by index.ts
+export function serveStatic(app: express.Application) {
+  setupStaticFiles(app);
+}
+
+// Function to setup static file serving
+function setupStaticFiles(app: express.Application) {
+  const publicPath = path.resolve(__dirname, "../dist/public");
+  log(`📁 Setting up static files from: ${publicPath}`);
+  
+  app.use(express.static(publicPath));
+  
+  // SPA fallback - serve index.html for all non-API routes
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(publicPath, "index.html"));
+  });
+}
+
+// For standalone execution (e.g., docker)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  startServer();
+}

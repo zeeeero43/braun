@@ -122,28 +122,39 @@ export default function BlogPostPage() {
     }
   };
 
-  // Convert markdown content to HTML (simple implementation) 
-  const markdownToHtml = (markdown: string) => {
-    return markdown
-      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-800 mb-6 mt-8">$1</h1>')
-      .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-6">$1</h2>')
-      .replace(/^### (.*$)/gim, '<h3 class="text-xl font-medium text-gray-800 mb-3 mt-5">$1</h3>')
-      .replace(/\*\*(.*)\*\*/gim, '<strong class="font-semibold">$1</strong>')
-      .replace(/\*(.*)\*/gim, '<em class="italic">$1</em>')
-      .replace(/^\* (.*$)/gim, '<li class="ml-4">$1</li>')
-      .replace(/^(\d+)\. (.*$)/gim, '<li class="ml-4">$2</li>')
-      // Mobile-optimized tables with Tailwind CSS
-      .replace(/\|(.*?)\|/g, (match, content) => {
-        const cells = content.split('|').map((cell: string) => cell.trim());
-        return `<tr class="border-b">${cells.map((cell: string) => 
-          `<td class="px-4 py-2 text-sm md:text-base">${cell}</td>`
-        ).join('')}</tr>`;
-      })
-      .replace(/<tr class="border-b">.*?<\/tr>/g, (match) => {
-        return `<div class="overflow-x-auto mb-6"><table class="min-w-full bg-white border border-gray-200 rounded-lg">${match}</table></div>`;
-      })
-      .replace(/\n\n/gim, '</p><p class="text-gray-700 leading-relaxed mb-4">')
-      .replace(/^(?!<[h|l|p|d|t])(.+)$/gim, '<p class="text-gray-700 leading-relaxed mb-4">$1</p>');
+  // Process content - check if it's already HTML or needs markdown conversion
+  const processContent = (content: string) => {
+    // Check if content already contains HTML tags
+    const hasHTMLTags = /<[^>]+>/.test(content);
+    
+    if (hasHTMLTags) {
+      // Content is already HTML, just apply CSS classes to existing elements
+      return content
+        .replace(/<h2([^>]*)>/g, '<h2$1 class="text-2xl font-semibold text-gray-800 mb-4 mt-6">')
+        .replace(/<h3([^>]*)>/g, '<h3$1 class="text-xl font-medium text-gray-800 mb-3 mt-5">')
+        .replace(/<h4([^>]*)>/g, '<h4$1 class="text-lg font-medium text-gray-800 mb-3 mt-4">')
+        .replace(/<p([^>]*)>/g, '<p$1 class="text-gray-700 leading-relaxed mb-4">')
+        .replace(/<ul([^>]*)>/g, '<ul$1 class="list-disc list-inside mb-4 text-gray-700">')
+        .replace(/<ol([^>]*)>/g, '<ol$1 class="list-decimal list-inside mb-4 text-gray-700">')
+        .replace(/<li([^>]*)>/g, '<li$1 class="mb-2">')
+        .replace(/<strong([^>]*)>/g, '<strong$1 class="font-semibold text-gray-800">')
+        .replace(/<table([^>]*)>/g, '<div class="overflow-x-auto mb-6"><table$1 class="min-w-full bg-white border border-gray-200 rounded-lg">')
+        .replace(/<\/table>/g, '</table></div>')
+        .replace(/<th([^>]*)>/g, '<th$1 class="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold text-left">')
+        .replace(/<td([^>]*)>/g, '<td$1 class="border border-gray-300 px-4 py-2 text-sm md:text-base">');
+    } else {
+      // Content is markdown, convert to HTML
+      return content
+        .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-gray-800 mb-6 mt-8">$1</h1>')
+        .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-semibold text-gray-800 mb-4 mt-6">$1</h2>')
+        .replace(/^### (.*$)/gim, '<h3 class="text-xl font-medium text-gray-800 mb-3 mt-5">$1</h3>')
+        .replace(/\*\*(.*)\*\*/gim, '<strong class="font-semibold text-gray-800">$1</strong>')
+        .replace(/\*(.*)\*/gim, '<em class="italic">$1</em>')
+        .replace(/^\* (.*$)/gim, '<li class="mb-2">$1</li>')
+        .replace(/^(\d+)\. (.*$)/gim, '<li class="mb-2">$2</li>')
+        .replace(/\n\n/gim, '</p><p class="text-gray-700 leading-relaxed mb-4">')
+        .replace(/^(?!<[h|l|p|d|t])(.+)$/gim, '<p class="text-gray-700 leading-relaxed mb-4">$1</p>');
+    }
   };
 
   return (
@@ -266,7 +277,7 @@ export default function BlogPostPage() {
             <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-12">
               <div 
                 className="prose prose-lg max-w-none"
-                dangerouslySetInnerHTML={{ __html: markdownToHtml(post.content) }}
+                dangerouslySetInnerHTML={{ __html: processContent(post.content) }}
               />
             </div>
 

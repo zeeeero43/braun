@@ -1,129 +1,91 @@
 #!/bin/bash
 
-echo "🚨 Emergency VPS Fix - Korrigiere Dockerfile direkt auf VPS"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+# VPS Emergency Fix - Behebt den BlogScheduler Crash Loop
+# Verwendung: ./vps-emergency-fix.sh
 
-# Gehe zum Projekt-Verzeichnis
-cd /opt/walter-braun-umzuege
+echo "🚑 VPS Emergency Fix - BlogScheduler Crash Loop"
+echo "==============================================="
 
-# Sichere aktuelles Dockerfile
-cp Dockerfile.production Dockerfile.production.backup
+# Farben
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m'
 
-# Erstelle neues Dockerfile ohne TypeScript-Kompilierung
-cat > Dockerfile.production << 'EOL'
-# Production Dockerfile für Walter Braun Umzüge mit Blog-System
-FROM node:18-alpine AS base
+log_info() { echo -e "${GREEN}✅ $1${NC}"; }
+log_warn() { echo -e "${YELLOW}⚠️ $1${NC}"; }
+log_error() { echo -e "${RED}❌ $1${NC}"; }
 
-# Dependencies Stage
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci
+# Docker Compose Befehl bestimmen
+if command -v docker-compose &> /dev/null; then
+    DOCKER_CMD="docker-compose"
+else
+    DOCKER_CMD="docker compose"
+fi
 
-# Builder Stage 
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+echo "🔄 Schritt 1: Container stoppen"
+$DOCKER_CMD down
 
-# Build frontend only
-RUN npm run build
+log_info "Container gestoppt"
 
-# Production Stage
-FROM base AS runner
-WORKDIR /app
+echo ""
+echo "🏗️ Schritt 2: Container neu bauen"
+$DOCKER_CMD build --no-cache web
 
-ENV NODE_ENV=production
-ENV PORT=5000
+if [ $? -eq 0 ]; then
+    log_info "Web Container erfolgreich neu gebaut"
+else
+    log_error "Build fehlgeschlagen"
+    exit 1
+fi
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+echo ""
+echo "🚀 Schritt 3: Container starten"
+$DOCKER_CMD up -d
 
-# Copy production dependencies
-COPY package.json package-lock.json* ./
-RUN npm ci --only=production && npm cache clean --force
+if [ $? -eq 0 ]; then
+    log_info "Container gestartet"
+else
+    log_error "Start fehlgeschlagen"
+    exit 1
+fi
 
-# Copy built application and all server files
-COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
-COPY --from=builder --chown=nextjs:nodejs /app/server ./server
-COPY --from=builder --chown=nextjs:nodejs /app/shared ./shared
-COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
+echo ""
+echo "⏳ Schritt 4: Warten auf Service (30 Sekunden)"
+sleep 30
 
-# Install tsx und esbuild für TypeScript execution  
-RUN npm install tsx esbuild
+echo ""
+echo "🔍 Schritt 5: Status prüfen"
 
-# Create production server startup script
-COPY --chown=nextjs:nodejs <<'EOF' /app/serve-production.js
-// Production server startup - verwendet tsx für vollständige TypeScript Unterstützung
-import { spawn } from 'child_process';
+# Container Status
+echo "Container Status:"
+$DOCKER_CMD ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
-function log(message, source = "production") {
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true,
-  });
-  console.log(`${formattedTime} [${source}] ${message}`);
-}
+# Logs prüfen auf Errors
+echo ""
+echo "Aktuelle Web Container Logs:"
+$DOCKER_CMD logs --tail=10 web
 
-log('🚀 Starting Walter Braun Umzüge Production Server...');
-log('🔧 Using tsx for TypeScript execution with full Blog system');
+# Service Test
+echo ""
+echo "Service Tests:"
 
-// Environment setup
-process.env.NODE_ENV = 'production';
+http_status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/api/blog 2>/dev/null)
+echo "HTTP Status: $http_status"
 
-// Start production server with tsx
-const serverProcess = spawn('npx', ['tsx', 'server/serve-prod.ts'], {
-  stdio: 'inherit',
-  env: process.env,
-  cwd: process.cwd()
-});
+if [ "$http_status" = "200" ]; then
+    log_info "✅ SUCCESS: Website funktioniert!"
+    echo "🌐 http://walterbraun-muenchen.de"
+    
+    # Blog Posts zählen
+    blog_count=$(curl -s http://localhost/api/blog 2>/dev/null | jq '.posts | length' 2>/dev/null || echo "0")
+    echo "📝 Blog Posts: $blog_count"
+    
+else
+    log_error "Service noch nicht erreichbar"
+fi
 
-serverProcess.on('error', (error) => {
-  log(`❌ Failed to start server: ${error.message}`, 'error');
-  process.exit(1);
-});
-
-serverProcess.on('exit', (code, signal) => {
-  if (signal) {
-    log(`🔄 Server process killed by signal ${signal}`, 'info');
-  } else {
-    log(`❌ Server process exited with code ${code}`, 'error');
-  }
-  process.exit(code || 1);
-});
-
-// Graceful shutdown
-function shutdown(signal) {
-  log(`📡 ${signal} received, shutting down gracefully...`);
-  serverProcess.kill(signal);
-}
-
-process.on('SIGTERM', () => shutdown('SIGTERM'));
-process.on('SIGINT', () => shutdown('SIGINT'));
-
-log('✅ Production wrapper started successfully');
-EOF
-
-# Set permissions
-USER nextjs
-EXPOSE 5000
-CMD ["node", "serve-production.js"]
-EOL
-
-echo "✅ Dockerfile.production korrigiert!"
-echo "🔄 Starte Docker-Rebuild..."
-
-# Stoppe alte Container
-docker compose down
-
-# Rebuild mit neuem Dockerfile
-docker compose up --build -d
-
-echo "🏁 Emergency Fix abgeschlossen!"
-echo "📊 Container Status:"
-docker compose ps
-
-echo "🏥 Health Check:"
-sleep 10
-curl -f http://localhost/health && echo "✅ Website läuft!" || echo "❌ Problem erkannt"
-EOL
+echo ""
+echo "💡 Falls Problem weiterhin besteht:"
+echo "   $DOCKER_CMD logs -f web    # Live-Logs anzeigen"
+echo "   $DOCKER_CMD exec -it walter_braun_web node -v    # Node Version prüfen"

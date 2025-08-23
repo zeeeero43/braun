@@ -1,0 +1,217 @@
+root@ubuntu:/opt/walter-braun-umzuege# ./vps-fix-502.sh
+🔧 VPS 502 Bad Gateway Diagnose & Fix
+=====================================
+
+🔍 Schritt 1: Container Status prüfen
+Container Status:
+NAME                 IMAGE                      COMMAND                  SERVICE    CREATED         STATUS                          PORTS
+walter_braun_db      postgres:15-alpine         "docker-entrypoint.s…"   postgres   2 minutes ago   Up 2 minutes                    0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_nginx   nginx:alpine               "/docker-entrypoint.…"   nginx      2 minutes ago   Up 2 minutes                    0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp
+walter_braun_web     walter-braun-umzuege-web   "docker-entrypoint.s…"   web        2 minutes ago   Restarting (1) 11 seconds ago
+
+🔍 Schritt 2: Web Container Logs anzeigen
+Letzte 20 Log-Zeilen vom Web Container:
+walter_braun_web  | 9:56:55 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:56:55 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:56:55 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:56:55 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:56:55 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:57:47 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:57:47 PM [express] ✅ API routes registered
+walter_braun_web  | 9:57:47 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:57:47 PM [express]   POST /api/contact
+walter_braun_web  | 9:57:47 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:57:47 PM [express]   GET /api/blog
+walter_braun_web  | 9:57:47 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:57:47 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:57:47 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:57:47 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:57:47 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:57:47 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:57:47 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:57:47 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:57:47 PM [error] Server Start Error: startBlogScheduler is not a function
+
+🔍 Schritt 3: Interne Container-Konnektivität testen
+❌ Web Container NICHT intern erreichbar
+
+🔍 Schritt 4: Web Container neustarten
+[+] Restarting 1/1
+ ✔ Container walter_braun_web  Started                                                                                                                                                        0.2s
+❌ Web Container noch immer nicht erreichbar
+
+🔍 Schritt 5: Kompletter Neustart aller Container
+[+] Running 4/4
+ ✔ Container walter_braun_nginx                       Removed                                                                                                                                 0.3s
+ ✔ Container walter_braun_web                         Removed                                                                                                                                 0.0s
+ ✔ Container walter_braun_db                          Removed                                                                                                                                 0.2s
+ ✔ Network walter-braun-umzuege_walter_braun_network  Removed                                                                                                                                 0.3s
+[+] Running 4/4
+ ✔ Network walter-braun-umzuege_walter_braun_network  Created                                                                                                                                 0.0s
+ ✔ Container walter_braun_db                          Started                                                                                                                                 0.2s
+ ✔ Container walter_braun_web                         Started                                                                                                                                 0.5s
+ ✔ Container walter_braun_nginx                       Started                                                                                                                                 0.7s
+✅ Alle Container neugestartet, warte 15 Sekunden...
+
+🔍 Schritt 6: Finale Tests
+HTTP Status: 301
+API Status: 301
+Localhost Status: 301
+
+❌ ❌ Problem besteht weiterhin
+
+🔍 Zusätzliche Diagnose:
+1. Container Status:
+<no value>           STATUS                         PORTS
+walter_braun_db      Up 15 seconds                  0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_nginx   Up 15 seconds                  0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp
+walter_braun_web     Restarting (1) 2 seconds ago
+
+2. Aktuelle nginx.conf:
+--- nginx.conf upstream ---
+    upstream walter_braun_app {
+        server web:5000;
+    }
+
+    # Rate limiting
+    limit_req_zone $binary_remote_addr zone=api:10m rate=10r/s;
+--- nginx.conf server ---
+    server {
+        listen 80;
+        server_name _;
+
+        # Security headers
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header Referrer-Policy "no-referrer-when-downgrade" always;
+        add_header Content-Security-Policy "default-src 'self' http: https: data: blob: 'unsafe-inline'" always;
+
+
+💡 Wenn Problem weiterhin besteht:
+   - docker compose logs -f web    # Live-Logs anzeigen
+   - docker compose down && docker compose up -d    # Kompletter Neustart
+   - docker exec -it walter_braun_web curl http://localhost:5000/api/blog    # Direkter Test
+root@ubuntu:/opt/walter-braun-umzuege# ^C
+root@ubuntu:/opt/walter-braun-umzuege#  docker compose logs -f web
+walter_braun_web  | 9:58:24 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:24 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:24 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:24 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:24 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:24 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:24 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:24 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:24 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:24 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:24 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:24 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:24 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:24 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:24 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:58:25 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:26 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:26 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:26 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:26 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:26 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:26 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:26 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:26 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:26 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:26 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:26 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:26 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:26 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:26 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:58:27 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:27 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:27 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:27 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:27 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:27 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:27 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:27 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:27 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:27 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:27 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:27 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:27 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:27 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:27 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:58:28 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:28 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:28 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:28 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:28 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:28 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:28 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:28 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:28 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:28 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:28 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:28 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:28 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:28 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:28 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:58:30 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:30 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:30 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:30 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:30 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:30 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:30 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:30 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:30 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:30 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:30 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:30 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:30 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:30 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:30 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:58:32 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:32 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:32 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:32 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:32 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:32 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:32 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:32 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:32 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:32 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:32 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:32 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:32 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:32 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:32 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:58:36 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:36 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:36 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:36 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:36 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:36 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:36 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:36 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:36 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:36 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:36 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:36 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:36 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:36 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:36 PM [error] Server Start Error: startBlogScheduler is not a function
+walter_braun_web  | 9:58:44 PM [express] ✅ SEO routes registered
+walter_braun_web  | 9:58:44 PM [express] ✅ API routes registered
+walter_braun_web  | 9:58:44 PM [express] 📋 Registered API routes:
+walter_braun_web  | 9:58:44 PM [express]   POST /api/contact
+walter_braun_web  | 9:58:44 PM [express]   GET /api/contact-submissions
+walter_braun_web  | 9:58:44 PM [express]   GET /api/blog
+walter_braun_web  | 9:58:44 PM [express]   GET /api/blog/debug
+walter_braun_web  | 9:58:44 PM [express]   GET /api/blog/categories
+walter_braun_web  | 9:58:44 PM [express]   POST /api/blog/generate
+walter_braun_web  | 9:58:44 PM [express]   GET /api/blog/topics
+walter_braun_web  | 9:58:44 PM [express]   GET /api/blog/:slug
+walter_braun_web  | 9:58:44 PM [express] 📁 Setting up static files from: /app/dist/public
+walter_braun_web  | 9:58:44 PM [express] ✅ Static file serving configured
+walter_braun_web  | 9:58:44 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 9:58:44 PM [error] Server Start Error: startBlogScheduler is not a function
+^C^Croot@ubuntu:/opt/walter-braun-umzuege#

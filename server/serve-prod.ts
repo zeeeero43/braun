@@ -128,9 +128,9 @@ async function startServer() {
     log("✅ Static file serving configured");
     
     // Starte Blog-System
-    const { startBlogScheduler } = await import("./ai/blogScheduler.js");
+    const { blogScheduler } = await import("./ai/blogScheduler.js");
     log("🤖 Starting automated blog system...");
-    await startBlogScheduler();
+    await blogScheduler.start();
     log("✅ Blog scheduler initialized successfully");
 
     const port = parseInt(process.env.PORT || "5000");

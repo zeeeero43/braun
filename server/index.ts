@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { startBlogScheduler } from "./ai/blogScheduler";
+import { blogScheduler } from "./ai/blogScheduler";
 import seoRoutes from "./routes/seo";
 import seoToolsRoutes from "./routes/seo-tools";
 
@@ -89,12 +89,14 @@ app.use(seoToolsRoutes);
     log(`serving on port ${port}`);
     
     // Start the blog scheduler
-    try {
-      log("🤖 Starting automated blog system...");
-      startBlogScheduler();
-      log("✅ Blog scheduler initialized successfully");
-    } catch (error) {
-      log(`❌ Failed to start blog scheduler: ${error}`);
-    }
+    (async () => {
+      try {
+        log("🤖 Starting automated blog system...");
+        await blogScheduler.start();
+        log("✅ Blog scheduler initialized successfully");
+      } catch (error) {
+        log(`❌ Failed to start blog scheduler: ${error}`);
+      }
+    })();
   });
 })();

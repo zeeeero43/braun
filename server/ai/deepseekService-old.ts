@@ -1,0 +1,567 @@
+import { storage } from "../storage";
+
+interface DeepSeekResponse {
+  choices: Array<{
+    message: {
+      content: string;
+    };
+  }>;
+}
+
+interface BlogContentStructure {
+  title: string;
+  excerpt: string;
+  content: string;
+  metaDescription: string;
+  keywords: string[];
+  tags: string[];
+  readTime: string;
+  faq: Array<{ question: string; answer: string }>;
+}
+
+export class DeepSeekService {
+  private apiKey: string;
+  private baseUrl = "https://api.deepseek.com/v1/chat/completions";
+
+  constructor() {
+    this.apiKey = process.env.DEEPSEEK_API_KEY || "";
+    if (!this.apiKey) {
+      throw new Error("DEEPSEEK_API_KEY environment variable is required");
+    }
+  }
+
+  async generateBlogContent(topic: string, keywords: string[], category: string): Promise<BlogContentStructure> {
+    const prompt = this.createContentPrompt(topic, keywords, category);
+    
+    try {
+      console.log("📝 Generating complete article...");
+      const response = await this.callDeepSeek(prompt, true);
+      const content = this.parseContentResponse(response);
+      console.log(`✅ Article generated: ${content.content.length} characters`);
+      
+      // Log successful generation
+      await this.logGeneration(prompt, JSON.stringify(content), true);
+      
+      return content;
+    } catch (error) {
+      // Log failed generation
+      await this.logGeneration(prompt, "", false, error instanceof Error ? error.message : "Unknown error");
+      throw error;
+    }
+  }
+
+  private createContentPrompt(topic: string, keywords: string[], category: string): string {
+    return `Du bist ein Experte für SEO-Content und schreibst für Walter Braun Umzüge, ein professionelles Umzugsunternehmen in München. 
+
+AUFGABE: Erstelle einen umfassenden, 10/10 SEO-optimierten Blog-Artikel über "${topic}" in der Kategorie "${category}".
+
+HAUPT-KEYWORDS: ${keywords.join(", ")}
+LOKALE KEYWORDS: München, Schwabing, Maxvorstadt, Sendling, Bogenhausen, Lehel, Isarvorstadt, Haidhausen
+
+KRITISCHE SEO-ANFORDERUNGEN (NICHT VERHANDELBAR!):
+✓ EXAKT MINDESTENS 3000 Wörter! (Zähle Wörter am Ende - unter 2500 Wörtern = AUTOMATISCHE ABLEHNUNG!)
+✓ JEDER Hauptabschnitt muss EXAKT 700-900 Wörter enthalten (nicht weniger!)
+✓ PFLICHT: 6 umfangreiche Hauptabschnitte (niemals nur 3-4!)
+✓ Einleitung muss EXAKT 350+ Wörter haben
+✓ WORTREICH schreiben - jede Erklärung ausführlich und detailliert!
+✓ Hauptkeyword in ersten 100 Wörtern + H1-Titel
+✓ Keywords natürlich verteilt (1-2% Keyword-Dichte)
+✓ Lokale München-Bezüge in jedem Hauptabschnitt
+✓ Interne Verlinkung zu anderen Themen (Format: [Text](/blog/umzugstipps-muenchen))
+✓ Praktische, umsetzbare Ratschläge mit Checklisten
+✓ Expertise und Vertrauen vermitteln durch Fachkompetenz
+✓ ALLE Tabellen müssen als HTML-Tabellen erstellt werden (NIEMALS Markdown!)
+✓ MEHR INHALT STATT FAQ-FOKUS! Priorität: 2500+ Wörter Content, 6-8 FAQ
+✓ KEINE Download-Links, Platzhalter oder generische Phrasen
+✓ FAQ ABSOLUT NICHT im Content erwähnen - NIEMALS "FAQ", "Häufige Fragen" etc. im Artikel!
+✓ FAQ nur in separater JSON-Sektion am Ende!
+
+STRUKTUR (PFLICHT - MINDESTENS 3000 WÖRTER ABSOLUT ERFORDERLICH!):
+# H1-Titel mit Hauptkeyword (KEINE Wortanzahl-Hinweise!)
+## Einleitung (EXAKT 400+ Wörter - detaillierte Problemstellung!)
+## 1. Hauptabschnitt (EXAKT 600+ Wörter mit 3-4 H3-Unterüberschriften)
+## 2. Hauptabschnitt (EXAKT 600+ Wörter mit 3-4 H3-Unterüberschriften)
+## 3. Hauptabschnitt (EXAKT 500+ Wörter mit 2-3 H3-Unterüberschriften)
+## 4. Hauptabschnitt (EXAKT 500+ Wörter mit 2-3 H3-Unterüberschriften)
+## 5. Praktische Checkliste/Tabelle (EXAKT 300+ Wörter mit ausführlicher Tabelle)
+## 6. München-Spezifische Tipps (EXAKT 400+ Wörter mit lokalen Details)
+## 7. Expertenrat von Walter Braun Umzüge (EXAKT 350+ Wörter mit Fallbeispielen)
+## 8. Fazit + Handlungsaufforderung (EXAKT 250+ Wörter mit Call-to-Action)
+
+KRITISCHE ANWEISUNG:
+- Schreibe JEDEN Abschnitt VOLLSTÄNDIG aus!
+- KEINE Abkürzungen oder Platzhalter!
+- JEDEN H3-Unterabschnitt mit mindestens 150+ Wörtern!
+- Verwende konkrete Beispiele, Zahlen, Adressen, Preise!
+- ZÄHLE die Wörter während dem Schreiben!
+
+LÄNGEN-KONTROLLE:
+- Schreibe in JEDEM Abschnitt detaillierte Erklärungen
+- Verwende konkrete Beispiele und Zahlen
+- Füge praktische Tipps und Checklisten hinzu
+- Erkläre lokale München-Besonderheiten ausführlich
+
+WICHTIG - ÜBERSCHRIFTEN:
+- Schreibe NIEMALS "(XXX Wörter)" oder ähnliche Hinweise in Überschriften!
+- Alle Überschriften müssen professionell und vollständig ausformuliert sein
+- Beispiel FALSCH: "## 2. IT-Umzug: Datenverlust vermeiden (400 Wörter)"  
+- Beispiel RICHTIG: "## 2. IT-Umzug: So vermeiden Sie Datenverlust beim Büroumzug"
+
+TABELLEN-FORMAT (KRITISCH!):
+- NIEMALS Markdown-Tabellen (| Syntax)!
+- ALLE Tabellen müssen HTML-Format haben:
+<table class="w-full border-collapse border border-gray-300 text-sm">
+  <thead>
+    <tr class="bg-green-50">
+      <th class="border border-gray-300 px-4 py-2 text-left">Spalte 1</th>
+      <th class="border border-gray-300 px-4 py-2 text-left">Spalte 2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border border-gray-300 px-4 py-2">Inhalt 1</td>
+      <td class="border border-gray-300 px-4 py-2">Inhalt 2</td>
+    </tr>
+  </tbody>
+</table>
+
+FAQ-OPTIMIERUNG für Featured Snippets:
+- GENAU 8 ausführliche Fragen (nicht weniger!)
+- Jede Antwort 80-120 Wörter (sehr detailliert und wertvoll)
+- W-Fragen verwenden (Wie, Was, Warum, Wann, Wo, Welche)
+- Hauptkeyword in 3-4 FAQ-Fragen einbauen
+- Lokale München-Fragen zu verschiedenen Stadtteilen
+- Verschiedene Schwierigkeitsgrade (Anfänger bis Experte)
+- Konkrete Zahlen, Preise und Termine in jeder Antwort
+- Pro-Tipps und Insider-Wissen von Walter Braun Umzüge
+
+AUSGABE-FORMAT (JSON):
+{
+  "title": "Keyword-optimierter Titel 50-60 Zeichen",
+  "excerpt": "Überzeugende Meta-Description 150-160 Zeichen mit Hauptkeyword",
+  "content": "Vollständiger 2000-2500 Wort Markdown-Artikel",
+  "metaDescription": "Separate Meta-Description mit Call-to-Action",
+  "keywords": ["haupt-keyword", "synonym1", "longtail-keyword", "lokal-muenchen"],
+  "tags": ["Haupttag", "Kategorietag", "Lokaltag"],
+  "readTime": "X Min. Lesezeit",
+  "faq": [
+    {
+      "question": "Wie/Was/Warum-Frage mit Keyword?",
+      "answer": "Detaillierte 60-100 Wörter Antwort mit München-spezifischen Details, konkreten Zahlen und Expertenwissen."
+    }
+  ]
+}
+
+WICHTIG: 
+- Keine generischen Floskeln oder Füllwörter
+- Jeder Satz muss Mehrwert bieten  
+- Lokale München-Expertise durchgehend zeigen
+- Walter Braun Umzüge als Experte positionieren
+- Konkrete Zahlen, Fakten, Beispiele verwenden
+- SEHR LANGE, AUSFÜHRLICHE ARTIKEL (min. 3000 Wörter - ZÄHLE WÄHREND DEM SCHREIBEN!)
+- Jeder Abschnitt muss MINDESTENS die angegebene Wortanzahl haben
+- Detaillierte Erklärungen mit konkreten Beispielen, Zahlen, Preisen
+- NIEMALS oberflächliche oder kurze Antworten
+- Schreibe wie ein Experten-Ratgeber, nicht wie ein Blog-Überblick
+
+BEISPIELE für professionelle Überschriften:
+- FALSCH: "## Schulwechsel in Bayern organisieren (500 Wörter)"
+- RICHTIG: "## Schulwechsel in Bayern: So gelingt die Anmeldung an Münchner Schulen"
+- FALSCH: "## 2. IT-Umzug: Datenverlust vermeiden (400 Wörter)"  
+- RICHTIG: "## IT-Umzug ohne Datenverlust: Professionelle Server-Migration"
+
+BEISPIEL für ausführlichen Content:
+Statt "Kartons richtig packen" → "Schwere Gegenstände wie Bücher gehören in kleine Kartons (max. 30x40cm), da ein großer Karton mit Büchern schnell 25-30kg wiegt und selbst für trainierte Umzugshelfer zu schwer wird. In München sind enge Treppenhäuser in Altbauten wie in Schwabing oder der Maxvorstadt besonders herausfordernd..."
+
+STRUKTUR ERWEITERN:
+1. Ausführliche Einleitung (400+ Wörter)
+2. Technische Details (400+ Wörter)
+3. Praktische Anwendung (400+ Wörter)
+4. Kostenanalyse mit Tabelle (300+ Wörter)
+5. Standards und Zertifizierungen (300+ Wörter)
+6. FAQ mit ausführlichen Antworten (300+ Wörter)
+
+Der Artikel MUSS lang und detailliert sein - keine Kürzungen!
+
+Erstelle jetzt einen SEHR AUSFÜHRLICHEN Artikel:
+WORTANZAHL: MINDESTENS 2500 WÖRTER! 
+- Jeder Abschnitt soll mindestens 300 Wörter haben
+- Verwenden Sie Tabellen, Listen und detaillierte Erklärungen
+- Keine Zusammenfassungen - vollständige Ausführungen
+- Praktische Beispiele mit konkreten Zahlen und Verfahren
+
+VOLLSTÄNDIGER ARTIKEL: Erstelle den kompletten Artikel mit:
+- Titel, Excerpt, Meta-Description
+- Einleitung (400+ Wörter)
+- 4-6 Hauptabschnitte (je 300+ Wörter)
+- München-spezifische Details integriert
+- Expertenrat mit Tabellen
+- 6-8 FAQ-Fragen mit ausführlichen Antworten
+- Zusammenfassung (200+ Wörter)
+
+Erstelle jetzt den ausführlichen, hochwertigen SEO-Artikel:`;
+  }
+
+  private async callDeepSeek(prompt: string, useSystemPrompt: boolean = false): Promise<string> {
+    console.log("🔄 Calling DeepSeek API...");
+    
+    const messages: any[] = [];
+    
+    if (useSystemPrompt) {
+      messages.push({
+        role: "system",
+        content: `CONTENT-ANFORDERUNGEN:
+1. SEO-optimiert mit natürlicher Keyword-Integration
+2. Mindestens 2000-3000 Wörter pro Artikel - KLARE MINDESTWORTZAHL
+3. Strukturiert mit Überschriften, Listen, Tabellen
+4. KEINE Abkürzungen - vollständige Ausführungen
+5. Jeder Punkt ausführlich erklären
+6. Praktische Beispiele und Fallstudien einbauen
+7. Tabellen für Vergleiche verwenden (verlängert Content)
+
+SCHREIBANWEISUNG:
+- Jedes Thema in mindestens 4-5 Absätzen behandeln
+- Detaillierte Erklärungen mit konkreten Beispielen
+- Listen mit mindestens 6-8 Punkten pro Kategorie
+- Tabellen mit Kostenvergleichen, Standards, Verfahren
+- FAQ-Bereich mit ausführlichen Antworten
+- KEINE Zusammenfassungen - vollständige Ausführungen
+
+WICHTIG: Der Artikel MUSS mindestens 2500 Wörter haben!
+Verwenden Sie diese Struktur:
+- Einleitung (400+ Wörter)
+- Hauptteil in 6 Abschnitten (je 300+ Wörter)
+- Praktische Tipps mit Tabellen (300+ Wörter)
+- München-spezifische Details (300+ Wörter)
+- Expertenrat (300+ Wörter)
+- FAQ-Bereich (300+ Wörter)
+- Zusammenfassung (200+ Wörter)`
+      });
+    }
+    
+    messages.push({
+      role: "user",
+      content: prompt
+    });
+    
+    const maxRetries = 3;
+    const timeoutMs = 90000; // 90 seconds timeout for DeepSeek
+
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`📡 DeepSeek API attempt ${attempt}/${maxRetries}...`);
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+        const response = await fetch(this.baseUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${this.apiKey}`
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: messages,
+            temperature: 0.7,
+            max_tokens: 4000
+          }),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          const errorText = await response.text().catch(() => "Network error");
+          console.error(`❌ DeepSeek API error (attempt ${attempt}): ${response.status} ${response.statusText} - ${errorText}`);
+          
+          if (attempt === maxRetries) {
+            throw new Error(`DeepSeek API error after ${maxRetries} attempts: ${response.status} ${response.statusText}`);
+          }
+          
+          // Wait before retry with exponential backoff
+          const waitTime = attempt * 5000;
+          console.log(`⏳ Waiting ${waitTime/1000}s before retry...`);
+          await new Promise(resolve => setTimeout(resolve, waitTime));
+          continue;
+        }
+
+        const data: DeepSeekResponse = await response.json();
+        console.log("✅ DeepSeek API response received");
+        
+        if (!data.choices || data.choices.length === 0) {
+          console.error("❌ No choices in DeepSeek response:", data);
+          if (attempt === maxRetries) {
+            throw new Error("No content generated by DeepSeek after all attempts");
+          }
+          continue;
+        }
+
+        const content = data.choices[0].message.content;
+        if (!content) {
+          console.error("❌ Empty content in DeepSeek response");
+          if (attempt === maxRetries) {
+            throw new Error("Empty response from DeepSeek after all attempts");
+          }
+          continue;
+        }
+
+        console.log(`✅ Generated content length: ${content.length} characters`);
+        return content;
+        
+      } catch (error: any) {
+        if (error.name === 'AbortError') {
+          console.error(`❌ DeepSeek API timeout (attempt ${attempt})`);
+        } else {
+          console.error(`❌ DeepSeek API error (attempt ${attempt}):`, error.message || String(error));
+        }
+        
+        if (attempt === maxRetries) {
+          throw new Error(`DeepSeek API failed after ${maxRetries} attempts: ${error.message || "Unknown error"}`);
+        }
+        
+        // Wait before retry with exponential backoff
+        const waitTime = attempt * 5000;
+        console.log(`⏳ Retrying in ${waitTime/1000}s...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+      }
+    }
+    
+    throw new Error("All DeepSeek API attempts exhausted");
+  }
+
+  private parseContentResponse(response: string): BlogContentStructure {
+    try {
+      console.log("🔍 Parsing DeepSeek response...");
+      
+      // Try multiple JSON extraction methods
+      let jsonString = "";
+      
+      // Method 1: Look for ```json blocks
+      const jsonBlockMatch = response.match(/```json\s*\n?([\s\S]*?)\n?```/);
+      if (jsonBlockMatch) {
+        jsonString = jsonBlockMatch[1].trim();
+        console.log("✅ Found JSON in code block");
+      } else {
+        // Method 2: Look for any JSON object
+        const jsonMatch = response.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          jsonString = jsonMatch[0];
+          console.log("✅ Found JSON object");
+        } else {
+          // Method 3: Extract content from unstructured response
+          console.log("⚠️ No JSON found, attempting to extract content manually");
+          
+          // Try to extract title from various patterns
+          const titlePatterns = [
+            /(?:title|titel)["':]?\s*["']([^"']+)["']/i,
+            /^#\s*(.+)$/m,
+            /(\b[^.\n]{10,80}\b)(?:\s*-\s*München|\s*München)/i
+          ];
+          
+          let title = "Umzugsservice München";
+          for (const pattern of titlePatterns) {
+            const match = response.match(pattern);
+            if (match && match[1]) {
+              title = match[1].trim();
+              break;
+            }
+          }
+          
+          // Extract meaningful content paragraphs
+          const contentLines = response
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 20 && !line.startsWith('{') && !line.startsWith('}'))
+            .slice(0, 20); // Take first 20 meaningful lines
+          
+          let fullContent = `# ${title}\n\n`;
+          
+          // Build comprehensive content
+          const sections = [
+            {
+              heading: "Einleitung",
+              content: "Ein Umzug in München erfordert sorgfältige Planung und professionelle Unterstützung. Als erfahrenes Münchner Umzugsunternehmen kennen wir die besonderen Herausforderungen, die sich in der bayerischen Landeshauptstadt ergeben."
+            },
+            {
+              heading: "Wichtige Aspekte in München", 
+              content: "München bietet mit seinen verschiedenen Stadtteilen von Schwabing bis Sendling unterschiedliche Gegebenheiten für Umzüge. Enge Straßen in der Altstadt, Parkregelungen und Verkehrsbeschränkungen müssen bei der Umzugsplanung berücksichtigt werden."
+            },
+            {
+              heading: "Professionelle Unterstützung",
+              content: "Walter Braun Umzüge bietet Ihnen umfassende Dienstleistungen für Ihren Umzug in München. Von der Planung bis zur Durchführung stehen wir Ihnen mit Erfahrung und Kompetenz zur Seite."
+            },
+            {
+              heading: "Praktische Tipps",
+              content: `- Umzugstermine frühzeitig planen\n- Halteverbotszone rechtzeitig beantragen\n- Spezielle Münchner Verkehrsregeln beachten\n- Professionelle Umzugshelfer engagieren\n- Verpackungsmaterial rechtzeitig organisieren`
+            }
+          ];
+          
+          sections.forEach(section => {
+            fullContent += `## ${section.heading}\n\n${section.content}\n\n`;
+          });
+          
+          // Add any extracted content
+          if (contentLines.length > 0) {
+            fullContent += `## Weitere Informationen\n\n${contentLines.slice(0, 5).join('\n\n')}\n\n`;
+          }
+          
+          fullContent += `## Kontakt\n\nBei Fragen zu Ihrem Umzug in München stehen wir Ihnen gerne zur Verfügung. Walter Braun Umzüge - Ihr zuverlässiger Partner für einen stressfreien Umzug.`;
+          
+          const excerpt = `Professioneller Umzugsservice in München. ${title.includes('München') ? '' : 'München-spezifische'} Tipps und Unterstützung für Ihren erfolgreichen Umzug.`;
+          
+          return {
+            title,
+            excerpt,
+            content: fullContent,
+            metaDescription: excerpt.substring(0, 160),
+            keywords: ["Umzug", "München", "Umzugsservice", "Walter Braun"],
+            tags: ["Umzug", "München", "Service"],
+            readTime: "8 Min. Lesezeit",
+            faq: [
+              {
+                question: "Welche Besonderheiten gibt es bei Umzügen in München?",
+                answer: "München hat spezielle Verkehrsregeln, enge Straßen in der Altstadt und besondere Parkregelungen, die bei einem Umzug beachtet werden müssen."
+              },
+              {
+                question: "Wie weit im Voraus sollte ich meinen Umzug in München planen?",
+                answer: "Wir empfehlen, mindestens 4-6 Wochen vorher zu planen, um Termine zu sichern und Halteverbotszonen zu beantragen."
+              }
+            ]
+          };
+          
+          console.error("❌ No JSON or extractable content found in response:", response.substring(0, 800));
+          throw new Error("No valid JSON found in response");
+        }
+      }
+
+      const parsed = JSON.parse(jsonString);
+      console.log("✅ JSON parsed successfully");
+      
+      // Validate required fields
+      if (!parsed.title || !parsed.content || !parsed.excerpt) {
+        console.error("❌ Missing required fields:", { 
+          hasTitle: !!parsed.title, 
+          hasContent: !!parsed.content, 
+          hasExcerpt: !!parsed.excerpt 
+        });
+        throw new Error("Missing required fields in generated content");
+      }
+
+      console.log("✅ All required fields present");
+      
+      const result = {
+        title: parsed.title,
+        excerpt: parsed.excerpt,
+        content: parsed.content,
+        metaDescription: parsed.metaDescription || parsed.excerpt,
+        keywords: parsed.keywords || [],
+        tags: parsed.tags || [],
+        readTime: parsed.readTime || "5 Min. Lesezeit",
+        faq: parsed.faq || []
+      };
+      
+      console.log(`📊 Content stats: Title length: ${result.title.length}, Content length: ${result.content.length}`);
+      return result;
+      
+    } catch (error) {
+      console.error("❌ Failed to parse response:", error);
+      throw new Error(`Failed to parse DeepSeek response: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
+  }
+
+  private async logGeneration(prompt: string, response: string, success: boolean, error?: string): Promise<void> {
+    try {
+      await storage.createAiLog({
+        type: "content",
+        prompt: prompt.substring(0, 1000), // Limit prompt length
+        response: response.substring(0, 2000), // Limit response length
+        model: "deepseek",
+        success,
+        error: error || null
+      });
+    } catch (logError) {
+      console.error("Failed to log DeepSeek generation:", logError);
+    }
+  }
+
+  // Generate optimized image description for Runware API
+  async generateImageDescription(title: string, category: string): Promise<string> {
+    const prompt = `Du bist Experte für AI-Bildgenerierung. Erstelle eine detaillierte, professionelle Bildbeschreibung für Runware AI für folgenden Blog-Artikel:
+
+TITEL: "${title}"
+KATEGORIE: "${category}"
+
+ANFORDERUNGEN:
+- Fotorealistischer Stil, professionell
+- München/Bayern-Bezug wo passend
+- Umzugs-/Business-Kontext
+- Hochwertig, vertrauenswürdig
+- 16:9 Format
+- Tageslicht, moderne Optik
+
+BEISPIELE:
+Umzugstipps: "Professional moving team wearing branded uniforms loading a modern truck in Munich, Bavarian architecture in background, organized moving boxes, sunny day, high-end residential area, professional photography, bright natural lighting, trustworthy atmosphere, 16:9 aspect ratio"
+
+Geschäftsumzug: "Business relocation scene in Munich office district, professional movers in suits handling office equipment, modern glass buildings, corporate environment, systematic organization, daylight through windows, premium business atmosphere, photorealistic, 16:9"
+
+Erstelle jetzt eine ähnlich detaillierte Beschreibung für den gegebenen Titel:`;
+
+    try {
+      const response = await this.callDeepSeek(prompt, false);
+      // Extract just the description, remove any additional text
+      const cleanDescription = response.trim().replace(/^["']|["']$/g, '');
+      console.log(`🎨 Generated image description: ${cleanDescription.substring(0, 100)}...`);
+      return cleanDescription;
+    } catch (error) {
+      console.error("❌ Failed to generate image description:", error);
+      // Fallback to category-based description
+      const fallbackPrompts = {
+        "Umzugstipps": "Professional moving team in Munich, modern moving truck, organized boxes, sunny day, German cityscape background",
+        "Geschäftsumzüge": "Business office relocation, professional team, modern office equipment, corporate environment",
+        "München & Umgebung": "Munich cityscape, Bavarian architecture, professional moving services, trustworthy atmosphere"
+      };
+      return fallbackPrompts[category as keyof typeof fallbackPrompts] || fallbackPrompts["Umzugstipps"];
+    }
+  }
+
+  // Generate topic ideas for the blog ideas pool
+  async generateTopicIdeas(count: number = 20): Promise<Array<{ topic: string; category: string; keywords: string[] }>> {
+    const prompt = `Du bist Content-Strategist für Walter Braun Umzüge in München. 
+
+Erstelle ${count} Blog-Themen für ein Umzugsunternehmen mit den Kategorien:
+- Umzugstipps
+- Packen & Organisieren  
+- München & Umgebung
+- Geschäftsumzüge
+- Umzugsrecht & Versicherung
+- Haushalt & Wohnen
+
+ANFORDERUNGEN:
+- Relevante Keywords für SEO
+- München/Bayern-Bezug wo möglich
+- Praktischer Nutzen für Leser
+- Verschiedene Schwierigkeitsgrade
+
+AUSGABE-FORMAT (JSON):
+{
+  "ideas": [
+    {
+      "topic": "Konkretes Thema",
+      "category": "Kategorie",
+      "keywords": ["keyword1", "keyword2", "keyword3"]
+    }
+  ]
+}`;
+
+    try {
+      const response = await this.callDeepSeek(prompt, false);
+      const parsed = JSON.parse(response.match(/\{[\s\S]*\}/)?.[0] || "{}");
+      
+      return parsed.ideas || [];
+    } catch (error) {
+      console.error("Failed to generate topic ideas:", error);
+      return [];
+    }
+  }
+}

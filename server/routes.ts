@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertContactSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
-import { getBlogScheduler } from "./ai/blogScheduler";
+import { blogScheduler } from "./ai/blogScheduler";
 import { emailService } from "./services/emailService";
 
 export async function registerRoutes(app: Express): Promise<Server> {

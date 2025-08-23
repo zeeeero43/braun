@@ -17,9 +17,9 @@ export class TopicGenerationService {
 
     try {
       // Get used topics to avoid duplicates
-      const existingPosts = await storage.getBlogPosts(200);
-      const usedTopics = existingPosts.map((post: any) => post.title.toLowerCase());
-      const usedCategories = existingPosts.reduce((acc: any, post: any) => {
+      const existingPosts = await storage.getAutoBlogPosts(200);
+      const usedTopics = existingPosts.map(post => post.title.toLowerCase());
+      const usedCategories = existingPosts.reduce((acc, post) => {
         acc[post.category] = (acc[post.category] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);
@@ -43,18 +43,17 @@ export class TopicGenerationService {
   }
 
   private buildTopicGenerationPrompt(usedTopics: string[], usedCategories: Record<string, number>, count: number): string {
-    const cities = ['München', 'Schwabing', 'Maxvorstadt', 'Sendling', 'Bogenhausen', 'Haidhausen'];
+    const cities = ['Moers', 'Duisburg', 'Mülheim an der Ruhr', 'Krefeld', 'Essen', 'Düsseldorf'];
     const selectedCities = cities.slice(0, Math.min(3, cities.length)).join(', ');
     
     return `
-Du bist ein lokaler SEO-Experte für eine deutsche Umzugsfirma (Walter Braun Umzüge aus München).
+Du bist ein lokaler SEO-Experte für eine deutsche Gebäudereinigungsfirma (Grema Gebäudeservice GmbH aus Moers).
 
 🏢 FIRMEN-SERVICES:
-1. Umzugsservice (Privat & Büro)
-2. Verpackungsservice 
-3. Möbelmontage
+1. Unterhaltsreinigung (Büro & Praxis)
+2. Fensterreinigung (mit Osmose-Technik)
+3. Bauabschlussreinigung 
 4. Entrümpelung & Haushaltsauflösung
-5. Transportservice
 
 🌍 LOKALE SEO-GEBIETE (FÜR BESSERE RANKINGS):
 ${cities.join(', ')}
@@ -71,26 +70,26 @@ ${Object.entries(usedCategories).map(([cat, count]) => `${cat}: ${count} Artikel
 ⚠️ SCHREIBE TITEL WIE MENSCHEN SIE BEI GOOGLE SUCHEN ⚠️
 
 ✅ VERWENDE DIESE SUCHFREUNDLICHEN FORMATE:
-• "Was kostet [Service] in München?" 
-• "Wie [Problem lösen] in München?"
-• "[Service] München - Tipps für [Zielgruppe]"
-• "Wann sollte man [Service] in München beauftragen?"
-• "[Problem] München - So geht's richtig"
-• "[Service] Anbieter München - Worauf achten?"
+• "Was kostet [Service] in [Stadt]?" 
+• "Wie [Problem lösen] in [Region]?"
+• "[Service] [Stadt] - Tipps für [Zielgruppe]"
+• "Wann sollte man [Service] in [Stadt] beauftragen?"
+• "[Problem] [Stadt] - So geht's richtig"
+• "[Service] Anbieter [Stadt] - Worauf achten?"
 
 🏆 LOKALE SEO-BEISPIELE:
-"Umzugskosten München - Was kostet ein Umzug wirklich?"
-"Umzug nach Schwabing - Tipps für den Stadtteil"
-"Büroumzug München - Welche Genehmigungen brauche ich?"
-"Entrümpelung München - Kosten und Ablauf im Überblick"
-"Umzug mit Kindern - Tipps für Familien in München"
-"Haushaltsauflösung München - Was kostet der Service?"
-"Klaviertransport München - So geht's sicher"
+"Büroreinigung Moers - Was kostet professionelle Reinigung?"
+"Fensterreinigung Duisburg - Welche Methode ist streifenfrei?"
+"Bauabschlussreinigung Essen - Wann den Profi beauftragen?"
+"Entrümpelung Krefeld - Kosten und Ablauf im Überblick"
+"Praxisreinigung Düsseldorf - Hygiene-Standards einhalten"
+"Haushaltsauflösung Mülheim - Was kostet der Service?"
+"Baustaub entfernen nach Renovierung - Tipps vom Profi"
 "Wohnung entrümpeln lassen - Ablauf und Kosten"
-"Umzugskartons München - Wo bekomme ich sie günstig?"
+"Praxisreinigung - Wie oft ist Desinfektion nötig?"
 
 ❌ VERMEIDE:
-- Formale Titel wie "Professioneller Umzug: Dienstleistungen..."
+- Formale Titel wie "Industriereinigung: Spezialreinigung..."
 - Bereits verwendete Themen
 - Doppelte Kategorien im Titel
 
@@ -99,7 +98,7 @@ ANTWORT IM JSON-FORMAT:
   "topics": [
     {
       "title": "Suchfreundlicher Titel",
-      "category": "Umzugstipps|Ratgeber|München & Umgebung|Service",
+      "category": "unterhaltsreinigung|fensterreinigung|bauabschlussreinigung|entrümpelung",
       "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"],
       "targetAudience": "Zielgruppe beschreibung"
     }
@@ -173,21 +172,21 @@ Generiere GENAU ${count} verschiedene Themen für unterschiedliche Kategorien.`;
   private getFallbackTopics(): InsertBlogIdea[] {
     const fallbackTopics = [
       {
-        topic: "Umzugskosten München - Was kostet ein Umzug wirklich?",
-        category: "Ratgeber",
-        keywords: ["Umzugskosten", "München", "Umzug", "Preise"],
+        topic: "Professionelle Büroreinigung in Moers - Was Unternehmen wissen sollten",
+        category: "unterhaltsreinigung",
+        keywords: ["Büroreinigung", "Moers", "Unternehmen", "professionell"],
         isUsed: false
       },
       {
-        topic: "Umzug mit Kindern - Tipps für Familien in München",
-        category: "Umzugstipps", 
-        keywords: ["Umzug", "Kinder", "Familie", "München"],
+        topic: "Fensterreinigung mit Osmose-Technik - Vorteile für Gewerbebetriebe",
+        category: "fensterreinigung", 
+        keywords: ["Fensterreinigung", "Osmose", "Gewerbebetriebe", "streifenfrei"],
         isUsed: false
       },
       {
-        topic: "Büroumzug München - Checkliste für Unternehmen",
-        category: "Service",
-        keywords: ["Büroumzug", "München", "Unternehmen", "Checkliste"],
+        topic: "Bauabschlussreinigung Kosten - Was kostet die professionelle Endreinigung?",
+        category: "bauabschlussreinigung",
+        keywords: ["Bauabschlussreinigung", "Kosten", "Endreinigung", "Preise"],
         isUsed: false
       }
     ];
@@ -200,7 +199,7 @@ Generiere GENAU ${count} verschiedene Themen für unterschiedliche Kategorien.`;
    * Ensures we have enough unused topics available
    */
   async ensureTopicAvailability(minRequired: number = 3): Promise<void> {
-    const unusedTopics = await storage.getBlogIdeas(minRequired);
+    const unusedTopics = await storage.getUnusedBlogIdeas(minRequired);
     
     if (unusedTopics.length < minRequired) {
       const neededTopics = Math.max(5, minRequired * 2); // Generate some extra

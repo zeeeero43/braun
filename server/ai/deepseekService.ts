@@ -242,150 +242,183 @@ WICHTIG: Antworten Sie ausschließlich mit dem JSON-Format aus dem System-Prompt
 
   private parseGeneratedContent(content: string): BlogContent {
     try {
-      // Clean up the content to extract JSON
-      let jsonStr = content.trim();
+      // Clean response - remove markdown code blocks if present
+      let cleanResponse = content.trim();
+      if (cleanResponse.startsWith('```json')) {
+        cleanResponse = cleanResponse.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      }
+      if (cleanResponse.startsWith('```')) {
+        cleanResponse = cleanResponse.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
       
-      // Remove markdown code blocks if present
-      if (jsonStr.startsWith('```json')) {
-        jsonStr = jsonStr.replace(/```json\n?/, '').replace(/\n?```$/, '');
-      } else if (jsonStr.startsWith('```')) {
-        jsonStr = jsonStr.replace(/```\n?/, '').replace(/\n?```$/, '');
-      }
-
-      // Handle truncated JSON - find last complete object
-      if (!jsonStr.endsWith('}')) {
-        console.warn('⚠️ JSON appears truncated, attempting to fix...');
+      console.log('🔧 Attempting to parse JSON response...');
+      
+      // First attempt: Direct parsing
+      try {
+        const parsed = JSON.parse(cleanResponse);
+        return this.validateAndNormalizeBlogContent(parsed);
+      } catch (parseError) {
+        console.log('🔧 Direct JSON parsing failed, attempting to fix...');
         
-        // Find the last complete closing brace
-        let lastBraceIndex = -1;
-        let braceCount = 0;
+        // Second attempt: Try to fix common JSON issues
+        let fixedJson = this.fixCommonJsonIssues(cleanResponse);
         
-        for (let i = 0; i < jsonStr.length; i++) {
-          if (jsonStr[i] === '{') {
-            braceCount++;
-          } else if (jsonStr[i] === '}') {
-            braceCount--;
-            if (braceCount === 0) {
-              lastBraceIndex = i;
-            }
+        try {
+          const parsed = JSON.parse(fixedJson);
+          return this.validateAndNormalizeBlogContent(parsed);
+        } catch (secondParseError) {
+          console.log('🔧 Fixed JSON parsing failed, attempting truncation...');
+          
+          // Third attempt: Find last complete object and truncate
+          fixedJson = this.truncateToValidJson(fixedJson);
+          
+          try {
+            const parsed = JSON.parse(fixedJson);
+            return this.validateAndNormalizeBlogContent(parsed);
+          } catch (thirdParseError) {
+            console.log('🔧 All parsing attempts failed, using fallback...');
+            return this.createFallbackContent(content);
           }
         }
-        
-        if (lastBraceIndex > -1) {
-          jsonStr = jsonStr.substring(0, lastBraceIndex + 1);
-          console.log('🔧 Truncated JSON fixed, length:', jsonStr.length);
-        }
       }
 
-      // Clean invalid characters like "□" and other unicode issues
-      jsonStr = jsonStr.replace(/□/g, '').replace(/[\u25A0-\u25FF]/g, '').replace(/[^\x00-\x7F]/g, (char) => {
-        // Keep common German umlauts and useful unicode characters
-        if ('äöüÄÖÜß–—„"«»…'.includes(char)) return char;
-        // Remove other problematic unicode characters that can break JSON
-        return '';
-      });
-
-      // Additional JSON cleanup - fix common API response issues
-      jsonStr = jsonStr
-        .replace(/,(\s*[}\]])/g, '$1') // Remove trailing commas
-        .replace(/([{,]\s*)(\w+)(?=\s*:)/g, '$1"$2"') // Quote unquoted keys more safely
-        .replace(/:\s*([^",\[\]{}\s].+?)(?=\s*[,}])/g, (match, value) => {
-          // Only quote values that aren't already quoted, numbers, booleans, or objects/arrays
-          if (!/^["{\[]/.test(value.trim()) && !/^(true|false|\d+\.?\d*)$/.test(value.trim())) {
-            return `: "${value.replace(/"/g, '\\"')}"`;
-          }
-          return match;
-        }); // Quote unquoted string values more safely
-
-      const parsed = JSON.parse(jsonStr);
-
-      // Debug log to check what DeepSeek is returning
-      console.log('🔍 DeepSeek response parsed:', {
-        title: parsed.title?.substring(0, 50) + '...',
-        hasKeywords: Array.isArray(parsed.keywords),
-        hasTags: Array.isArray(parsed.tags),
-        contentLength: parsed.content?.length || 0
-      });
-
-      // Validate required fields
-      if (!parsed.title || !parsed.content || !parsed.slug) {
-        throw new Error('Missing required fields in generated content');
-      }
-
-      // Generate unique slug to avoid duplicates
-      const timestamp = Date.now();
-      const replacements: Record<string, string> = { ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' };
-      const uniqueSlug = parsed.slug && parsed.slug !== 'url-freundlicher-slug' 
-        ? `${parsed.slug}-${timestamp.toString().slice(-6)}`
-        : `${parsed.title.toLowerCase().replace(/[äöüß]/g, (m: string) => replacements[m] || m).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}-${timestamp.toString().slice(-6)}`;
-
-      // Clean content from invalid characters
-      const cleanContent = parsed.content ? parsed.content
-        .replace(/□/g, '') // Remove box characters
-        .replace(/[\u25A0-\u25FF]/g, '') // Remove geometric shapes
-        .replace(/[^\x00-\x7F]/g, (char: string) => {
-          // Keep German umlauts and common punctuation
-          if ('äöüÄÖÜß–—„"«»…°§€'.includes(char)) return char;
-          return '';
-        }) : '';
-
-      return {
-        title: parsed.title,
-        slug: uniqueSlug,
-        excerpt: parsed.excerpt || '',
-        content: cleanContent,
-        metaDescription: parsed.metaDescription || parsed.excerpt || '',
-        keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
-        tags: Array.isArray(parsed.tags) ? parsed.tags : [],
-        readTime: parsed.readTime || '8 min',
-        imagePrompt: parsed.imagePrompt || 'Professional moving service in Munich, modern moving truck, professional movers, high quality, professional photography style',
-        imageAlt: parsed.imageAlt || `Professioneller Umzugsservice München - ${parsed.title}`,
-        faqData: Array.isArray(parsed.faqData) ? parsed.faqData : []
-      };
     } catch (error) {
       console.error('Failed to parse DeepSeek response:', error);
-      console.error('Raw content preview:', content.substring(0, 500) + '...');
-      console.error('Content length:', content.length);
-      
-      // Try to extract partial data from malformed JSON
-      try {
-        const titleMatch = content.match(/"title"\s*:\s*"([^"]+)"/);
-        const excerptMatch = content.match(/"excerpt"\s*:\s*"([^"]+)"/);
-        const contentMatch = content.match(/"content"\s*:\s*"([\s\S]*?)"\s*(?:,\s*"|\})/);
-        
-        if (titleMatch && contentMatch) {
-          console.log('🔧 Attempting to salvage partial blog data...');
-          
-          const title = titleMatch[1];
-          const blogContent = contentMatch[1];
-          const excerpt = excerptMatch?.[1] || title.substring(0, 150) + '...';
-          
-          // Generate fallback data
-          const timestamp = Date.now();
-          const slug = title.toLowerCase()
-            .replace(/[äöüß]/g, (m: string) => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[m] || m))
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-+|-+$/g, '') + '-' + timestamp.toString().slice(-6);
-          
-          return {
-            title,
-            slug,
-            excerpt,
-            content: blogContent,
-            metaDescription: excerpt,
-            keywords: ['umzug', 'münchen', 'walter braun'],
-            tags: ['Umzugstipps'],
-            readTime: '8 min',
-            imagePrompt: 'Professional moving service in Munich, modern moving truck, professional movers',
-            imageAlt: `Professioneller Umzugsservice München - ${title}`,
-            faqData: []
-          };
-        }
-      } catch (salvageError) {
-        console.error('Salvage attempt failed:', salvageError);
-      }
-      
+      console.log('Raw content preview:', content.substring(0, 500) + '...');
+      console.log('Content length:', content.length);
       throw new Error('Failed to parse generated blog content');
     }
+  }
+
+  private fixCommonJsonIssues(jsonStr: string): string {
+    return jsonStr
+      // Remove Unicode control characters but preserve newlines in content
+      .replace(/[\u0000-\u001F\u007F-\u009F]/g, (match) => {
+        if (match === '\n') return '\\n';
+        if (match === '\r') return '\\r'; 
+        if (match === '\t') return '\\t';
+        return '';
+      })
+      // Clean invalid characters like "□" and other unicode issues
+      .replace(/□/g, '').replace(/[\u25A0-\u25FF]/g, '').replace(/[^\x00-\x7F]/g, (char) => {
+        // Keep common German umlauts and useful unicode characters
+        if ('äöüÄÖÜß–—„"«»…'.includes(char)) return char;
+        return '';
+      })
+      // Fix common JSON issues
+      .replace(/,(\s*[}\]])/g, '$1') // Remove trailing commas
+      .replace(/([{,]\s*)(\w+)(?=\s*:)/g, '$1"$2"') // Quote unquoted keys
+      // Fix unquoted string values (but preserve numbers, booleans, objects, arrays)
+      .replace(/:\s*([^",\[\]{}\s].+?)(?=\s*[,}])/g, (match, value) => {
+        const trimmedValue = value.trim();
+        if (!/^["{\[]/.test(trimmedValue) && !/^(true|false|null|\d+\.?\d*)$/.test(trimmedValue)) {
+          return `: "${trimmedValue.replace(/"/g, '\\"')}"`;
+        }
+        return match;
+      });
+  }
+
+  private truncateToValidJson(jsonStr: string): string {
+    // Find the last complete object by looking for balanced braces
+    let braceCount = 0;
+    let lastValidPosition = -1;
+    
+    for (let i = 0; i < jsonStr.length; i++) {
+      const char = jsonStr[i];
+      
+      if (char === '{') {
+        braceCount++;
+      } else if (char === '}') {
+        braceCount--;
+        if (braceCount === 0) {
+          lastValidPosition = i + 1;
+        }
+      }
+    }
+    
+    if (lastValidPosition > 0) {
+      console.log('🔧 Truncated JSON to valid position, length:', lastValidPosition);
+      return jsonStr.substring(0, lastValidPosition);
+    }
+    
+    return jsonStr;
+  }
+
+  private validateAndNormalizeBlogContent(parsed: any): BlogContent {
+    // Debug log to check what DeepSeek is returning
+    console.log('🔍 DeepSeek response parsed:', {
+      title: parsed.title?.substring(0, 50) + '...',
+      hasKeywords: Array.isArray(parsed.keywords),
+      hasTags: Array.isArray(parsed.tags),
+      contentLength: parsed.content?.length || 0,
+      hasFaq: Array.isArray(parsed.faqData) && parsed.faqData.length > 0
+    });
+
+    // Validate required fields
+    if (!parsed.title || !parsed.content || !parsed.slug) {
+      throw new Error('Missing required fields in generated content');
+    }
+
+    // Generate unique slug to avoid duplicates
+    const timestamp = Date.now();
+    const replacements: Record<string, string> = { ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' };
+    const uniqueSlug = parsed.slug && parsed.slug !== 'url-freundlicher-slug' 
+      ? `${parsed.slug}-${timestamp.toString().slice(-6)}`
+      : `${parsed.title.toLowerCase().replace(/[äöüß]/g, (m: string) => replacements[m] || m).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}-${timestamp.toString().slice(-6)}`;
+
+    // Clean content from invalid characters
+    const cleanContent = parsed.content ? parsed.content
+      .replace(/□/g, '') // Remove box characters
+      .replace(/[\u25A0-\u25FF]/g, '') // Remove geometric shapes
+      .replace(/[^\x00-\x7F]/g, (char: string) => {
+        // Keep German umlauts and common punctuation
+        if ('äöüÄÖÜß–—„"«»…°§€'.includes(char)) return char;
+        return '';
+      }) : '';
+
+    return {
+      title: parsed.title,
+      slug: uniqueSlug,
+      excerpt: parsed.excerpt || '',
+      content: cleanContent,
+      metaDescription: parsed.metaDescription || parsed.excerpt || '',
+      keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
+      tags: Array.isArray(parsed.tags) ? parsed.tags : [],
+      readTime: parsed.readTime || '8 min',
+      imagePrompt: parsed.imagePrompt || 'Professional moving service in Munich, modern moving truck, professional movers, high quality, professional photography style',
+      imageAlt: parsed.imageAlt || `Professioneller Umzugsservice München - ${parsed.title}`,
+      faqData: Array.isArray(parsed.faqData) ? parsed.faqData : []
+    };
+  }
+
+  private createFallbackContent(originalContent: string): BlogContent {
+    const timestamp = Date.now();
+    
+    return {
+      title: "Umzug München - Professionelle Tipps und Hinweise",
+      slug: `umzug-muenchen-tipps-${timestamp.toString().slice(-6)}`,
+      excerpt: "Nützliche Informationen rund um Ihren Umzug in München mit praktischen Tipps vom Experten.",
+      content: "<h2>Umzug München - Wichtige Informationen</h2><p>Ein professioneller Umzug in München erfordert gute Planung und Vorbereitung. Hier finden Sie die wichtigsten Tipps für einen erfolgreichen Umzug.</p>",
+      metaDescription: "Professionelle Umzugstipps für München - Ratgeber für einen erfolgreichen Wohnungswechsel",
+      keywords: ["Umzug München", "Umzugstipps", "Wohnungswechsel", "Umzugsunternehmen"],
+      tags: ["umzug-muenchen", "umzugstipps", "wohnungswechsel"],
+      readTime: "5 min",
+      imagePrompt: "Professional moving service in Munich, modern moving truck, professional movers, high quality, professional photography style",
+      imageAlt: "Professioneller Umzugsservice München",
+      faqData: [
+        {
+          question: "Wie plane ich einen Umzug in München am besten?",
+          answer: "Planen Sie Ihren Umzug mindestens 8 Wochen im Voraus und klären Sie Parkmöglichkeiten frühzeitig."
+        },
+        {
+          question: "Was kostet ein Umzug in München durchschnittlich?",
+          answer: "Die Kosten variieren je nach Wohnungsgröße zwischen 800-3.000 Euro für komplette Umzugsdienstleistungen."
+        },
+        {
+          question: "Brauche ich eine Parkgenehmigung für den Umzug?",
+          answer: "Ja, für Halteverbote in München sollten Sie 2-3 Wochen vorher eine Genehmigung beim Kreisverwaltungsreferat beantragen."
+        }
+      ]
+    };
   }
 }

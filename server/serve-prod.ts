@@ -85,7 +85,18 @@ async function startServer() {
   try {
     // Import und registriere Routes
     const { registerRoutes } = await import("./routes.js");
-    await registerRoutes(app);
+    const server = await registerRoutes(app);
+    
+    // Debug: Liste alle registrierten Routes
+    log("📋 Registered routes:");
+    if (app._router && app._router.stack) {
+      app._router.stack.forEach((middleware: any) => {
+        if (middleware.route) {
+          const methods = Object.keys(middleware.route.methods).join(', ').toUpperCase();
+          log(`  ${methods} ${middleware.route.path}`);
+        }
+      });
+    }
     
     // Starte Blog-System
     const { startBlogScheduler } = await import("./ai/blogScheduler.js");

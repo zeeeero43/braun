@@ -7,6 +7,8 @@ This project is a professional full-stack web solution for Walter Braun Umzüge,
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
+- **Blog System Fully Operational (Aug 2025)**: Complete AI-powered blog automation with 7500+ character articles, München-specific content, Runware image generation, and PostgreSQL persistence. Auto-generates every 80 hours with robust error handling and character cleaning.
+- **VPS Blog Management Scripts**: Created cleanup and manual generation scripts for production deployment
 - **Git-Safe-Update Script Fixed (Aug 2025)**: SSL-aware update script prevents certificate loss and configuration overwrites
 - **HTTPS Restored**: SSL functionality fully working after git update issues were resolved
 - **VPS Deployment Stable**: Docker Compose with SSL, nginx reverse proxy, automatic HTTP->HTTPS redirect

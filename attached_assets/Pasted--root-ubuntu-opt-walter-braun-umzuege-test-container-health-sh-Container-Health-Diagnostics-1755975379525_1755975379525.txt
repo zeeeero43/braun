@@ -1,0 +1,97 @@
+
+root@ubuntu:/opt/walter-braun-umzuege# ./test-container-health.sh
+🔍 Container Health Diagnostics
+===============================
+1. Container Status:
+NAME               IMAGE                      COMMAND                  SERVICE    CREATED              STATUS                             PORTS
+walter_braun_db    postgres:15-alpine         "docker-entrypoint.s…"   postgres   About a minute ago   Up About a minute (healthy)        0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_web   walter-braun-umzuege-web   "docker-entrypoint.s…"   web        About a minute ago   Up 46 seconds (health: starting)   0.0.0.0:80->5000/tcp, [::]:80->5000/tcp
+
+2. Health Check direkt im Web Container:
+OCI runtime exec failed: exec failed: unable to start container process: exec: "curl": executable file not found in $PATH: unknown
+Curl fehlgeschlagen
+
+3. Health Check Endpunkt:
+OCI runtime exec failed: exec failed: unable to start container process: exec: "curl": executable file not found in $PATH: unknown
+Health endpoint fehlgeschlagen
+
+4. Prozesse im Web Container:
+PID   USER     TIME  COMMAND
+    1 nextjs    0:00 node serve-production.js
+   18 nextjs    0:02 npm exec tsx server/serve-prod.ts
+   41 nextjs    0:00 node /home/nextjs/.npm/_npx/fd45a72a545557e9/node_modules/.bin/tsx server/serve-prod.ts
+   52 nextjs    0:01 /usr/local/bin/node --require /home/nextjs/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/preflight.cjs --import file:///home/nextjs/.npm/_npx/fd45a72a545557e9/node_modules/tsx/dist/loader.mjs server/serve-prod.ts
+   64 nextjs    0:00 /home/nextjs/.npm/_npx/fd45a72a545557e9/node_modules/@esbuild/linux-x64/bin/esbuild --service=0.25.9 --ping
+  115 nextjs    0:00 ps aux
+
+5. Ports im Web Container:
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 127.0.0.11:34219        0.0.0.0:*               LISTEN      -
+tcp        0      0 0.0.0.0:5000            0.0.0.0:*               LISTEN      52/node
+
+6. App-Logs der letzten 30 Zeilen:
+walter_braun_web  | 6:54:55 PM [production] 🚀 Starting Walter Braun Umzüge Production Server...
+walter_braun_web  | 6:54:55 PM [production] 🔧 Using tsx for TypeScript execution with full Blog system
+walter_braun_web  | 6:54:55 PM [production] ✅ Production wrapper started successfully
+walter_braun_web  | npm warn exec The following package was not found and will be installed: tsx@4.20.4
+walter_braun_web  | 6:54:58 PM [express] 🤖 Starting automated blog system...
+walter_braun_web  | 🚀 Starting Blog Scheduler...
+walter_braun_web  | 🔄 Testing PostgreSQL connection...
+walter_braun_web  | 6:54:58 PM [express] ✅ Blog scheduler initialized successfully
+walter_braun_web  | 6:54:58 PM [express] 🚀 Walter Braun Umzüge Production Server auf Port 5000
+walter_braun_web  | 6:54:58 PM [express] 🏥 Health Check: http://localhost:5000/health
+walter_braun_web  | 6:54:58 PM [express] 🌍 Environment: production
+walter_braun_web  | 6:54:58 PM [express] 📁 Static files: /app/dist/public
+walter_braun_web  | 6:54:58 PM [express] ✅ Vollständiges Blog-System aktiv
+walter_braun_web  | ⚠️ PostgreSQL connection failed, falling back to FileStorage
+walter_braun_web  | Error: Error connecting to database: fetch failed
+walter_braun_web  | ✅ Using FileStorage for persistent blog system
+walter_braun_web  | Current unused topics: 1
+walter_braun_web  | Generating 21 new topics...
+walter_braun_web  | 🔄 Topic generation attempt 1/2...
+walter_braun_web  | 🔄 Calling DeepSeek API...
+walter_braun_web  | 📡 DeepSeek API attempt 1/3...
+
+7. Teste von außen:
+HTTP localhost:
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 23 Aug 2025 18:49:07 GMT
+ETag: W/"4ab-198d843519c"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1195
+Date: Sat, 23 Aug 2025 18:55:42 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+HTTP 127.0.0.1:
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 23 Aug 2025 18:49:07 GMT
+ETag: W/"4ab-198d843519c"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1195
+Date: Sat, 23 Aug 2025 18:55:42 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+8. Docker Network prüfen:
+NETWORK ID     NAME                                        DRIVER    SCOPE
+81234197a883   bridge                                      bridge    local
+84719003d07e   host                                        host      local
+94d891c141a8   none                                        null      local
+ffb2189df939   walter-braun-umzuege_walter_braun_network   bridge    local
+PING postgres (172.18.0.2): 56 data bytes
+64 bytes from 172.18.0.2: seq=0 ttl=42 time=0.055 ms
+64 bytes from 172.18.0.2: seq=1 ttl=42 time=0.086 ms
+
+--- postgres ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.055/0.070/0.086 ms
+===============================

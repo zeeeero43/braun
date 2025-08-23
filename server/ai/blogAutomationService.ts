@@ -87,12 +87,14 @@ export class BlogAutomationService {
         console.log('🎨 Generating hero image with Runware...');
         const imageStartTime = Date.now();
         
-        heroImageUrl = await this.runwareService.generateBlogImage(
-          blogContent.imagePrompt,
+        const imageResult = await this.runwareService.generateBlogImage(
+          blogContent.title, // Titel statt imagePrompt verwenden
           selectedIdea.category
         );
+        
+        heroImageUrl = imageResult.imageUrl; // imageUrl aus dem Objekt extrahieren
 
-        // Log successful image generation (simplified)
+        // Log successful image generation (simplified)  
         console.log(`🎨 Image generation successful: ${heroImageUrl}`);
 
         console.log(`✅ Image generated in ${Date.now() - imageStartTime}ms`);

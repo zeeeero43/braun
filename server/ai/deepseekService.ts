@@ -252,6 +252,14 @@ WICHTIG: Antworten Sie ausschließlich mit dem JSON-Format aus dem System-Prompt
         jsonStr = jsonStr.replace(/```\n?/, '').replace(/\n?```$/, '');
       }
 
+      // Clean invalid characters like "□" and other unicode issues
+      jsonStr = jsonStr.replace(/□/g, '').replace(/[\u25A0-\u25FF]/g, '').replace(/[^\x00-\x7F]/g, (char) => {
+        // Keep common German umlauts and useful unicode characters
+        if ('äöüÄÖÜß–—„"«»…'.includes(char)) return char;
+        // Remove other problematic unicode characters that can break JSON
+        return '';
+      });
+
       const parsed = JSON.parse(jsonStr);
 
       // Debug log to check what DeepSeek is returning
@@ -274,11 +282,21 @@ WICHTIG: Antworten Sie ausschließlich mit dem JSON-Format aus dem System-Prompt
         ? `${parsed.slug}-${timestamp.toString().slice(-6)}`
         : `${parsed.title.toLowerCase().replace(/[äöüß]/g, (m: string) => replacements[m] || m).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')}-${timestamp.toString().slice(-6)}`;
 
+      // Clean content from invalid characters
+      const cleanContent = parsed.content ? parsed.content
+        .replace(/□/g, '') // Remove box characters
+        .replace(/[\u25A0-\u25FF]/g, '') // Remove geometric shapes
+        .replace(/[^\x00-\x7F]/g, (char: string) => {
+          // Keep German umlauts and common punctuation
+          if ('äöüÄÖÜß–—„"«»…°§€'.includes(char)) return char;
+          return '';
+        }) : '';
+
       return {
         title: parsed.title,
         slug: uniqueSlug,
         excerpt: parsed.excerpt || '',
-        content: parsed.content,
+        content: cleanContent,
         metaDescription: parsed.metaDescription || parsed.excerpt || '',
         keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
         tags: Array.isArray(parsed.tags) ? parsed.tags : [],

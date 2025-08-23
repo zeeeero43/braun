@@ -1,0 +1,95 @@
+root@ubuntu:/opt/walter-braun-umzuege# ./vps-api-diagnosis.sh
+🔍 VPS API Diagnose - Warum funktioniert /api/contact nicht?
+============================================================
+1. Container Status prüfen:
+NAME                 IMAGE                      COMMAND                  SERVICE    CREATED         STATUS                     PORTS
+walter_braun_db      postgres:15-alpine         "docker-entrypoint.s…"   postgres   3 minutes ago   Up 3 minutes               0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_nginx   nginx:alpine               "/docker-entrypoint.…"   nginx      3 minutes ago   Up 3 minutes               0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:443->443/tcp, [::]:443->443/tcp
+walter_braun_web     walter-braun-umzuege-web   "docker-entrypoint.s…"   web        3 minutes ago   Up 3 minutes (unhealthy)   5000/tcp
+
+2. Ist der Web-Container wirklich erreichbar?
+
+3. Direct API Test am Container:
+POST /api/contact Test:
+
+HTTP Status: 000
+Time: 0.000207s
+❌ Direct API call failed
+
+4. Nginx vs Direct Web Test:
+Via Nginx (Port 80/443):
+HTTP/1.1 301 Moved Permanently
+Server: nginx/1.29.1
+Date: Sat, 23 Aug 2025 19:56:21 GMT
+Content-Type: text/html
+Content-Length: 169
+Connection: keep-alive
+Location: https://walterbraun-muenchen.de/api/contact
+
+Status: 301
+Direct Web Container (Port 5000):
+Status: 000
+Port 5000 blocked/not accessible
+
+5. Container Logs - Route Registration:
+Suche nach API Route Registration in Web Container:
+❌ Keine Route-Registration gefunden
+
+6. Container Logs - Aktuelle Requests:
+Letzte API Requests:
+Keine aktuellen API-Requests
+
+7. Nginx Logs - Proxy Weiterleitung:
+Nginx Container Logs:
+walter_braun_nginx  | 94.31.69.45 - - [23/Aug/2025:19:53:56 +0000] "GET /assets/aefaf4fa-369d-4c3b-9ba1-0a3b0f6144f6_1755077509608-D6Bs0mvr.jpg HTTP/2.0" 200 346741 "https://walterbraun-muenchen.de/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+walter_braun_nginx  | 94.31.69.45 - - [23/Aug/2025:19:53:56 +0000] "GET /favicon.ico HTTP/2.0" 200 1195 "https://walterbraun-muenchen.de/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+walter_braun_nginx  | 94.31.69.45 - - [23/Aug/2025:19:53:59 +0000] "POST /api/contact HTTP/2.0" 404 151 "https://walterbraun-muenchen.de/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+walter_braun_nginx  | 217.154.205.93 - - [23/Aug/2025:19:54:00 +0000] "GET / HTTP/1.1" 301 169 "-" "curl/7.81.0"
+walter_braun_nginx  | 217.154.205.93 - - [23/Aug/2025:19:54:00 +0000] "GET / HTTP/2.0" 200 1195 "-" "curl/7.81.0"
+walter_braun_nginx  | 217.154.205.93 - - [23/Aug/2025:19:54:01 +0000] "POST /api/contact HTTP/1.1" 301 169 "-" "curl/7.81.0"
+walter_braun_nginx  | 94.31.69.45 - - [23/Aug/2025:19:54:01 +0000] "GET /assets/index-DAasnPKV.css HTTP/2.0" 304 0 "https://walterbraun-muenchen.de/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+walter_braun_nginx  | 94.31.69.45 - - [23/Aug/2025:19:54:57 +0000] "GET /api/contact HTTP/2.0" 304 0 "https://replit.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+walter_braun_nginx  | 94.31.69.45 - - [23/Aug/2025:19:54:58 +0000] "GET /favicon.ico HTTP/2.0" 304 0 "https://walterbraun-muenchen.de/api/contact" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+walter_braun_nginx  | 152.32.235.85 - - [23/Aug/2025:19:55:58 +0000] "GET /version HTTP/1.1" 301 169 "-" "-"
+walter_braun_nginx  | 152.32.235.85 - - [23/Aug/2025:19:55:58 +0000] "GET / HTTP/1.1" 301 169 "-" "-"
+walter_braun_nginx  | 152.32.235.85 - - [23/Aug/2025:19:55:58 +0000] "GET / HTTP/1.1" 301 169 "-" "-"
+walter_braun_nginx  | 152.32.235.85 - - [23/Aug/2025:19:55:59 +0000] "GET /v1 HTTP/1.1" 301 169 "-" "-"
+walter_braun_nginx  | 152.32.235.85 - - [23/Aug/2025:19:55:59 +0000] "GET / HTTP/1.1" 301 169 "-" "-"
+walter_braun_nginx  | 217.154.205.93 - - [23/Aug/2025:19:56:21 +0000] "HEAD /api/contact HTTP/1.1" 301 0 "-" "curl/7.81.0"
+
+8. Build Timestamp Check:
+Wann wurde der Web-Container zuletzt gebaut?
+2025-08-23T19:53:00.04847868Z
+
+9. Production Code Check:
+Wird serve-prod.ts oder index.ts verwendet?
+cat: can't open '/app/dist/server/serve-prod.js': No such file or directory
+serve-prod.js check failed
+
+10. Manual Route Test:
+Welche Routes sind registriert?
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+✅ /api/blog funktioniert
+<html>
+<head><title>301 Moved Permanently</title></head>
+<body>
+✅ SEO routes funktionieren
+
+11. Environment Check:
+production
+
+============================================================
+📋 DIAGNOSE ZUSAMMENFASSUNG:
+
+Container Status: walter_braun_db      Up 3 minutes
+walter_braun_nginx   Up 3 minutes
+walter_braun_web     Up 3 minutes (unhealthy)
+
+🔧 NÄCHSTE SCHRITTE basierend auf Diagnose:
+   - Wenn Route Registration fehlt: Container neu bauen mit git-safe-update.sh
+   - Wenn Nginx Problem: SSL-Konfiguration prüfen
+   - Wenn Container alt: git-safe-update.sh für neuen Build
+============================================================
+root@ubuntu:/opt/walter-braun-umzuege#

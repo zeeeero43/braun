@@ -43,7 +43,7 @@ services:
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
       RUNWARE_API_KEY: ${RUNWARE_API_KEY}
     ports:
-      - "80:5000"
+      - "${WALTER_BRAUN_HTTP_PORT:-8080}:5000"
       - "443:5000"
     depends_on:
       postgres:

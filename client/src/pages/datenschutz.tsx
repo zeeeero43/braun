@@ -1,5 +1,6 @@
 import Navigation from "@/components/navigation";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { GoogleAdsTracking } from "@/components/tracking/GoogleAdsTracking";
 import SEOHead from "@/components/seo/SEOHead";
 import CookieSettingsButton from "@/components/cookies/CookieSettingsButton";
 import { Link } from "wouter";
@@ -312,6 +313,7 @@ export default function Datenschutz() {
       </footer>
 
       <WhatsAppButton />
+      <GoogleAdsTracking />
     </div>
   );
 }

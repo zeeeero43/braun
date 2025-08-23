@@ -252,6 +252,31 @@ WICHTIG: Antworten Sie ausschließlich mit dem JSON-Format aus dem System-Prompt
         jsonStr = jsonStr.replace(/```\n?/, '').replace(/\n?```$/, '');
       }
 
+      // Handle truncated JSON - find last complete object
+      if (!jsonStr.endsWith('}')) {
+        console.warn('⚠️ JSON appears truncated, attempting to fix...');
+        
+        // Find the last complete closing brace
+        let lastBraceIndex = -1;
+        let braceCount = 0;
+        
+        for (let i = 0; i < jsonStr.length; i++) {
+          if (jsonStr[i] === '{') {
+            braceCount++;
+          } else if (jsonStr[i] === '}') {
+            braceCount--;
+            if (braceCount === 0) {
+              lastBraceIndex = i;
+            }
+          }
+        }
+        
+        if (lastBraceIndex > -1) {
+          jsonStr = jsonStr.substring(0, lastBraceIndex + 1);
+          console.log('🔧 Truncated JSON fixed, length:', jsonStr.length);
+        }
+      }
+
       // Clean invalid characters like "□" and other unicode issues
       jsonStr = jsonStr.replace(/□/g, '').replace(/[\u25A0-\u25FF]/g, '').replace(/[^\x00-\x7F]/g, (char) => {
         // Keep common German umlauts and useful unicode characters
@@ -259,6 +284,12 @@ WICHTIG: Antworten Sie ausschließlich mit dem JSON-Format aus dem System-Prompt
         // Remove other problematic unicode characters that can break JSON
         return '';
       });
+
+      // Additional JSON cleanup - fix common API response issues
+      jsonStr = jsonStr
+        .replace(/,(\s*[}\]])/g, '$1') // Remove trailing commas
+        .replace(/([{,]\s*)(\w+):/g, '$1"$2":') // Quote unquoted keys
+        .replace(/:\s*([^",{\[\]\s][^",{\[\]]*[^",{\[\]\s])\s*([,}])/g, ':"$1"$2'); // Quote unquoted string values
 
       const parsed = JSON.parse(jsonStr);
 
@@ -308,6 +339,46 @@ WICHTIG: Antworten Sie ausschließlich mit dem JSON-Format aus dem System-Prompt
     } catch (error) {
       console.error('Failed to parse DeepSeek response:', error);
       console.error('Raw content preview:', content.substring(0, 500) + '...');
+      console.error('Content length:', content.length);
+      
+      // Try to extract partial data from malformed JSON
+      try {
+        const titleMatch = content.match(/"title"\s*:\s*"([^"]+)"/);
+        const excerptMatch = content.match(/"excerpt"\s*:\s*"([^"]+)"/);
+        const contentMatch = content.match(/"content"\s*:\s*"([\s\S]*?)"\s*(?:,\s*"|\})/);
+        
+        if (titleMatch && contentMatch) {
+          console.log('🔧 Attempting to salvage partial blog data...');
+          
+          const title = titleMatch[1];
+          const blogContent = contentMatch[1];
+          const excerpt = excerptMatch?.[1] || title.substring(0, 150) + '...';
+          
+          // Generate fallback data
+          const timestamp = Date.now();
+          const slug = title.toLowerCase()
+            .replace(/[äöüß]/g, (m: string) => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[m] || m))
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '') + '-' + timestamp.toString().slice(-6);
+          
+          return {
+            title,
+            slug,
+            excerpt,
+            content: blogContent,
+            metaDescription: excerpt,
+            keywords: ['umzug', 'münchen', 'walter braun'],
+            tags: ['Umzugstipps'],
+            readTime: '8 min',
+            imagePrompt: 'Professional moving service in Munich, modern moving truck, professional movers',
+            imageAlt: `Professioneller Umzugsservice München - ${title}`,
+            faqData: []
+          };
+        }
+      } catch (salvageError) {
+        console.error('Salvage attempt failed:', salvageError);
+      }
+      
       throw new Error('Failed to parse generated blog content');
     }
   }

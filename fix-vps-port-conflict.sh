@@ -31,17 +31,17 @@ echo "Verwende alternativen Port 8080..."
 export WALTER_BRAUN_HTTP_PORT=8080
 
 echo "Starte Walter Braun Container auf Port 8080..."
-docker-compose up -d --force-recreate
+docker compose up -d --force-recreate
 
 # Warte auf Container Start
 sleep 10
 
 # Status prüfen
 echo "Container Status:"
-docker-compose ps
+docker compose ps
 
 echo "Logs prüfen:"
-docker-compose logs --tail=20 web
+docker compose logs --tail=20 web
 
 echo "=== Fix abgeschlossen ==="
 echo "Website sollte jetzt unter Port 8080 erreichbar sein"

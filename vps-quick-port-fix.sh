@@ -3,7 +3,7 @@
 echo "🚀 Walter Braun VPS Quick Port Fix"
 
 # Stoppe bestehende Container
-docker-compose down --remove-orphans 2>/dev/null
+docker compose down --remove-orphans 2>/dev/null
 
 # Stoppe alle Webserver die Port 80 belegen könnten
 sudo systemctl stop apache2 2>/dev/null
@@ -25,15 +25,15 @@ fi
 
 # Starte Container
 echo "Starte Walter Braun Container..."
-docker-compose up -d --build
+docker compose up -d --build
 
 # Warten und Status prüfen  
 sleep 15
 echo "Container Status:"
-docker-compose ps
+docker compose ps
 
 echo "Logs:"
-docker-compose logs --tail=10 web
+docker compose logs --tail=10 web
 
 echo "✅ Fix abgeschlossen!"
 

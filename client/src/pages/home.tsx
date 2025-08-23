@@ -8,6 +8,7 @@ import SEOHead from "@/components/seo/SEOHead";
 import { useLocalBusinessData, generateServiceData } from "@/hooks/useSEOData";
 import CookieSettingsButton from "@/components/cookies/CookieSettingsButton";
 import GoogleAnalytics from "@/components/tracking/GoogleAnalytics";
+import { GoogleAdsTracking } from "@/components/tracking/GoogleAdsTracking";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import teamImage from "@assets/thumbnail_e11700c1-5142-4f7b-8f62-807fe02e071b_1755077031397.jpg";
@@ -1304,6 +1305,7 @@ export default function Home() {
       
       <WhatsAppButton />
       <GoogleAnalytics />
+      <GoogleAdsTracking />
     </div>
   );
 }

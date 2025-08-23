@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertContactSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
 import { getBlogScheduler } from "./ai/blogScheduler";
+import { emailService } from "./services/emailService";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission endpoint
@@ -11,6 +12,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertContactSubmissionSchema.parse(req.body);
       const submission = await storage.createContactSubmission(validatedData);
+      
+      // Send email notification
+      try {
+        await emailService.sendContactFormEmail(submission);
+        console.log('📧 Email sent for contact submission:', submission.id);
+      } catch (emailError) {
+        console.error('❌ Failed to send email for submission:', submission.id, emailError);
+        // Continue execution even if email fails - don't break the form submission
+      }
+      
       res.json({ success: true, id: submission.id });
     } catch (error) {
       if (error instanceof z.ZodError) {

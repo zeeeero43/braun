@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { useGoogleAdsConversion } from "@/components/tracking/GoogleAdsTracking";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name muss mindestens 2 Zeichen lang sein"),
@@ -26,6 +27,7 @@ type ContactFormData = z.infer<typeof contactFormSchema>;
 export default function ContactForm() {
   const { toast } = useToast();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { reportConversion } = useGoogleAdsConversion();
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
@@ -50,6 +52,9 @@ export default function ContactForm() {
         title: "Nachricht gesendet!",
         description: "Vielen Dank für Ihre Anfrage. Wir melden uns schnellstmöglich bei Ihnen.",
       });
+      
+      // Track Google Ads conversion
+      reportConversion();
     },
     onError: (error) => {
       toast({

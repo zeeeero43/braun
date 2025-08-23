@@ -1125,7 +1125,6 @@ export default function Home() {
                         className="text-primary hover:text-primary/80 transition-colors font-semibold text-sm lg:text-base"
                       >
                         info@walterbraun-umzuege.de
-                        info@walterbraun-umzuege.de
                       </a>
                       <div className="text-gray-600 text-xs lg:text-sm">Antwort binnen 2 Stunden</div>
                     </div>

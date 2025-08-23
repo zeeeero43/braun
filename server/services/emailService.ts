@@ -11,7 +11,7 @@ const EMAIL_CONFIG = {
   }
 };
 
-const RECIPIENT_EMAIL = 'ceo@skyline-websites.de';
+const RECIPIENT_EMAIL = 'info@walterbraun-umzuege.de';
 
 class EmailService {
   private transporter;

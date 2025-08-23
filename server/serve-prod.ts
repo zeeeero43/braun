@@ -83,28 +83,37 @@ app.use((req, res, next) => {
 
 async function startServer() {
   try {
-    // Import und registriere Routes
+    // CRITICAL: Add SEO routes first (like index.ts does)
+    const seoRoutes = await import("./routes/seo.js");
+    const seoToolsRoutes = await import("./routes/seo-tools.js");
+    app.use(seoRoutes.default);
+    app.use(seoToolsRoutes.default);
+    log("✅ SEO routes registered");
+
+    // Import und registriere API Routes
     const { registerRoutes } = await import("./routes.js");
     const server = await registerRoutes(app);
+    log("✅ API routes registered");
     
-    // Debug: Liste alle registrierten Routes
-    log("📋 Registered routes:");
+    // Debug: Liste alle registrierten API Routes
+    log("📋 Registered API routes:");
+    const apiRoutes = [];
     if (app._router && app._router.stack) {
       app._router.stack.forEach((middleware: any) => {
-        if (middleware.route) {
+        if (middleware.route && middleware.route.path && middleware.route.path.startsWith('/api')) {
           const methods = Object.keys(middleware.route.methods).join(', ').toUpperCase();
-          log(`  ${methods} ${middleware.route.path}`);
+          const routeInfo = `  ${methods} ${middleware.route.path}`;
+          apiRoutes.push(routeInfo);
+          log(routeInfo);
         }
       });
     }
     
-    // Starte Blog-System
-    const { startBlogScheduler } = await import("./ai/blogScheduler.js");
-    log("🤖 Starting automated blog system...");
-    await startBlogScheduler();
-    log("✅ Blog scheduler initialized successfully");
-
-    // Error handler
+    if (apiRoutes.length === 0) {
+      log("⚠️ WARNING: No API routes found! This will cause 404 errors.");
+    }
+    
+    // Error handler BEFORE static files
     app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
@@ -112,8 +121,15 @@ async function startServer() {
       log(`Error ${status}: ${message}`, "error");
     });
 
-    // Static files serving - will be called by index.ts in production
+    // Static files serving AFTER API routes (critical order)
     setupStaticFiles(app);
+    log("✅ Static file serving configured");
+    
+    // Starte Blog-System
+    const { startBlogScheduler } = await import("./ai/blogScheduler.js");
+    log("🤖 Starting automated blog system...");
+    await startBlogScheduler();
+    log("✅ Blog scheduler initialized successfully");
 
     const port = parseInt(process.env.PORT || "5000");
     const publicPath = path.resolve(__dirname, "../dist/public");
@@ -152,10 +168,18 @@ function setupStaticFiles(app: express.Application) {
   const publicPath = path.resolve(__dirname, "../dist/public");
   log(`📁 Setting up static files from: ${publicPath}`);
   
+  // Serve static files but NOT for API routes
   app.use(express.static(publicPath));
   
-  // SPA fallback - serve index.html for all non-API routes
-  app.get("*", (req, res) => {
+  // SPA fallback - serve index.html ONLY for non-API routes
+  // This must be the LAST route to avoid intercepting API calls
+  app.get("*", (req, res, next) => {
+    // Skip API routes - let them return 404 if not found
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    
+    log(`SPA fallback serving index.html for: ${req.path}`);
     res.sendFile(path.resolve(publicPath, "index.html"));
   });
 }

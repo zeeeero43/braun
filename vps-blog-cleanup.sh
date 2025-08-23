@@ -33,10 +33,17 @@ echo "🔄 Schritt 1: PostgreSQL Blog-Posts löschen..."
 if [ -f "docker-compose.yml" ]; then
     log_info "Docker Compose gefunden - verwende Container für PostgreSQL"
     
-    # Führe SQL-Befehle über Docker aus (Container heißt 'postgres')
-    docker-compose exec -T postgres psql -U postgres -d walter_braun_umzuege -c "
+    # Führe SQL-Befehle über Docker aus (Container heißt 'postgres')  
+    # Versuche beide docker-compose und docker compose Varianten
+    if command -v docker-compose &> /dev/null; then
+        DOCKER_CMD="docker-compose"
+    else
+        DOCKER_CMD="docker compose"
+    fi
+    
+    $DOCKER_CMD exec -T postgres psql -U postgres -d walter_braun_umzuege -c "
         DELETE FROM auto_blog_posts;
-        DELETE FROM blog_ideas WHERE is_used = true;
+        DELETE FROM blog_ideas WHERE is_used = true;  
         DELETE FROM ai_generation_logs WHERE type = 'content';
     " 2>/dev/null
     
@@ -45,12 +52,18 @@ if [ -f "docker-compose.yml" ]; then
     else
         log_warn "PostgreSQL Cleanup fehlgeschlagen - verwende Alternative"
         
-        # Alternative: Über Web Container
-        docker-compose exec -T web psql "$DATABASE_URL" -c "
+        # Alternative: Über Web Container mit Environment Variable
+        $DOCKER_CMD exec -T web sh -c 'psql "$DATABASE_URL" -c "
             DELETE FROM auto_blog_posts;
             DELETE FROM blog_ideas WHERE is_used = true;
-            DELETE FROM ai_generation_logs WHERE type = 'content';
-        " 2>/dev/null
+            DELETE FROM ai_generation_logs WHERE type = content;
+        "' 2>/dev/null
+        
+        if [ $? -eq 0 ]; then
+            log_info "PostgreSQL Blog-Posts über Web-Container gelöscht"
+        else
+            log_warn "PostgreSQL Cleanup vollständig fehlgeschlagen"
+        fi
     fi
 else
     log_error "docker-compose.yml nicht gefunden!"
@@ -84,7 +97,13 @@ echo "🔄 Schritt 3: Service neustart..."
 
 if [ -f "docker-compose.yml" ]; then
     log_info "Docker Container werden neugestartet..."
-    docker-compose restart web
+    
+    # Verwende korrekten docker compose Befehl
+    if command -v docker-compose &> /dev/null; then
+        docker-compose restart web
+    else
+        docker compose restart web
+    fi
     
     if [ $? -eq 0 ]; then
         log_info "Docker Container erfolgreich neugestartet"

@@ -1,0 +1,123 @@
+root@ubuntu:/opt/walter-braun-umzuege# ./vps-docker-status.sh
+🐳 VPS Docker Status Check
+==========================
+🔍 Docker Compose Status
+✅ docker-compose.yml gefunden
+Container Status:
+./vps-docker-status.sh: line 38: docker-compose: command not found
+
+Service Health:
+./vps-docker-status.sh: line 42: docker-compose: command not found
+
+🔍 Web Service Connectivity
+HTTP (Port 80): 301
+HTTPS (Port 443): 200
+API (/api/blog): 200
+
+🔍 Database Connectivity
+./vps-docker-status.sh: line 76: docker-compose: command not found
+⚠️ Database Container nicht gefunden
+
+🔍 Environment Check
+✅ .env Datei gefunden
+✅ DATABASE_URL konfiguriert
+✅ DEEPSEEK_API_KEY konfiguriert
+✅ RUNWARE_API_KEY konfiguriert
+
+🔍 Recent Logs (Web Container)
+Letzte 10 Log-Zeilen vom Web Container:
+❌ Logs nicht abrufbar
+
+💡 Nützliche Befehle:
+   docker-compose up -d        # Alle Services starten
+   docker-compose restart web  # Web Service neustarten
+   docker-compose logs -f web  # Live Logs anzeigen
+   docker-compose down         # Alle Services stoppen
+root@ubuntu:/opt/walter-braun-umzuege# ./vps-docker-status.sh
+🐳 VPS Docker Status Check
+==========================
+🔍 Docker Compose Status
+✅ docker-compose.yml gefunden
+Container Status:
+./vps-docker-status.sh: line 38: docker-compose: command not found
+
+Service Health:
+./vps-docker-status.sh: line 42: docker-compose: command not found
+
+🔍 Web Service Connectivity
+HTTP (Port 80): 301
+HTTPS (Port 443): 200
+API (/api/blog): 200
+
+🔍 Database Connectivity
+./vps-docker-status.sh: line 76: docker-compose: command not found
+⚠️ Database Container nicht gefunden
+
+🔍 Environment Check
+✅ .env Datei gefunden
+✅ DATABASE_URL konfiguriert
+✅ DEEPSEEK_API_KEY konfiguriert
+✅ RUNWARE_API_KEY konfiguriert
+
+🔍 Recent Logs (Web Container)
+Letzte 10 Log-Zeilen vom Web Container:
+❌ Logs nicht abrufbar
+
+💡 Nützliche Befehle:
+   docker-compose up -d        # Alle Services starten
+   docker-compose restart web  # Web Service neustarten
+   docker-compose logs -f web  # Live Logs anzeigen
+   docker-compose down         # Alle Services stoppen
+root@ubuntu:/opt/walter-braun-umzuege# ./vps-blog-cleanup.sh
+-bash: ./vps-blog-cleanup.sh: Permission denied
+root@ubuntu:/opt/walter-braun-umzuege# chmod +x ./vps-blog-cleanup.sh
+root@ubuntu:/opt/walter-braun-umzuege# ./vps-blog-cleanup.sh
+🧹 VPS Blog Cleanup - Entfernung aller verbuggten Blog-Posts
+============================================================
+
+🔄 Schritt 1: PostgreSQL Blog-Posts löschen...
+✅ Docker Compose gefunden - verwende Container für PostgreSQL
+⚠️ PostgreSQL Cleanup fehlgeschlagen - verwende Alternative
+⚠️ PostgreSQL Cleanup teilweise fehlgeschlagen (möglicherweise bereits leer)
+
+🔄 Schritt 2: JSON Dateien zurücksetzen...
+✅ data/auto_blog_posts.json zurückgesetzt
+
+🔄 Schritt 3: Service neustart...
+✅ Docker Container werden neugestartet...
+./vps-blog-cleanup.sh: line 87: docker-compose: command not found
+❌ Docker Neustart fehlgeschlagen
+
+🔍 Schritt 4: Status-Prüfung...
+✅ Blog-API erreichbar über HTTPS - Service läuft
+
+📊 Cleanup Zusammenfassung:
+==========================
+✅ PostgreSQL Blog-Posts gelöscht
+✅ JSON Dateien zurückgesetzt
+✅ Service neugestartet
+
+✅ Das Blog-System ist jetzt bereit für frische Inhalte!
+✅ Neue Blog-Posts werden automatisch alle 80 Stunden generiert
+
+🔧 Nächste Schritte:
+- Warten bis neuer automatischer Blog-Post generiert wird
+- Bei Problemen: docker-compose logs -f web
+- Status prüfen: curl http://localhost:3000/api/blog
+root@ubuntu:/opt/walter-braun-umzuege# ./vps-blog-manual-generate.sh
+-bash: ./vps-blog-manual-generate.sh: Permission denied
+root@ubuntu:/opt/walter-braun-umzuege# chmod +x ./vps-blog-manual-generate.sh
+#root@ubuntu:/opt/walter-braun-umzuege# ./vps-blog-manual-generate.sh
+🤖 VPS Blog Manual Generation
+=============================
+🔍 Service Status prüfen...
+✅ Blog-Service läuft (https://localhost)
+📊 Aktuelle Blog-Posts zählen...
+✅ Aktuell: 0 Blog-Posts
+
+🚀 Neuen Blog-Post generieren...
+Kategorie: München & Umgebung
+✅ Blog-Generation gestartet
+⏳ Warte auf Completion (max 5 Minuten)...
+.^C
+root@ubuntu:/opt/walter-braun-umzuege#

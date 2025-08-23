@@ -34,13 +34,20 @@ log_header "Docker Compose Status"
 if [ -f "docker-compose.yml" ]; then
     log_info "docker-compose.yml gefunden"
     
+    # Bestimme korrekten Docker Compose Befehl
+    if command -v docker-compose &> /dev/null; then
+        DOCKER_CMD="docker-compose"
+    else
+        DOCKER_CMD="docker compose"
+    fi
+    
     echo "Container Status:"
-    docker-compose ps
+    $DOCKER_CMD ps
     
     echo ""
     echo "Service Health:"
-    docker-compose ps --services | while read service; do
-        status=$(docker-compose ps -q $service | xargs docker inspect -f '{{.State.Status}}' 2>/dev/null)
+    $DOCKER_CMD ps --services | while read service; do
+        status=$($DOCKER_CMD ps -q $service | xargs docker inspect -f '{{.State.Status}}' 2>/dev/null)
         if [ "$status" = "running" ]; then
             log_info "$service: $status"
         else
@@ -73,16 +80,23 @@ echo ""
 # 3. Database Connectivity
 log_header "Database Connectivity"
 
-if docker-compose ps | grep -q "postgres"; then
+# Bestimme korrekten Docker Compose Befehl
+if command -v docker-compose &> /dev/null; then
+    DOCKER_CMD="docker-compose"
+else
+    DOCKER_CMD="docker compose"
+fi
+
+if $DOCKER_CMD ps | grep -q "postgres"; then
     log_info "Database Container gefunden"
     
     # Test DB Connection
-    db_test=$(docker-compose exec -T postgres psql -U postgres -d walter_braun_umzuege -c "SELECT 1;" 2>/dev/null)
+    db_test=$($DOCKER_CMD exec -T postgres psql -U postgres -d walter_braun_umzuege -c "SELECT 1;" 2>/dev/null)
     if [ $? -eq 0 ]; then
         log_info "PostgreSQL Verbindung erfolgreich"
         
         # Blog Posts zählen
-        blog_count=$(docker-compose exec -T postgres psql -U postgres -d walter_braun_umzuege -c "SELECT COUNT(*) FROM auto_blog_posts;" 2>/dev/null | grep -E '^\s*[0-9]+\s*$' | tr -d ' ')
+        blog_count=$($DOCKER_CMD exec -T postgres psql -U postgres -d walter_braun_umzuege -c "SELECT COUNT(*) FROM auto_blog_posts;" 2>/dev/null | grep -E '^\s*[0-9]+\s*$' | tr -d ' ')
         echo "Blog Posts in DB: $blog_count"
         
     else
@@ -128,11 +142,18 @@ echo ""
 # 5. Logs (letzte 10 Zeilen)
 log_header "Recent Logs (Web Container)"
 echo "Letzte 10 Log-Zeilen vom Web Container:"
-docker-compose logs --tail=10 web 2>/dev/null || log_error "Logs nicht abrufbar"
+$DOCKER_CMD logs --tail=10 web 2>/dev/null || log_error "Logs nicht abrufbar"
 
 echo ""
 echo "💡 Nützliche Befehle:"
-echo "   docker-compose up -d        # Alle Services starten"
-echo "   docker-compose restart web  # Web Service neustarten"  
-echo "   docker-compose logs -f web  # Live Logs anzeigen"
-echo "   docker-compose down         # Alle Services stoppen"
+if command -v docker-compose &> /dev/null; then
+    echo "   docker-compose up -d        # Alle Services starten"
+    echo "   docker-compose restart web  # Web Service neustarten"  
+    echo "   docker-compose logs -f web  # Live Logs anzeigen"
+    echo "   docker-compose down         # Alle Services stoppen"
+else
+    echo "   docker compose up -d        # Alle Services starten"
+    echo "   docker compose restart web  # Web Service neustarten"  
+    echo "   docker compose logs -f web  # Live Logs anzeigen"
+    echo "   docker compose down         # Alle Services stoppen"
+fi

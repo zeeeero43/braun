@@ -1,0 +1,77 @@
+root@ubuntu:/opt/walter-braun-umzuege# ./test-container-health.sh
+🔍 Container Health Diagnostics
+===============================
+1. Container Status:
+NAME               IMAGE                      COMMAND                  SERVICE    CREATED              STATUS                          PORTS
+walter_braun_db    postgres:15-alpine         "docker-entrypoint.s…"   postgres   About a minute ago   Up About a minute (healthy)     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_web   walter-braun-umzuege-web   "docker-entrypoint.s…"   web        About a minute ago   Up About a minute (unhealthy)   0.0.0.0:80->5000/tcp, [::]:80->5000/tcp
+
+2. Health Check direkt im Web Container:
+OCI runtime exec failed: exec failed: unable to start container process: exec: "curl": executable file not found in $PATH: unknown
+Curl fehlgeschlagen
+
+3. Health Check Endpunkt:
+OCI runtime exec failed: exec failed: unable to start container process: exec: "curl": executable file not found in $PATH: unknown
+Health endpoint fehlgeschlagen
+
+4. Prozesse im Web Container:
+PID   USER     TIME  COMMAND
+    1 nextjs    0:00 node production-server.js
+  109 nextjs    0:00 ps aux
+
+5. Ports im Web Container:
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:5000            0.0.0.0:*               LISTEN      1/node
+tcp        0      0 127.0.0.11:34971        0.0.0.0:*               LISTEN      -
+
+6. App-Logs der letzten 30 Zeilen:
+walter_braun_web  | 7:04:25 PM [express] Serving static files from: /app/dist/public
+walter_braun_web  | 7:04:25 PM [express] Walter Braun Umzüge Server läuft auf Port 5000
+walter_braun_web  | 7:04:25 PM [express] Health Check: http://localhost:5000/health
+walter_braun_web  | 7:04:25 PM [express] Environment: production
+walter_braun_web  | 7:04:25 PM [express] Static files: /app/dist/public
+
+7. Teste von außen:
+HTTP localhost:
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 23 Aug 2025 19:03:52 GMT
+ETag: W/"4ab-198d850d447"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1195
+Date: Sat, 23 Aug 2025 19:05:51 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+HTTP 127.0.0.1:
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 23 Aug 2025 19:03:52 GMT
+ETag: W/"4ab-198d850d447"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1195
+Date: Sat, 23 Aug 2025 19:05:51 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+8. Docker Network prüfen:
+NETWORK ID     NAME                                        DRIVER    SCOPE
+81234197a883   bridge                                      bridge    local
+84719003d07e   host                                        host      local
+94d891c141a8   none                                        null      local
+2dfaa47c26ef   walter-braun-umzuege_walter_braun_network   bridge    local
+PING postgres (172.18.0.2): 56 data bytes
+64 bytes from 172.18.0.2: seq=0 ttl=42 time=0.050 ms
+64 bytes from 172.18.0.2: seq=1 ttl=42 time=0.084 ms
+
+--- postgres ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.050/0.067/0.084 ms
+===============================
+root@ubuntu:/opt/walter-braun-umzuege#

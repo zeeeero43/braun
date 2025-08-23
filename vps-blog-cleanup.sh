@@ -25,23 +25,37 @@ log_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
-# Prüfung ob PostgreSQL verfügbar ist
-if [ -z "$DATABASE_URL" ]; then
-    log_error "DATABASE_URL nicht gefunden! Bitte Environment-Variable setzen."
-    exit 1
-fi
-
-log_info "DATABASE_URL gefunden - PostgreSQL wird verwendet"
-
-# 1. PostgreSQL Blog-Posts löschen
+# 1. PostgreSQL Blog-Posts über Docker löschen
 echo ""
 echo "🔄 Schritt 1: PostgreSQL Blog-Posts löschen..."
 
-psql "$DATABASE_URL" -c "
-    DELETE FROM auto_blog_posts;
-    DELETE FROM blog_ideas WHERE is_used = true;
-    DELETE FROM ai_generation_logs WHERE type = 'content';
-" 2>/dev/null
+# PostgreSQL über Docker Container ausführen
+if [ -f "docker-compose.yml" ]; then
+    log_info "Docker Compose gefunden - verwende Container für PostgreSQL"
+    
+    # Führe SQL-Befehle über Docker aus (Container heißt 'postgres')
+    docker-compose exec -T postgres psql -U postgres -d walter_braun_umzuege -c "
+        DELETE FROM auto_blog_posts;
+        DELETE FROM blog_ideas WHERE is_used = true;
+        DELETE FROM ai_generation_logs WHERE type = 'content';
+    " 2>/dev/null
+    
+    if [ $? -eq 0 ]; then
+        log_info "PostgreSQL Blog-Posts erfolgreich gelöscht"
+    else
+        log_warn "PostgreSQL Cleanup fehlgeschlagen - verwende Alternative"
+        
+        # Alternative: Über Web Container
+        docker-compose exec -T web psql "$DATABASE_URL" -c "
+            DELETE FROM auto_blog_posts;
+            DELETE FROM blog_ideas WHERE is_used = true;
+            DELETE FROM ai_generation_logs WHERE type = 'content';
+        " 2>/dev/null
+    fi
+else
+    log_error "docker-compose.yml nicht gefunden!"
+    exit 1
+fi
 
 if [ $? -eq 0 ]; then
     log_info "PostgreSQL Blog-Posts erfolgreich gelöscht"
@@ -88,18 +102,24 @@ echo "🔍 Schritt 4: Status-Prüfung..."
 # Warten bis Service läuft
 sleep 5
 
-# API-Test
-response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/blog 2>/dev/null)
+# API-Test (VPS nutzt Port 80/443)
+response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/api/blog 2>/dev/null)
 
 if [ "$response" = "200" ]; then
     log_info "Blog-API erreichbar - Service läuft"
     
     # Blog-Posts zählen
-    count=$(curl -s http://localhost:3000/api/blog 2>/dev/null | jq '.posts | length' 2>/dev/null || echo "0")
+    count=$(curl -s http://localhost/api/blog 2>/dev/null | jq '.posts | length' 2>/dev/null || echo "0")
     log_info "Aktuelle Blog-Posts: $count"
     
 else
-    log_warn "Blog-API nicht erreichbar - Service startet möglicherweise noch"
+    # Backup test mit HTTPS
+    response_https=$(curl -s -k -o /dev/null -w "%{http_code}" https://localhost/api/blog 2>/dev/null)
+    if [ "$response_https" = "200" ]; then
+        log_info "Blog-API erreichbar über HTTPS - Service läuft"
+    else
+        log_warn "Blog-API nicht erreichbar - Service startet möglicherweise noch"
+    fi
 fi
 
 # 5. Zusammenfassung

@@ -1,0 +1,67 @@
+root@ubuntu:/opt/walter-braun-umzuege# ./check-domain-status.sh
+🌐 Domain Status Check - walterbraun-muenchen.de
+================================================
+1. DNS-Auflösung testen:
+------------------------
+Server:         127.0.0.53
+Address:        127.0.0.53#53
+
+Non-authoritative answer:
+Name:   walterbraun-muenchen.de
+Address: 217.154.205.93
+
+
+2. Ping-Test:
+-------------
+PING walterbraun-muenchen.de (217.154.205.93) 56(84) bytes of data.
+64 bytes from ip217.154.205-93.pbiaas.com (217.154.205.93): icmp_seq=1 ttl=64 time=0.041 ms
+64 bytes from ip217.154.205-93.pbiaas.com (217.154.205.93): icmp_seq=2 ttl=64 time=0.049 ms
+64 bytes from ip217.154.205-93.pbiaas.com (217.154.205.93): icmp_seq=3 ttl=64 time=0.051 ms
+
+--- walterbraun-muenchen.de ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2027ms
+rtt min/avg/max/mdev = 0.041/0.047/0.051/0.004 ms
+
+3. HTTP-Test der Domain:
+-----------------------
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 23 Aug 2025 19:03:52 GMT
+ETag: W/"4ab-198d850d447"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1195
+Date: Sat, 23 Aug 2025 19:09:38 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+4. HTTP-Test der IP (sollte funktionieren):
+-------------------------------------------
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Sat, 23 Aug 2025 19:03:52 GMT
+ETag: W/"4ab-198d850d447"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1195
+Date: Sat, 23 Aug 2025 19:09:38 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+
+5. Container Status:
+-------------------
+NAME               IMAGE                      COMMAND                  SERVICE    CREATED         STATUS                     PORTS
+walter_braun_db    postgres:15-alpine         "docker-entrypoint.s…"   postgres   5 minutes ago   Up 5 minutes (healthy)     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+walter_braun_web   walter-braun-umzuege-web   "docker-entrypoint.s…"   web        5 minutes ago   Up 5 minutes (unhealthy)   0.0.0.0:80->5000/tcp, [::]:80->5000/tcp
+
+6. DNS-Propagation Check:
+-------------------------
+Testen Sie auch online: https://dnschecker.org/#A/walterbraun-muenchen.de
+================================================
+📋 Zusammenfassung:
+✅ IP funktioniert: http://217.154.205.93/
+🔄 Domain DNS-Setup erforderlich bei Ihrem Provider

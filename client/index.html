@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html lang="de">
   <head>
+    <!-- Google tag (gtag.js) - Direct Integration -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16893834151"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-16893834151');
+      
+      // Global conversion tracking function
+      window.gtag_report_conversion = function(url) {
+        const callback = function() {
+          if (typeof url !== 'undefined') {
+            window.location.href = url;
+          }
+        };
+        gtag('event', 'conversion', {
+          'send_to': 'AW-16893834151/n54CCJuWoIwbEKfnzfc-',
+          'event_callback': callback
+        });
+        return false;
+      };
+    </script>
+    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>Walter Braun Umzüge München - Ihr professioneller Umzugsservice</title>

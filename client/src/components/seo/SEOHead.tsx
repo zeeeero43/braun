@@ -60,6 +60,11 @@ export default function SEOHead({
       <meta name="twitter:creator" content="@walterbraunumzug" />
       <meta name="twitter:site" content="@walterbraunumzug" />
       
+      {/* Favicon and PWA */}
+      <link rel="icon" type="image/png" href="/favicon.png" />
+      <link rel="shortcut icon" href="/favicon.png" />
+      <link rel="apple-touch-icon" href="/favicon.png" />
+      
       {/* Additional SEO Meta Tags */}
       <meta name="theme-color" content="#059669" />
       <meta name="msapplication-TileColor" content="#059669" />

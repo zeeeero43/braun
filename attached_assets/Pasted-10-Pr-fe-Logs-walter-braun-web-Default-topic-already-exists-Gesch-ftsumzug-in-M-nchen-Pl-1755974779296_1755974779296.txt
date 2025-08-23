@@ -1,0 +1,68 @@
+10. Prüfe Logs...
+walter_braun_web    | Default topic already exists: Geschäftsumzug in München: Planung und Durchführung ohne etriebsunterbrechung
+walter_braun_web    | Failed to write blog_ideas: [Error: EACCES: permission denied, open 'data/blog_ideas.jsn'] {
+walter_braun_web    |   errno: -13,
+walter_braun_web    |   code: 'EACCES',
+walter_braun_web    |   syscall: 'open',
+walter_braun_web    |   path: 'data/blog_ideas.json'
+walter_braun_web    | }
+walter_braun_nginx  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform confguration
+walter_braun_nginx  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+walter_braun_nginx  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+walter_braun_nginx  | 10-listen-on-ipv6-by-default.sh: info: IPv6 listen already enabled
+walter_braun_nginx  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+walter_braun_nginx  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+walter_braun_db     | 2025-08-23 18:44:38.126 UTC [56] ERROR:  relation "pg_stat_statements_info" does not exst at character 13
+walter_braun_db     | 2025-08-23 18:44:38.126 UTC [56] STATEMENT:  INSERT INTO pg_stat_statements_info VALUES('Database initialized for Walter Braun Umzüge', NOW()) ON CONFLICT DO NOTHING;
+walter_braun_nginx  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+walter_braun_nginx  | /docker-entrypoint.sh: Configuration complete; ready for start up
+walter_braun_nginx  | 2025/08/23 18:45:24 [emerg] 1#1: invalid value "must-revalidate" in /etc/nginx/nginx.cof:28
+walter_braun_nginx  | nginx: [emerg] invalid value "must-revalidate" in /etc/nginx/nginx.conf:28
+walter_braun_db     | psql:/docker-entrypoint-initdb.d/init.sql:20: ERROR:  relation "pg_stat_statements_info does not exist
+walter_braun_db     | LINE 1: INSERT INTO pg_stat_statements_info VALUES ('Database initia...
+walter_braun_db     |                     ^
+walter_braun_db     |
+walter_braun_db     | PostgreSQL Database directory appears to contain a database; Skipping initialization
+walter_braun_db     |
+walter_braun_db     | 2025-08-23 18:44:38.673 UTC [1] LOG:  starting PostgreSQL 15.13 on x86_64-pc-linux-musl compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit
+walter_braun_db     | 2025-08-23 18:44:38.674 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+walter_braun_nginx  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform confguration
+walter_braun_nginx  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+walter_braun_nginx  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+walter_braun_nginx  | 10-listen-on-ipv6-by-default.sh: info: IPv6 listen already enabled
+walter_braun_nginx  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+walter_braun_nginx  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+walter_braun_nginx  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+walter_braun_nginx  | /docker-entrypoint.sh: Configuration complete; ready for start up
+walter_braun_nginx  | 2025/08/23 18:45:37 [emerg] 1#1: invalid value "must-revalidate" in /etc/nginx/nginx.cof:28
+walter_braun_nginx  | nginx: [emerg] invalid value "must-revalidate" in /etc/nginx/nginx.conf:28
+walter_braun_web    | Default topic already exists: Umzugskosten kalkulieren: Was kostet ein Umzug in Münchenwirklich?
+walter_braun_web    | Failed to write blog_ideas: [Error: EACCES: permission denied, open 'data/blog_ideas.jsn'] {
+walter_braun_web    |   errno: -13,
+walter_braun_web    |   code: 'EACCES',
+walter_braun_web    |   syscall: 'open',
+walter_braun_web    |   path: 'data/blog_ideas.json'
+walter_braun_web    | }
+walter_braun_web    | Default topic already exists: Checkliste für den Umzug: Nichts vergessen in 8 Wochen
+walter_braun_web    | Current unused topics: 0
+walter_braun_web    | Generating 22 new topics...
+walter_braun_web    | 🔄 Topic generation attempt 1/2...
+walter_braun_web    | 🔄 Calling DeepSeek API...
+walter_braun_web    | 📡 DeepSeek API attempt 1/3...
+walter_braun_db     | 2025-08-23 18:44:38.674 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+walter_braun_db     | 2025-08-23 18:44:38.675 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.GSQL.5432"
+walter_braun_db     | 2025-08-23 18:44:38.678 UTC [30] LOG:  database system was interrupted; last known up a 2025-08-23 18:44:37 UTC
+walter_braun_db     | 2025-08-23 18:44:38.724 UTC [30] LOG:  database system was not properly shut down; autoatic recovery in progress
+walter_braun_db     | 2025-08-23 18:44:38.726 UTC [30] LOG:  redo starts at 0/1509918
+walter_braun_db     | 2025-08-23 18:44:38.740 UTC [30] LOG:  invalid record length at 0/192FBE8: wanted 24, gt 0
+walter_braun_db     | 2025-08-23 18:44:38.740 UTC [30] LOG:  redo done at 0/192F9B0 system usage: CPU: user: .00 s, system: 0.00 s, elapsed: 0.01 s
+walter_braun_db     | 2025-08-23 18:44:38.743 UTC [28] LOG:  checkpoint starting: end-of-recovery immediate wit
+walter_braun_db     | 2025-08-23 18:44:38.768 UTC [28] LOG:  checkpoint complete: wrote 921 buffers (5.6%); 0WAL file(s) added, 0 removed, 0 recycled; write=0.016 s, sync=0.008 s, total=0.026 s; sync files=301, longest0.001 s, average=0.001 s; distance=4248 kB, estimate=4248 kB
+walter_braun_db     | 2025-08-23 18:44:38.773 UTC [1] LOG:  database system is ready to accept connections
+11. Teste Verbindung...
+✅ Website ist erreichbar: http://localhost
+==============================================
+Fix abgeschlossen!
+Website URL: http://walterbraun-muenchen.de:80
+==============================================
+root@ubuntu:/opt/walter-braun-umzuege#

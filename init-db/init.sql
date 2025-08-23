@@ -17,6 +17,7 @@ SET timezone = 'Europe/Berlin';
 -- This file is mainly for initial setup and extensions
 
 -- Log the initialization
-INSERT INTO pg_stat_statements_info VALUES ('Database initialized for Walter Braun Umzüge', NOW()) ON CONFLICT DO NOTHING;
+-- Database initialized for Walter Braun Umzüge
+-- Note: pg_stat_statements extension not required for basic functionality
 
 COMMIT;

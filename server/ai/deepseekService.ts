@@ -288,8 +288,14 @@ WICHTIG: Antworten Sie ausschließlich mit dem JSON-Format aus dem System-Prompt
       // Additional JSON cleanup - fix common API response issues
       jsonStr = jsonStr
         .replace(/,(\s*[}\]])/g, '$1') // Remove trailing commas
-        .replace(/([{,]\s*)(\w+):/g, '$1"$2":') // Quote unquoted keys
-        .replace(/:\s*([^",{\[\]\s][^",{\[\]]*[^",{\[\]\s])\s*([,}])/g, ':"$1"$2'); // Quote unquoted string values
+        .replace(/([{,]\s*)(\w+)(?=\s*:)/g, '$1"$2"') // Quote unquoted keys more safely
+        .replace(/:\s*([^",\[\]{}\s].+?)(?=\s*[,}])/g, (match, value) => {
+          // Only quote values that aren't already quoted, numbers, booleans, or objects/arrays
+          if (!/^["{\[]/.test(value.trim()) && !/^(true|false|\d+\.?\d*)$/.test(value.trim())) {
+            return `: "${value.replace(/"/g, '\\"')}"`;
+          }
+          return match;
+        }); // Quote unquoted string values more safely
 
       const parsed = JSON.parse(jsonStr);
 

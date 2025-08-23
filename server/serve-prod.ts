@@ -20,8 +20,35 @@ function log(message: string, source = "express") {
 }
 
 const app = express();
+
+// Trust proxy for correct Host header handling
+app.set('trust proxy', true);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Host header debugging and fix
+app.use((req, res, next) => {
+  // Log all requests with host info
+  log(`${req.method} ${req.path} - Host: ${req.get('host')} - IP: ${req.ip}`);
+  
+  // Ensure proper host header handling for domain
+  const host = req.get('host');
+  if (host === 'walterbraun-muenchen.de' || host === 'www.walterbraun-muenchen.de') {
+    // Domain requests - continue normally
+    next();
+  } else if (host && host.includes('217.154.205.93')) {
+    // IP requests - continue normally  
+    next();
+  } else if (host === 'localhost' || host?.startsWith('localhost:')) {
+    // Local requests - continue normally
+    next();
+  } else {
+    // Unknown host - still allow but log
+    log(`Unknown host: ${host}`, 'warning');
+    next();
+  }
+});
 
 // Request logging middleware
 app.use((req, res, next) => {

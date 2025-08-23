@@ -1,0 +1,69 @@
+root@ubuntu:/opt/walter-braun-umzuege# ./emergency-diagnosis.sh
+🚨 EMERGENCY DIAGNOSIS - ERR_CONNECTION_REFUSED
+===============================================
+1. Container Status:
+NAME               IMAGE                      COMMAND                  SERVICE    CREATED         STATUS                     PORTS
+walter_braun_db    postgres:15-alpine         "docker-entrypoint.s…"   postgres   9 minutes ago   Up 9 minutes (healthy)     0.0.0.0:5432->5432/tcp, [::]:5432->5432  /tcp
+walter_braun_web   walter-braun-umzuege-web   "docker-entrypoint.s…"   web        9 minutes ago   Up 8 minutes (unhealthy)   0.0.0.0:80->5000/tcp, [::]:80->5000/tcp
+
+2. Alle laufenden Container:
+CONTAINER ID   IMAGE                      COMMAND                  CREATED         STATUS                     PORTS                                         NAMES
+cae719e0b922   walter-braun-umzuege-web   "docker-entrypoint.s…"   9 minutes ago   Up 8 minutes (unhealthy)   0.0.0.0:80->5000/tcp, [::]:80->5000/tcp       walter_b  raun_web
+a30558b15ed8   postgres:15-alpine         "docker-entrypoint.s…"   9 minutes ago   Up 9 minutes (healthy)     0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   walter_b  raun_db
+
+3. Port 80 Status:
+./emergency-diagnosis.sh: line 15: netstat: command not found
+Port 80 frei
+COMMAND       PID USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+docker-pr 2085652 root    7u  IPv4 8619635      0t0  TCP *:http (LISTEN)
+docker-pr 2085658 root    7u  IPv6 8619636      0t0  TCP *:http (LISTEN)
+
+4. System-Webserver Status:
+Apache2 nicht aktiv
+○ nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Sat 2025-08-23 18:42:01 UTC; 30min ago
+       Docs: man:nginx(8)
+    Process: 2075660 ExecStop=/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid (code=exited, status=0/SUCCESS)
+   Main PID: 1186450 (code=exited, status=0/SUCCESS)
+        CPU: 9.836s
+
+Aug 16 10:05:16 ubuntu systemd[1]: Starting A high performance web server and a reverse proxy server...
+Aug 16 10:05:16 ubuntu systemd[1]: Started A high performance web server and a reverse proxy server.
+Aug 16 10:06:47 ubuntu systemd[1]: Reloading A high performance web server and a reverse proxy server...
+Aug 16 10:06:47 ubuntu systemd[1]: Reloaded A high performance web server and a reverse proxy server.
+Aug 23 18:42:01 ubuntu systemd[1]: Stopping A high performance web server and a reverse proxy server...
+Aug 23 18:42:01 ubuntu systemd[1]: nginx.service: Deactivated successfully.
+Aug 23 18:42:01 ubuntu systemd[1]: Stopped A high performance web server and a reverse proxy server.
+Aug 23 18:42:01 ubuntu systemd[1]: nginx.service: Consumed 9.836s CPU time.
+Nginx nicht aktiv
+
+5. Docker Service Status:
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2025-08-13 10:32:22 UTC; 1 week 3 days ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 2438 (dockerd)
+      Tasks: 45
+     Memory: 1.7G
+        CPU: 44min 56.412s
+     CGroup: /system.slice/docker.service
+             ├─   2438 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+             ├─2085460 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 5432 -container-ip 172.18.0.2 -container-port 5432 -use-listen-fd
+             ├─2085467 /usr/bin/docker-proxy -proto tcp -host-ip :: -host-port 5432 -container-ip 172.18.0.2 -container-port 5432 -use-listen-fd
+             ├─2085652 /usr/bin/docker-proxy -proto tcp -host-ip 0.0.0.0 -host-port 80 -container-ip 172.18.0.3 -container-port 5000 -use-listen-fd
+             └─2085658 /usr/bin/docker-proxy -proto tcp -host-ip :: -host-port 80 -container-ip 172.18.0.3 -container-port 5000 -use-listen-fd
+
+Aug 23 19:05:16 ubuntu dockerd[2438]: time="2025-08-23T19:05:16.988202771Z" level=error msg="Error running exec 1842e15db02e908d8179b4146e46f416000bc957367d25c0573>
+Aug 23 19:05:17 ubuntu dockerd[2438]: time="2025-08-23T19:05:17.046178062Z" level=error msg="copy stream failed" error="reading from a closed fifo" stream=stdout
+Aug 23 19:05:17 ubuntu dockerd[2438]: time="2025-08-23T19:05:17.046267219Z" level=error msg="copy stream failed" error="reading from a closed fifo" stream=stderr
+Aug 23 19:05:17 ubuntu dockerd[2438]: time="2025-08-23T19:05:17.047630669Z" level=error msg="Error running exec c4c3edd33d1d673b8f66ef628a089633b25ccea47c5aa989abd>
+Aug 23 19:05:51 ubuntu dockerd[2438]: time="2025-08-23T19:05:51.651960754Z" level=error msg="copy stream failed" error="reading from a closed fifo" stream=stdout
+Aug 23 19:05:51 ubuntu dockerd[2438]: time="2025-08-23T19:05:51.651995700Z" level=error msg="copy stream failed" error="reading from a closed fifo" stream=stderr
+Aug 23 19:05:51 ubuntu dockerd[2438]: time="2025-08-23T19:05:51.653665845Z" level=error msg="Error running exec dcdea0323f3c510bb86b80a80a28c4a8ee605febf03816f00ce>
+Aug 23 19:05:51 ubuntu dockerd[2438]: time="2025-08-23T19:05:51.710255344Z" level=error msg="copy stream failed" error="reading from a closed fifo" stream=stdout
+Aug 23 19:05:51 ubuntu dockerd[2438]: time="2025-08-23T19:05:51.712216165Z" level=error msg="copy stream failed" error="reading from a closed fifo" stream=stderr
+Aug 23 19:05:51 ubuntu dockerd[2438]: time="2025-08-23T19:05:51.714183539Z" level=error msg="Error running exec 9b1b9da4494ce0e754a4ca749c50b5486f132e53de40fe0e656>
+
+root@ubuntu:/opt/walter-braun-umzuege#

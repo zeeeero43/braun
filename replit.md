@@ -7,9 +7,11 @@ This project is a professional full-stack web solution for Walter Braun Umzüge,
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
+- **Git-Safe-Update Script Fixed (Aug 2025)**: SSL-aware update script prevents certificate loss and configuration overwrites
+- **HTTPS Restored**: SSL functionality fully working after git update issues were resolved
+- **VPS Deployment Stable**: Docker Compose with SSL, nginx reverse proxy, automatic HTTP->HTTPS redirect
 - **SMTP Integration (Jan 2025)**: Implemented nodemailer with smtp.strato.de:465, sending to ceo@skyline-websites.de
 - **Google Ads Tracking (Jan 2025)**: Added conversion tracking with Cookie-Consent integration (AW-16893834151)
-- **VPS Deployment**: Docker Compose configuration with port conflict resolution (Port 80/8080)
 
 ## System Architecture
 

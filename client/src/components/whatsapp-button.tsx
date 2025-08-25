@@ -2,7 +2,7 @@ import whatsappLogo from "@assets/[CITYPNG.COM]Outline Whatsapp Wa Watsup Green 
 
 export function WhatsAppButton() {
   const handleWhatsAppClick = () => {
-    const url = "https://wa.me/01743861652?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Ihre%20Umzugsdienstleistungen%20in%20M%C3%BCnchen.";
+    const url = "https://wa.me/491743861652?text=Hallo%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Ihre%20Umzugsdienstleistungen%20in%20M%C3%BCnchen.";
     console.log('Opening WhatsApp:', url);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
